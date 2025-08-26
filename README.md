@@ -1,36 +1,63 @@
-# SMAP - Social Media Analyst Platform
+# CO3083 - Applied Cryptography and Information Coding
 
 ## Giới thiệu
 
-Đây là nơi chứa các bài báo cáo về vấn đề liên quan đến đồ án tốt nghiệp **SMAP** (Social Media Analyst Platform).
+Đây là repository cá nhân chứa toàn bộ tài liệu, code và writeup cho môn học **CO3083 - Applied Cryptography and Information Coding**.
 
-## Về dự án SMAP
+## Cấu trúc repository
 
-**SMAP** là một nền tảng phân tích mạng xã hội được phát triển như một phần của đồ án tốt nghiệp. Mặc dù nội dung hiện tại của repository này chưa liên quan trực tiếp đến SMAP, nhưng đây sẽ là nơi lưu trữ và quản lý các báo cáo, tài liệu nghiên cứu liên quan đến dự án trong tương lai.
+### 1. Overleaf Sync (`overleaf-sync/`)
+Chứa tất cả file LaTeX để sync với Overleaf:
+- `current-project/` - Project hiện tại (main.tex, contents, images, outro)
+- `templates/` - Templates LaTeX cho các loại tài liệu
+  - `assignments/` - Templates cho bài tập
+  - `reports/` - Templates cho báo cáo  
+  - `presentations/` - Templates cho slide thuyết trình
+  - `thesis/` - Templates cho luận văn/đồ án
+- `common/` - Styles, packages và macros dùng chung
 
-## Cấu trúc hiện tại
+### 2. CryptoHack Writeups (`cryptohack-writeups/`)
+Chứa lời giải chi tiết cho các challenge trên CryptoHack.org:
+- `introduction/` - Các bài cơ bản
+- `general/` - Kỹ thuật tổng quát
+- `mathematics/` - Toán học mật mã
+- `symmetric-ciphers/` - Mã hóa đối xứng
+- `rsa/` - Thuật toán RSA
+- `elliptic-curves/` - Đường cong elliptic
+- `misc/` - Các bài khác
+- `common/` - Utilities và templates
 
-Repository này hiện chứa:
+### 3. Test Source Code (`test-code/`)
+Chứa các implementation và test code:
+- `cryptography/` - Implementation các thuật toán mật mã
+- `algorithms/` - Thuật toán và cấu trúc dữ liệu liên quan
+- `implementations/` - Code thực hành
+- `experiments/` - Thí nghiệm và benchmark
+- `common/` - Libraries, configs và data dùng chung
 
-- **Báo cáo Machine Learning**: Bài tập lớn môn CO3117 về dự đoán nồng độ CO trong không khí
-- **Các mô hình học máy**: Random Forest, Linear Regression, ANN, XGBoost
-- **Tài liệu nghiên cứu**: Cơ sở lý thuyết, phương pháp, kết quả thực nghiệm
-- **Hình ảnh và biểu đồ**: Kết quả phân tích và so sánh mô hình
+### 4. References (`references/`)
+Chứa tài liệu tham khảo và học liệu:
+- `books/` - Sách giáo khoa, tham khảo (PDF/EPUB)
+- `papers/` - Bài báo khoa học, research papers
+- `slides/` - Slide bài giảng, presentations
+- `notes/` - Ghi chú cá nhân, summaries
 
-## Hướng phát triển
+### 5. Other Content
+- `keyword-contents/` - Báo cáo từ project cũ (có thể xóa sau)
 
-Trong tương lai, repository này sẽ được cập nhật để chứa:
+## Cách sử dụng
 
-- Báo cáo tiến độ dự án SMAP
-- Tài liệu thiết kế hệ thống
-- Báo cáo nghiên cứu về phân tích mạng xã hội
-- Tài liệu kỹ thuật và API documentation
-- Báo cáo đánh giá hiệu suất và khả năng mở rộng
+1. **Overleaf Sync**: Copy toàn bộ folder `overleaf-sync/` vào Overleaf project
+2. **CryptoHack**: Thêm writeup mới vào thư mục tương ứng trong `cryptohack-writeups/`
+3. **Test Code**: Lưu code test và implementation vào `test-code/`
+4. **References**: Lưu sách, papers, slides vào `references/` theo chủ đề
 
-## Liên hệ
+## Quy ước
 
-Để biết thêm thông tin về dự án SMAP, vui lòng liên hệ nhóm phát triển.
+- Mỗi writeup CryptoHack nên có format: `challenge-name.md` với code đi kèm
+- LaTeX templates nên có documentation rõ ràng về cách sử dụng
+- Test code nên có comment và README trong từng thư mục
 
 ---
 
-*Repository này được tạo ra để hỗ trợ việc quản lý tài liệu và báo cáo cho đồ án tốt nghiệp SMAP.*
+*Repository này được tổ chức để hỗ trợ việc học tập môn Applied Cryptography and Information Coding.*
