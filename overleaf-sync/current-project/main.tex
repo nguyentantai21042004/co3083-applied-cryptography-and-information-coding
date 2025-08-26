@@ -1,13 +1,79 @@
-\documentclass[a4paper]{article}
-\usepackage{template}
-\usepackage{subcaption}
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[vietnamese]{babel}
+\usepackage{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{xcolor}
+
+\geometry{margin=2.5cm}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    citecolor=green
+}
+
+\title{\textbf{CO3083 - MẬT MÃ HỌC VÀ MÃ HÓA THÔNG TIN} \\ 
+       \Large Applied Cryptography and Information Coding \\
+       \normalsize Tài liệu Tổng quan và Nghiên cứu}
+\author{}
+\date{}
 
 \begin{document}
 
+\maketitle
+\thispagestyle{empty}
+\newpage
+
 \tableofcontents
+\newpage
+
+\vspace{1cm}
+\rule{\textwidth}{1pt}
+\vspace{0.5cm}
+
+% Course Overview Section
+\input{sections/course-overview}
 
 \newpage
 
-\input{contents/1_keyword_report}
+% Curriculum Content Section  
+\input{sections/curriculum-content}
+
+\vspace{0.5cm}
+\rule{\textwidth}{1pt}
+\vspace{0.5cm}
+
+% Teaching Methods and Resources Section
+\input{sections/teaching-methods}
+
+\newpage
+
+% Vietnam Cryptography Paper Section
+\input{sections/vietnam-cryptography-paper}
+
+\vspace{1cm}
+\rule{\textwidth}{1pt}
+\vspace{0.5cm}
+
+\section{KẾT LUẬN CHUNG}
+
+Môn học CO3083 tại AUB cung cấp một chương trình toàn diện về mật mã học hiện đại, kết hợp giữa nền tảng lý thuyết vững chắc và các kinh nghiệm thực hành. Với sự hỗ trợ từ giáo trình chất lượng cao, các hoạt động thảo luận chuyên sâu và yêu cầu thực hành qua CryptoHack, sinh viên sẽ được trang bị đầy đủ kiến thức và kỹ năng để thành công trong lĩnh vực bảo mật thông tin và mật mã học.
+
+Việc nghiên cứu lịch sử mật mã học Việt Nam qua bài báo của Phan Dương Hiệu và Neal Koblitz không chỉ mang giá trị học thuật mà còn cung cấp cảm hứng và bài học quý báu về sự kiên trì, sáng tạo trong điều kiện hạn chế về tài nguyên.
+
+\vspace{1cm}
+\rule{\textwidth}{1pt}
+\vspace{0.5cm}
+
+\begin{center}
+\textit{Tài liệu được tổng hợp từ thông tin khóa học Applied Cryptography tại American University of Beirut \\
+và nghiên cứu lịch sử mật mã học Việt Nam}
+\end{center}
 
 \end{document}
