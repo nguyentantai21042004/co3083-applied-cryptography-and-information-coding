@@ -1,0 +1,326 @@
+{
+    "experiment_summary": {
+        "total_test_cases": 30,
+        "total_iterations": 150,
+        "spacy_yake_success_rate": 1.0,
+        "baseline_methods_tested": [
+            "rake",
+            "tfidf",
+            "textrank",
+            "keybert",
+            "hybrid_ensemble"
+        ],
+        "experiment_timestamp": "2025-08-15T16:21:39.462771"
+    },
+    "spacy_yake_overall_performance": {
+        "processing_time": {
+            "mean": 0.016760711669921876,
+            "std": 0.009816970935991187,
+            "min": 0.0032552242279052734,
+            "max": 0.03985443115234375,
+            "median": 0.015197491645812989
+        },
+        "memory_usage": {
+            "mean": 0.10833333333333334,
+            "std": 0.09469088048604374,
+            "min": 0.0,
+            "max": 0.528125,
+            "median": 0.0875
+        },
+        "confidence_score": {
+            "mean": 0.8944444444444444,
+            "std": 0.2040485296911884,
+            "min": 0.30000000000000004,
+            "max": 1.0,
+            "median": 1.0
+        },
+        "accuracy": {
+            "mean": 0.382064514934228,
+            "std": 0.1348319515736365,
+            "min": 0.0,
+            "max": 0.5833333333333334,
+            "median": 0.39354838709677414
+        },
+        "keywords_count": {
+            "mean": 23.366666666666667,
+            "std": 8.25220509251248,
+            "min": 6.0,
+            "max": 30.0,
+            "median": 28.0
+        }
+    },
+    "baseline_overall_performance": {
+        "rake": {
+            "processing_time": {
+                "mean": 0.0002438036600748698,
+                "std": 0.00039686193498676816,
+                "min": 7.74383544921875e-05,
+                "max": 0.0023654937744140626,
+                "median": 0.0001772165298461914
+            },
+            "memory_usage": {
+                "mean": 0.030729166666666665,
+                "std": 0.16548162688590407,
+                "min": 0.0,
+                "max": 0.921875,
+                "median": 0.0
+            },
+            "confidence_score": {
+                "mean": 0.9854999999999999,
+                "std": 0.0762490437098503,
+                "min": 0.5750000000000001,
+                "max": 1.0,
+                "median": 1.0
+            },
+            "accuracy": {
+                "mean": 0.31686603687613246,
+                "std": 0.17985769221241554,
+                "min": 0.0,
+                "max": 0.7142857142857143,
+                "median": 0.3333333333333333
+            },
+            "keywords_count": {
+                "mean": 13.633333333333333,
+                "std": 5.7241205049820145,
+                "min": 1.0,
+                "max": 20.0,
+                "median": 15.5
+            }
+        },
+        "tfidf": {
+            "processing_time": {
+                "mean": 0.0007748889923095705,
+                "std": 9.251487716112046e-05,
+                "min": 0.0005855083465576172,
+                "max": 0.0009299278259277344,
+                "median": 0.0008037090301513672
+            },
+            "memory_usage": {
+                "mean": 0.0018750000000000001,
+                "std": 0.008447139555297205,
+                "min": 0.0,
+                "max": 0.046875,
+                "median": 0.0
+            },
+            "confidence_score": {
+                "mean": 0.14687572079369932,
+                "std": 0.14775194620737672,
+                "min": 0.05617021276595745,
+                "max": 0.792,
+                "median": 0.08258064516129032
+            },
+            "accuracy": {
+                "mean": 0.1767008396863469,
+                "std": 0.09780716252103075,
+                "min": 0.0,
+                "max": 0.4,
+                "median": 0.17028985507246377
+            },
+            "keywords_count": {
+                "mean": 16.366666666666667,
+                "std": 5.67146855369538,
+                "min": 3.0,
+                "max": 20.0,
+                "median": 20.0
+            }
+        },
+        "textrank": {
+            "processing_time": {
+                "mean": 0.0010220940907796224,
+                "std": 0.001646303523092525,
+                "min": 0.0003437519073486328,
+                "max": 0.009836435317993164,
+                "median": 0.0007727384567260743
+            },
+            "memory_usage": {
+                "mean": 0.25145833333333334,
+                "std": 1.3541445671273642,
+                "min": 0.0,
+                "max": 7.54375,
+                "median": 0.0
+            },
+            "confidence_score": {
+                "mean": 0.0,
+                "std": 0.0,
+                "min": 0.0,
+                "max": 0.0,
+                "median": 0.0
+            },
+            "accuracy": {
+                "mean": 0.0,
+                "std": 0.0,
+                "min": 0.0,
+                "max": 0.0,
+                "median": 0.0
+            },
+            "keywords_count": {
+                "mean": 0.0,
+                "std": 0.0,
+                "min": 0.0,
+                "max": 0.0,
+                "median": 0.0
+            }
+        },
+        "keybert": {
+            "processing_time": {
+                "mean": 0.09979590415954591,
+                "std": 0.23384950541758337,
+                "min": 0.01887221336364746,
+                "max": 1.3560263156890868,
+                "median": 0.062254834175109866
+            },
+            "memory_usage": {
+                "mean": 2.7369791666666665,
+                "std": 5.721858335774326,
+                "min": 0.0,
+                "max": 33.23125,
+                "median": 1.9015625
+            },
+            "confidence_score": {
+                "mean": 0.6913660000000001,
+                "std": 0.08338086401567206,
+                "min": 0.57816,
+                "max": 0.97392,
+                "median": 0.67627
+            },
+            "accuracy": {
+                "mean": 0.1947119547119547,
+                "std": 0.17549556708084604,
+                "min": 0.0,
+                "max": 0.7499999999999999,
+                "median": 0.1818181818181818
+            },
+            "keywords_count": {
+                "mean": 5.0,
+                "std": 0.0,
+                "min": 5.0,
+                "max": 5.0,
+                "median": 5.0
+            }
+        },
+        "hybrid_ensemble": {
+            "processing_time": {
+                "mean": 0.01826099395751953,
+                "std": 0.009959767750769814,
+                "min": 0.004317617416381836,
+                "max": 0.04182877540588379,
+                "median": 0.01666989326477051
+            },
+            "memory_usage": {
+                "mean": 0.12135416666666667,
+                "std": 0.05944668552693992,
+                "min": 0.0,
+                "max": 0.24375,
+                "median": 0.12343749999999999
+            },
+            "confidence_score": {
+                "mean": 0.9246163825988761,
+                "std": 0.04623369161381678,
+                "min": 0.7702784134248667,
+                "max": 0.9580627625335394,
+                "median": 0.9415563623537047
+            },
+            "accuracy": {
+                "mean": 0.32348306263628845,
+                "std": 0.12171379331008624,
+                "min": 0.06060606060606061,
+                "max": 0.5,
+                "median": 0.33333333333333337
+            },
+            "keywords_count": {
+                "mean": 22.533333333333335,
+                "std": 5.601983775612191,
+                "min": 6.0,
+                "max": 25.0,
+                "median": 25.0
+            }
+        }
+    },
+    "performance_ranking": {
+        "ranking": [
+            [
+                "rake",
+                0.757120810018412
+            ],
+            [
+                "spacy_yake",
+                0.7565406139963754
+            ],
+            [
+                "hybrid_ensemble",
+                0.7434924818297238
+            ],
+            [
+                "keybert",
+                0.6258088497534577
+            ],
+            [
+                "tfidf",
+                0.4985432257537616
+            ],
+            [
+                "textrank",
+                0.19872737692197162
+            ]
+        ],
+        "best_method": "rake",
+        "best_score": 0.757120810018412,
+        "score_details": {
+            "spacy_yake": 0.7565406139963754,
+            "rake": 0.757120810018412,
+            "tfidf": 0.4985432257537616,
+            "textrank": 0.19872737692197162,
+            "keybert": 0.6258088497534577,
+            "hybrid_ensemble": 0.7434924818297238
+        }
+    },
+    "domain_specific_analysis": {
+        "social_media": {
+            "test_cases_count": 5,
+            "avg_accuracy": 0.4723468910705937,
+            "avg_confidence": 0.9333333333333332,
+            "avg_processing_time": 0.009692554473876954
+        },
+        "business": {
+            "test_cases_count": 5,
+            "avg_accuracy": 0.37399920878181747,
+            "avg_confidence": 0.9666666666666666,
+            "avg_processing_time": 0.021064739227294925
+        },
+        "technical": {
+            "test_cases_count": 5,
+            "avg_accuracy": 0.44034482758620686,
+            "avg_confidence": 1.0,
+            "avg_processing_time": 0.019951286315917964
+        },
+        "short_text": {
+            "test_cases_count": 5,
+            "avg_accuracy": 0.49595959595959593,
+            "avg_confidence": 0.4666666666666667,
+            "avg_processing_time": 0.0035415744781494138
+        },
+        "challenging": {
+            "test_cases_count": 5,
+            "avg_accuracy": 0.35008912655971475,
+            "avg_confidence": 1.0,
+            "avg_processing_time": 0.03173542976379394
+        },
+        "vietnamese": {
+            "test_cases_count": 5,
+            "avg_accuracy": 0.15964743964743966,
+            "avg_confidence": 1.0,
+            "avg_processing_time": 0.014578685760498047
+        }
+    },
+    "statistical_insights": {
+        "performance_trends": {
+            "accuracy_correlation_with_complexity": -0.1632831635001868,
+            "processing_time_vs_accuracy": -0.35295383940329267,
+            "overall_accuracy_consistency": 0.1348319515736365
+        },
+        "reliability_metrics": {},
+        "optimization_recommendations": [
+            "Consider tuning YAKE parameters for better accuracy"
+        ]
+    }
+}

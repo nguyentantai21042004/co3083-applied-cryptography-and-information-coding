@@ -1,0 +1,120 @@
+\section{So sánh mô hình Artificial Neural Network – XGBoost}
+
+\subsection{Quy trình xử lý dữ liệu}
+
+\subsubsection{Điểm tương đồng}
+\begin{itemize}
+  \item Cả hai mô hình đều loại bỏ các cột không cần thiết và tách \texttt{Date}, \texttt{Time} thành \texttt{hour}, \texttt{day}, \texttt{month}, \texttt{year}.
+  \item Đều nhận diện giá trị thiếu đánh dấu \texttt{-200} và xử lý trước khi huấn luyện.
+  \item Đều chia dữ liệu theo tỷ lệ \textbf{80 \% train – 20 \% test}.
+\end{itemize}
+
+\subsubsection{Điểm khác biệt}
+
+\begin{table}[H]
+\centering
+\caption{So sánh quy trình xử lý dữ liệu}
+\begin{tabular}{p{7cm}|p{7cm}}
+\toprule
+\textbf{ANN} & \textbf{XGBoost} \\
+\midrule
+Chuẩn hóa \textbf{Z-score} ($\mu=0,\;\sigma=1$) & Chuẩn hóa \textbf{MinMaxScaler} ([0,1]) \\
+\midrule
+Loại bỏ toàn bộ dòng có \texttt{CO(GT) = -200}; các cột khác thay bằng \emph{mean} & Thiếu số và ngoại lai thay bằng \emph{giá trị liền trước} (forward fill) \\
+\midrule
+Không xử lý outlier bổ sung & Bổ sung bước phát hiện – thay thế outlier bằng giá trị liền trước \\
+\midrule
+Không thêm đặc trưng mới ngoài 4 cột thời gian & Loại thêm đặc trưng dựa trên \emph{heat-map} tương quan \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\subsection{Hiệu suất mô hình}
+
+\begin{table}[H]
+\centering
+\caption{So sánh các chỉ số đánh giá}
+\begin{tabular}{l|c|c}
+\toprule
+\textbf{Chỉ số} & \textbf{ANN} & \textbf{XGBoost} \\
+\midrule
+$R^{2}$ & \textbf{0.9485} & 0.7524 \\
+\midrule
+MSE & 0.1090 & \textbf{0.0133} \\
+\midrule
+RMSE & 0.3302 & \textbf{0.1154} \\
+\midrule
+MAE & 0.2427 & \textbf{0.0764} \\
+\midrule
+Accuracy$^{\dagger}$ & 0.9368 & — \\
+\midrule
+Precision$^{\dagger}$ & 0.9377 & — \\
+\midrule
+F1 Score$^{\dagger}$ & 0.9199 & — \\
+\bottomrule
+\multicolumn{3}{l}{$^{\dagger}$Chỉ áp dụng khi biến mục tiêu được nhị phân hóa (ANN).}
+\end{tabular}
+\end{table}
+\newpage
+
+\subsection{Ưu điểm và nhược điểm}
+
+\begin{table}[h]
+\centering
+\caption{Ưu điểm}
+\begin{tabular}{p{7cm}|p{7cm}}
+\toprule
+\textbf{ANN} & \textbf{XGBoost} \\
+\midrule
+Nắm bắt mối quan hệ phi tuyến phức tạp, học tính năng ẩn & Hiệu quả cao với dữ liệu “vừa” và khả năng giảm overfitting nhờ \emph{boosting} \\
+\midrule
+Có thể mở rộng kiến trúc (RNN, CNN) để khai thác cấu trúc chuỗi thời gian hoặc không gian & Dễ tinh chỉnh siêu tham số; tầm quan trọng đặc trưng rõ ràng, hỗ trợ diễn giải \\
+\midrule
+Có thêm kết quả phân loại CO cao/thấp & Lỗi tuyệt đối và RMSE nhỏ nhất trong thí nghiệm \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Nhược điểm}
+\begin{tabular}{p{7cm}|p{7cm}}
+\toprule
+\textbf{ANN} & \textbf{XGBoost} \\
+\midrule
+Cần nhiều thời gian huấn luyện (3 000 epoch) và dễ nhạy với lựa chọn siêu tham số & $R^{2}$ thấp hơn ANN, đặc biệt kém ở các giá trị CO cao \\
+\midrule
+Khó diễn giải tường minh trọng số-đặc trưng & Hiệu suất suy giảm rõ khi dữ liệu ngoài vùng phổ biến (extreme values) \\
+\midrule
+Dễ \emph{overfit} nếu không có regularization hoặc sớm dừng & Phụ thuộc nhiều vào bước tiền xử lý outlier/thiếu dữ liệu \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Kết luận và đề xuất}
+
+\begin{table}[H]
+\centering
+\caption{Tổng kết so sánh hai mô hình}
+\begin{tabular}{p{3cm}|p{5.5cm}|p{5.5cm}}
+\toprule
+\textbf{Tiêu chí} & \textbf{ANN} & \textbf{XGBoost} \\
+\midrule
+Hiệu suất tổng thể & $R^{2}=0.95$ – tốt nhất; RMSE cao hơn & RMSE thấp nhất; $R^{2}=0.75$ \\
+\midrule
+Khả năng diễn giải & Thấp (hộp đen) & Cao (importance, gain) \\
+\midrule
+Xử lý cực trị & Dự đoán khá ổn định ở biên & Chưa tốt với CO cao \\
+\midrule
+Độ phức tạp & Cần nhiều thời gian huấn luyện, phụ thuộc GPU / CPU mạnh & Huấn luyện nhanh, tuning rõ ràng \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Đề xuất tương lai}:
+\begin{itemize}
+  \item Với ANN: thử \emph{early stopping}, dropout và tối ưu hóa kiến trúc (deep wide, RNN) để giảm thời gian và cải thiện RMSE.
+  \item Với XGBoost: điều chỉnh loss (huber, quantile) hoặc tăng \texttt{n\_estimators}, \texttt{max\_depth} để cải thiện $R^{2}$ ở vùng CO cao.
+  \item Kết hợp mô hình (stacking ANN + XGBoost) để tận dụng ưu điểm mỗi phương pháp.
+\end{itemize}

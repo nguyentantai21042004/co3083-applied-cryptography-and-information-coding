@@ -1,0 +1,153 @@
+
+
+\section{So sánh mô hình Random Forest - Linear Regression}
+
+\subsection{Quy trình xử lý dữ liệu}
+
+\subsubsection{Điểm tương đồng}
+\begin{itemize}
+  \item Cả hai mô hình đều tiến hành xử lý dữ liệu thiếu và chuyển đổi định dạng thời gian
+  \item Cả hai đều sử dụng chuẩn hóa dữ liệu bằng \texttt{StandardScaler}
+  \item Cả hai đều chia dữ liệu theo tỷ lệ 80\% huấn luyện - 20\% kiểm thử
+\end{itemize}
+
+\subsubsection{Điểm khác biệt}
+
+\begin{table}[H]
+\centering
+\caption{So sánh quy trình xử lý dữ liệu}
+\begin{tabular}{p{7cm}|p{7cm}}
+\toprule
+\textbf{Random Forest} & \textbf{Linear Regression} \\
+\midrule
+Tập trung nhiều vào feature engineering với nhiều đặc trưng phức tạp: tương tác giữa các đặc trưng, đặc trưng đa thức, đặc trưng thời gian dạng sine/cosine, tỷ lệ giữa các đặc trưng & Sử dụng phương pháp \texttt{KNNImputer} để xử lý giá trị thiếu \\
+\midrule
+Đặc biệt sử dụng các đặc trưng cửa sổ trượt (rolling features) & Áp dụng phương pháp IQR để loại bỏ outliers \\
+\midrule
+ & Feature engineering đơn giản hơn, chỉ thêm 3 đặc trưng phi tuyến \\
+\midrule
+ & Ràng buộc hệ số không âm cho mô hình (\texttt{positive=True}) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Đặc trưng quan trọng và hệ số}
+
+\begin{table}[H]
+\centering
+\caption{So sánh đặc trưng quan trọng giữa hai mô hình}
+\begin{tabular}{>{\raggedright\arraybackslash}p{7cm}|>{\raggedright\arraybackslash}p{7cm}}
+\toprule
+\textbf{Random Forest} & \textbf{Linear Regression} \\
+\midrule
+Đặc trưng quan trọng nhất: \texttt{NOx(GT)\_rolling\_std} ($\sim$0.6) và \texttt{NO2(GT)\_rolling\_mean} ($\sim$0.37) & Đặc trưng quan trọng nhất: \texttt{C6H6(GT)} (hệ số 0.577) \\
+\midrule
+Các đặc trưng cửa sổ trượt đóng vai trò quan trọng nhất & Tiếp theo là \texttt{PT08.S1(CO)} (0.145), \texttt{PT08.S3(NOx)} (0.127) ,  \texttt{NOx(GT)} (0.126) \\
+\midrule
+Phần lớn các đặc trưng khác có tầm quan trọng thấp & Các đặc trưng được tạo thêm như \texttt{NO2\_GT*RH} có tầm ảnh hưởng trung bình \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{Phân tích ma trận tương quan}
+\begin{itemize}
+  \item Từ biểu đồ ma trận tương quan (Hình 2), ta thấy \texttt{C6H6(GT)} có tương quan cao với \texttt{CO(GT)}
+  \item Có tương quan âm mạnh giữa \texttt{PT08.S3(NOx)} với nhiều đặc trưng khác
+  \item Dữ liệu thời tiết (T, RH, AH) có tương quan mạnh với nhau
+\end{itemize}
+
+\subsection{Hiệu suất mô hình}
+
+\begin{table}[H]
+\centering
+\caption{So sánh hiệu suất giữa hai mô hình}
+\begin{tabular}{l|c|c}
+\toprule
+\textbf{Chỉ số} & \textbf{Linear Regression} & \textbf{Random Forest} \\
+\midrule
+$R^2$ & 0.8673 & 0.9992 \\
+\midrule
+RMSE & 0.3118 & 0.0136 \\
+\midrule
+MAE & 0.2088 & 0.0053 \\
+\midrule
+MSE & 0.0972 &  0.0002\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Phân tích biểu đồ dự đoán}
+
+\begin{table}[H]
+\centering
+\caption{So sánh kết quả biểu đồ dự đoán}
+\begin{tabular}{p{7cm}|p{7cm}}
+\toprule
+\textbf{Random Forest} & \textbf{Linear Regression} \\
+\midrule
+Có xu hướng dự đoán kém ở giá trị CO cao ($>$200) & Biểu đồ so sánh giá trị thực tế và dự đoán (Hình 1) cho thấy sự tuyến tính khá rõ ràng \\
+\midrule
+Phần dư tăng theo giá trị thực tế, thiên lệch ở giá trị cao & Biểu đồ phân tán sai số (Hình 4) cho thấy phần dư phân bố khá đồng đều quanh 0 \\
+\midrule
+Biểu đồ phần dư cho thấy nhiều điểm ngoại lai có phần dư lớn ($\sim$150-170) & Phân phối sai số (Hình 5) có dạng chuông, tập trung quanh 0, cho thấy mô hình có độ chính xác cao \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Ưu điểm và nhược điểm}
+
+\begin{table}[h]
+\centering
+\caption{So sánh ưu điểm của hai mô hình}
+\begin{tabular}{p{7cm}|p{7cm}}
+\toprule
+\textbf{Random Forest} & \textbf{Linear Regression} \\
+\midrule
+Khả năng nắm bắt mối quan hệ phi tuyến phức tạp không cần xác định trước & Đơn giản, dễ diễn giải thông qua các hệ số \\
+\midrule
+Tận dụng hiệu quả các đặc trưng cửa sổ trượt để nắm bắt xu hướng thời gian & Hiệu suất rất tốt ($R^2 = 0.87$) với mô hình đơn giản \\
+\midrule
+Ít bị ảnh hưởng bởi outliers do tính chất ensemble & Phân phối sai số chuẩn, tập trung quanh 0 \\
+\midrule
+ & Xử lý outliers hiệu quả bằng IQR \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{So sánh nhược điểm của hai mô hình}
+\begin{tabular}{p{7cm}|p{7cm}}
+\toprule
+\textbf{Random Forest} & \textbf{Linear Regression} \\
+\midrule
+Không dự đoán tốt các giá trị CO cao (extreme values) & Giả định tuyến tính có thể không phù hợp với một số mối quan hệ phức tạp \\
+\midrule
+Mô hình phức tạp hơn, khó diễn giải hơn & Cần ràng buộc hệ số không âm để phù hợp với bài toán vật lý \\
+\midrule
+Cần nhiều đặc trưng kỹ thuật hơn để hoạt động tốt & Có thể bị ảnh hưởng bởi các đặc trưng có đa cộng tuyến cao \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Kết luận và đề xuất}
+
+
+\begin{table}[H]
+\centering
+\caption{Tổng kết so sánh hai mô hình}
+\begin{tabular}{p{3cm}|p{5.5cm}|p{5.5cm}}
+\toprule
+\textbf{Tiêu chí} & \textbf{Random Forest} & \textbf{Linear Regression} \\
+\midrule
+Hiệu suất & Gặp khó khăn với các giá trị CO cao & Hiệu suất rất khả quan ($R^2 = 0.87$) \\
+\midrule
+\raggedright Đặc trưng quan trọng & Coi trọng đặc trưng cửa sổ trượt (rolling features) & Nhấn mạnh vai trò của \texttt{C6H6(GT)} \\
+\midrule
+Độ phức tạp & Phức tạp hơn nhiều về cả feature engineering và cấu trúc mô hình & Đơn giản và dễ hiểu hơn \\
+\midrule
+Phân phối sai số & Có nhiều điểm ngoại lai với sai số lớn & Phân phối sai số đẹp hơn, tập trung quanh 0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
