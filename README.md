@@ -1,63 +1,62 @@
 # CO3083 - Applied Cryptography and Information Coding
+## Introduction
 
-## Giới thiệu
+This is a personal repository containing all materials, code, and writeups for the course **CO3083 - Applied Cryptography and Information Coding**.
 
-Đây là repository cá nhân chứa toàn bộ tài liệu, code và writeup cho môn học **CO3083 - Applied Cryptography and Information Coding**.
-
-## Cấu trúc repository
+## Repository Structure
 
 ### 1. Overleaf Sync (`overleaf-sync/`)
-Chứa tất cả file LaTeX để sync với Overleaf:
-- `current-project/` - Project hiện tại (main.tex, contents, images, outro)
-- `templates/` - Templates LaTeX cho các loại tài liệu
-  - `assignments/` - Templates cho bài tập
-  - `reports/` - Templates cho báo cáo  
-  - `presentations/` - Templates cho slide thuyết trình
-  - `thesis/` - Templates cho luận văn/đồ án
-- `common/` - Styles, packages và macros dùng chung
+Contains all LaTeX files for syncing with Overleaf:
+- `current-project/` - Current project (main.tex, contents, images, outro)
+- `templates/` - LaTeX templates for different document types
+  - `assignments/` - Templates for assignments
+  - `reports/` - Templates for reports  
+  - `presentations/` - Templates for presentation slides
+  - `thesis/` - Templates for thesis/project reports
+- `common/` - Common styles, packages, and macros
 
 ### 2. CryptoHack Writeups (`cryptohack-writeups/`)
-Chứa lời giải chi tiết cho các challenge trên CryptoHack.org:
-- `introduction/` - Các bài cơ bản
-- `general/` - Kỹ thuật tổng quát
-- `mathematics/` - Toán học mật mã
-- `symmetric-ciphers/` - Mã hóa đối xứng
-- `rsa/` - Thuật toán RSA
-- `elliptic-curves/` - Đường cong elliptic
-- `misc/` - Các bài khác
-- `common/` - Utilities và templates
+Contains detailed solutions for challenges on CryptoHack.org:
+- `introduction/` - Basic challenges
+- `general/` - General techniques
+- `mathematics/` - Cryptographic mathematics
+- `symmetric-ciphers/` - Symmetric encryption
+- `rsa/` - RSA algorithm
+- `elliptic-curves/` - Elliptic curves
+- `misc/` - Other challenges
+- `common/` - Utilities and templates
 
 ### 3. Test Source Code (`test-code/`)
-Chứa các implementation và test code:
-- `cryptography/` - Implementation các thuật toán mật mã
-- `algorithms/` - Thuật toán và cấu trúc dữ liệu liên quan
-- `implementations/` - Code thực hành
-- `experiments/` - Thí nghiệm và benchmark
-- `common/` - Libraries, configs và data dùng chung
+Contains implementations and test code:
+- `cryptography/` - Implementation of cryptographic algorithms
+- `algorithms/` - Related algorithms and data structures
+- `implementations/` - Practice code
+- `experiments/` - Experiments and benchmarks
+- `common/` - Common libraries, configs, and data
 
 ### 4. References (`references/`)
-Chứa tài liệu tham khảo và học liệu:
-- `books/` - Sách giáo khoa, tham khảo (PDF/EPUB)
-- `papers/` - Bài báo khoa học, research papers
-- `slides/` - Slide bài giảng, presentations
-- `notes/` - Ghi chú cá nhân, summaries
+Contains reference materials and learning resources:
+- `books/` - Textbooks, references (PDF/EPUB)
+- `papers/` - Scientific papers, research papers
+- `slides/` - Lecture slides, presentations
+- `notes/` - Personal notes, summaries
 
 ### 5. Other Content
-- `keyword-contents/` - Báo cáo từ project cũ (có thể xóa sau)
+- `keyword-contents/` - Reports from old project (can be deleted later)
 
-## Cách sử dụng
+## How to Use
 
-1. **Overleaf Sync**: Copy toàn bộ folder `overleaf-sync/` vào Overleaf project
-2. **CryptoHack**: Thêm writeup mới vào thư mục tương ứng trong `cryptohack-writeups/`
-3. **Test Code**: Lưu code test và implementation vào `test-code/`
-4. **References**: Lưu sách, papers, slides vào `references/` theo chủ đề
+1. **Overleaf Sync**: Copy the entire `overleaf-sync/` folder to your Overleaf project
+2. **CryptoHack**: Add new writeups to the corresponding directory in `cryptohack-writeups/`
+3. **Test Code**: Save test code and implementations in `test-code/`
+4. **References**: Save books, papers, slides in `references/` by topic
 
-## Quy ước
+## Conventions
 
-- Mỗi writeup CryptoHack nên có format: `challenge-name.md` với code đi kèm
-- LaTeX templates nên có documentation rõ ràng về cách sử dụng
-- Test code nên có comment và README trong từng thư mục
+- Each CryptoHack writeup should have format: `challenge-name.md` with accompanying code
+- LaTeX templates should have clear documentation on how to use
+- Test code should have comments and README in each directory
 
 ---
 
-*Repository này được tổ chức để hỗ trợ việc học tập môn Applied Cryptography and Information Coding.*
+*This repository is organized to support learning Applied Cryptography and Information Coding.*
