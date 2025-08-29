@@ -1,1 +1,2 @@
 pycryptodome
+pwntools>=4.9.0
