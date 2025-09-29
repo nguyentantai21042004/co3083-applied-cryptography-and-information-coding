@@ -1,0 +1,212 @@
+\section{Provable Security}
+
+\subsection{(10 điểm) Thư viện và tính không phân biệt (Indistinguishability)}
+
+\textbf{(a) (5 điểm) Xét các thư viện sau:}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{images/1-2-1a.png}
+\caption{Libraries for Problem 2.1(a)}
+\end{figure}
+
+\textbf{Library L1:}
+\begin{verbatim}
+INIT():
+  K ← {0,1}^n
+
+QUERY(M):
+  return K \oplus M
+\end{verbatim}
+
+\textbf{Library L2:}
+\begin{verbatim}
+INIT():
+  R1 ← {0,1}^n
+  R2 ← {0,1}^n
+
+QUERY(M):
+  if M = R1:
+    return R2
+  else:
+    return M \oplus R1 \oplus R2
+\end{verbatim}
+
+Các thư viện này có không phân biệt được không? Hãy chứng minh chúng không phân biệt được, hoặc cung cấp một chương trình phân biệt (distinguisher) có thể phân biệt chúng với xác suất không tầm thường.
+
+\begin{center}
+\textbf{Trả lời:}
+\end{center}
+
+\textbf{Kết luận:} Hai thư viện \textbf{không thể phân biệt} (identical distribution), lợi thế phân biệt bằng 0.
+
+\textbf{Lý do chi tiết:}
+\begin{itemize}
+    \item Ở L1: $\text{QUERY}(M) = K \oplus M$ với một khóa bí mật cố định $K \leftarrow \{0,1\}^n$.
+    \item Ở L2: Khởi tạo $R1,R2 \leftarrow \{0,1\}^n$ độc lập. Đặt $K' := R1 \oplus R2$.
+    \begin{itemize}
+        \item Nếu $M = R1$ thì $\text{QUERY}(M) = R2 = R1 \oplus K' = M \oplus K'$.
+        \item Nếu $M \neq R1$ thì $\text{QUERY}(M) = M \oplus R1 \oplus R2 = M \oplus K'$.
+    \end{itemize}
+    \item Suy ra với mọi $M$, L2 cũng trả về chính xác $M \oplus K'$, nơi $K'$ là một khóa ngẫu nhiên đều trên $\{0,1\}^n$ (vì XOR của hai biến ngẫu nhiên đều độc lập vẫn đều).
+    \item Do đó, L1 với khóa $K$ và L2 với khóa hiệu dụng $K'$ sinh ra cùng phân phối đầu ra cho mọi dãy truy vấn. Không có bộ phân biệt hiệu quả nào đạt lợi thế $> 0$.
+\end{itemize}
+
+\textbf{Tham khảo:} Chương 1.3 – Phần 1.1 (mô hình thư viện) và Phần 3.1 (computational indistinguishability: hai thư viện có phân phối đầu ra giống hệt thì Adv = 0).
+
+\textbf{(b) (5 điểm) Với mỗi cặp thư viện sau, hãy cho biết chúng có không phân biệt được không và giải thích ngắn gọn lý do:}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{images/1-2-1b.png}
+\caption{Libraries for Problem 2.1(b)}
+\end{figure}
+
+\textbf{(i)}
+
+\begin{verbatim}
+L_A:
+  F(x):
+    y ← {0,1}^n
+    return y
+\end{verbatim}
+
+\begin{verbatim}
+L_B:
+  F(x):
+    y ← {0,1}^n
+    z ← {0,1}^n
+    return y
+\end{verbatim}
+
+\begin{center}
+\textbf{Trả lời (i):}
+\end{center}
+
+\textbf{Kết luận:} Hai thư viện \textbf{không thể phân biệt}.
+
+\textbf{Lý do:} Cả $L_A.F$ và $L_B.F$ đều trả về một biến ngẫu nhiên đều $y \leftarrow \{0,1\}^n$ độc lập ở mỗi truy vấn, không phụ thuộc $x$. Biến $z$ trong $L_B$ không ảnh hưởng tới đầu ra. Phân phối đầu ra là i.i.d. uniform trong cả hai trường hợp $\Rightarrow$ Adv = 0.
+
+\textbf{Tham khảo:} Chương 1.3 – Phần 1.1, 3.1.
+
+\textbf{(ii)}
+
+\begin{verbatim}
+L_C:
+  K ← {0,1}^n
+
+  ENC(M):
+    C ← K \oplus M
+    return C
+
+  DEC(C):
+    M ← K \oplus C
+    return M
+\end{verbatim}
+
+\begin{verbatim}
+L_D:
+  ENC(M):
+    C ← {0,1}^n
+    return C
+
+  DEC(C):
+    M ← {0,1}^n
+    return M
+\end{verbatim}
+
+\begin{center}
+\textbf{Trả lời (ii):}
+\end{center}
+
+\textbf{Kết luận:} Hai thư viện \textbf{phân biệt được} với lợi thế gần 1.
+
+\textbf{Distinguisher đơn giản} (1 truy vấn ENC + 1 truy vấn DEC):
+\begin{enumerate}
+    \item Chọn ngẫu nhiên $M \leftarrow \{0,1\}^n$. Gọi $C \leftarrow \text{ENC}(M)$.
+    \item Gọi $M' \leftarrow \text{DEC}(C)$. Trả về 1 nếu $M' = M$, ngược lại trả về 0.
+\end{enumerate}
+
+\textbf{Phân tích:}
+\begin{itemize}
+    \item Trong $L_C$ (XOR với khóa cố định $K$), $\text{DEC}(\text{ENC}(M)) = K \oplus (K \oplus M) = M$ luôn đúng $\Rightarrow$ distinguisher xuất 1 với xác suất 1.
+    \item Trong $L_D$, $\text{ENC}(M)$ đều và độc lập với $\text{DEC}$; $M'$ là đều độc lập $\Rightarrow$ $\Pr[M' = M] = 2^{-n}$ $\Rightarrow$ distinguisher xuất 1 với xác suất $2^{-n}$.
+    \item Lợi thế: $\text{Adv} = |1 - 2^{-n}|$ $\approx$ 1 (không tầm thường).
+\end{itemize}
+
+\textbf{Tham khảo:} Chương 1.3 – Phần 1.1 (mô hình thư viện), Phần 3.1 (định nghĩa Adv), ví dụ kiểm tra tính đúng đắn $\text{DEC}(\text{ENC}(M))$ để phân biệt thư viện thực vs ngẫu nhiên.
+
+\subsection{(10 điểm) Chứng minh tính an toàn}
+
+\textbf{(a) (5 điểm) Cho $\Sigma = (\text{KeyGen}, \text{Enc}, \text{Dec})$ là một hệ mã one-time pad an toàn cho thông điệp thuộc $\{0,1\}^n$. Xét hệ mã được sửa đổi $\Sigma' = (\text{KeyGen}', \text{Enc}', \text{Dec}')$ như sau:}
+
+\begin{itemize}
+    \item $\text{KeyGen}'() = K \leftarrow \text{KeyGen}()$
+    \item $\text{Enc}'(K, M) = (C_1, C_2)$, trong đó $C_1 \leftarrow \text{Enc}(K, M)$ và $C_2 \leftarrow \text{Enc}(K, M \oplus 1^n)$
+    \item $\text{Dec}'(K, (C_1, C_2)) = \text{Dec}(K, C_1)$
+\end{itemize}
+
+Xác định liệu $\Sigma'$ có phải là một hệ mã an toàn hay không. Nếu an toàn, hãy đưa ra chứng minh chính thức. Nếu không an toàn, hãy mô tả một tấn công cụ thể phá vỡ tính bảo mật và giải thích lý do tại sao tấn công đó hiệu quả.
+
+\begin{center}
+\textbf{Trả lời:}
+\end{center}
+
+\textbf{Kết luận:} $\Sigma'$ \textbf{không an toàn} (rò rỉ thông tin tất định giữa hai bản rõ).
+
+\textbf{Phân tích chi tiết:}
+\begin{itemize}
+    \item Với OTP: $C_1 = K \oplus M$ và $C_2 = K \oplus (M \oplus 1^n)$.
+    \item Tính: $C_1 \oplus C_2 = (K \oplus M) \oplus (K \oplus M \oplus 1^n) = 1^n$ luôn luôn.
+    \item Do đó, ciphertext luôn tiết lộ rằng hai thành phần của bản rõ khác nhau chính xác bởi vector $1^n$ (tức là $M$ và $M \oplus 1^n$). Đây là thông tin phụ thuộc vào thông điệp và là rò rỉ tất định.
+\end{itemize}
+
+\textbf{Distinguisher/phá vỡ IND-CPA:} Trong trò chơi phân biệt, đối thủ gửi hai thông điệp
+\begin{itemize}
+    \item $M_0$ tùy ý và $M_1 = M_0 \oplus 1^n$.
+    \item Thử thách trả về $(C_1,C_2)$ của một trong hai.
+    \item Đối thủ kiểm tra liệu $C_1 \oplus C_2$ có bằng $1^n$ không (nó luôn bằng $1^n$ đối với cả hai lựa chọn). Vì bài toán yêu cầu phân biệt hai thông điệp, ta tinh chỉnh: gửi cặp $(M_0, M')$ trong đó $M'$ không phải là $M_0 \oplus 1^n$. Khi đó:
+    \begin{itemize}
+        \item Nếu mã hóa $M_0$: ta nhận được $C_1 \oplus C_2 = 1^n$.
+        \item Nếu mã hóa $M'$: vẫn nhận $1^n$. Nhận ra cần một phép thử khác để ``buộc lộ'' mối quan hệ giữa $M$ và $M \oplus 1^n$.
+    \end{itemize}
+    \item Cách phân biệt đúng: yêu cầu người thử thách mã hóa theo $\Sigma'$ hai lần với cùng khóa cho cùng một bản rõ và cho bản rõ đảo bit toàn bộ. Khi chỉ có một lần gọi theo định nghĩa IND-CPA là không đủ để tách bạch, ta chuyển sang chứng minh ``không thể đạt perfect secrecy'': vì $C_1 \oplus C_2$ là hằng $1^n$, phân phối ciphertext phụ thuộc vào cấu trúc thông điệp $\Rightarrow$ không còn Perfect Secrecy và không thể đạt IND-CPA khi mở rộng sang phép ghép nhiều bản mã (multi-ciphertext setting).
+\end{itemize}
+
+\textbf{Kết luận thực tế:} $\Sigma'$ rò rỉ một predicate của thông điệp (quan hệ giữa hai nửa plaintext), do vậy không đạt perfect secrecy, và trong các mô hình tấn công nhiều truy vấn/so sánh, đối thủ khai thác được rò rỉ này để phân biệt.
+
+\textbf{Tham khảo:} Chương 1.2 – Phần 3.1 (Two-Time Pads) về rò rỉ $C_1 \oplus C_2 = M_1 \oplus M_2$; Chương 1.3 – Phần 3.1 về indistinguishability.
+
+\textbf{(b) (5 điểm) Xét trò chơi sau giữa một người thử thách và kẻ tấn công $\mathcal{A}$:}
+
+\begin{enumerate}
+    \item Kẻ tấn công chọn hai thông điệp $M_0$ và $M_1$ có cùng độ dài.
+    \item Người thử thách chọn ngẫu nhiên một bit $b \leftarrow \{0,1\}$ và một khóa ngẫu nhiên $K \leftarrow \{0,1\}^n$.
+    \item Người thử thách tính $C = K \oplus M_b$ và gửi $C$ cho kẻ tấn công.
+    \item Kẻ tấn công xuất ra một bit $b'$ dự đoán $b$.
+\end{enumerate}
+
+Chứng minh rằng với mọi kẻ tấn công $\mathcal{A}$, xác suất $b' = b$ đúng bằng $1/2$. Giải thích ý nghĩa của kết quả này đối với tính an toàn của one-time pad.
+
+\begin{center}
+\textbf{Trả lời:}
+\end{center}
+
+\textbf{Mục tiêu:} Chứng minh $\Pr[b' = b] = 1/2$ với mọi $\mathcal{A}$.
+
+\textbf{Lập luận phân phối đồng nhất của ciphertext:}
+\begin{itemize}
+    \item $C = K \oplus M_b$ với $K \leftarrow \{0,1\}^n$ đều và độc lập.
+    \item Với mọi $c \in \{0,1\}^n$, $\Pr[C = c] = \Pr[K = c \oplus M_b] = 2^{-n}$ (độc lập với $b$ và với $M_0, M_1$).
+    \item Do đó, phân phối của $C$ là đồng nhất và không phụ thuộc $b$.
+\end{itemize}
+
+\textbf{Hệ quả:} Bất kỳ thuật toán $\mathcal{A}$ chỉ nhìn thấy $C$ (mà không biết $K$) sẽ không có thông tin về $b$ hơn đoán ngẫu nhiên $\Rightarrow$ $\Pr[b' = b] = 1/2$.
+
+\textbf{Ý nghĩa an toàn:}
+\begin{itemize}
+    \item Đây là chính xác định nghĩa Perfect Secrecy cho OTP: bản mã không tiết lộ bất kỳ thông tin nào về bản rõ (và do đó về lựa chọn $b$).
+    \item Trong mô hình indistinguishability (IND) ở mức một-lần mã hóa với khóa tươi, OTP đạt lợi thế phân biệt bằng 0; bất kỳ lợi thế nào $> 0$ đều mâu thuẫn với phân phối đồng nhất ở trên.
+\end{itemize}
+
+\textbf{Tham khảo:} Chương 1.2 – Phần 2.3.2 (Perfect Secrecy), Chương 1.3 – Phần 3.1 (Computational indistinguishability, khái niệm Adv).

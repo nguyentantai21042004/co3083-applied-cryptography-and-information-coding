@@ -1,0 +1,353 @@
+\section{Ứng dụng các Nguyên lý Mật mã học}
+
+\subsection{(15 điểm) One-Time Pad trong Thực tế}
+
+Một startup tuyên bố đã phát triển một ``hệ thống nhắn tin siêu an toàn, chống lượng tử'' dựa trên one-time pad. Họ cung cấp các chi tiết sau:
+
+\begin{itemize}
+    \item Hệ thống sử dụng bộ sinh số ngẫu nhiên phần cứng để tạo các one-time pad.
+    \item Mỗi người dùng nhận một USB 1TB chứa dữ liệu pad đã được tạo sẵn khi đăng ký tài khoản.
+    \item Khi gửi tin nhắn, ứng dụng mã hóa bằng một phần của pad, đánh dấu phần đó đã dùng, và gửi bản mã hóa.
+    \item Khi người dùng đã sử dụng 80\% pad, ứng dụng tự động yêu cầu một USB mới.
+\end{itemize}
+
+Hãy phân tích chi tiết hệ thống này:
+\begin{enumerate}
+    \item Chỉ ra ít nhất ba vấn đề thực tiễn với cách triển khai này.
+    \item Giải thích vì sao mỗi vấn đề làm giảm an toàn hoặc tính khả dụng của hệ thống.
+    \item Đề xuất cải tiến cho từng vấn đề, đảm bảo vẫn giữ được tính an toàn lý thuyết của OTP.
+\end{enumerate}
+
+\begin{center}
+\textbf{Trả lời:}
+\end{center}
+
+\textbf{a. Ba vấn đề thực tiễn chính:}
+
+\textbf{1. Vấn đề phân phối khóa (Key Distribution Problem):}
+\begin{itemize}
+    \item USB 1TB chứa pad phải được phân phối an toàn đến từng người dùng
+    \item Không có cơ chế đồng bộ pad giữa các cặp người dùng
+    \item Mỗi cặp người dùng cần có cùng pad để giao tiếp
+\end{itemize}
+
+\textbf{2. Vấn đề đồng bộ pad (Pad Synchronization):}
+\begin{itemize}
+    \item Không có cơ chế đảm bảo cả hai bên sử dụng cùng phần pad
+    \item Nếu một bên sử dụng pad mà bên kia không biết $\rightarrow$ mất đồng bộ
+    \item Không có cơ chế phục hồi khi mất đồng bộ
+\end{itemize}
+
+\textbf{3. Vấn đề quản lý pad (Pad Management):}
+\begin{itemize}
+    \item Pad được tạo sẵn và lưu trữ trên USB $\rightarrow$ có thể bị đánh cắp, sao chép
+    \item Không có cơ chế xác thực tính toàn vẹn của pad
+    \item Việc thay thế USB khi hết 80\% pad tạo ra khoảng trống bảo mật
+\end{itemize}
+
+\textbf{b. Tác động của từng vấn đề:}
+
+\textbf{Vấn đề 1 - Phân phối khóa:}
+\begin{itemize}
+    \item \textbf{Giảm an toàn}: Pad có thể bị đánh cắp trong quá trình vận chuyển
+    \item \textbf{Giảm khả dụng}: Không thể giao tiếp với người dùng mới ngay lập tức
+    \item \textbf{Vi phạm Kerckhoff's Principle}: Hệ thống phụ thuộc vào bí mật của pad
+\end{itemize}
+
+\textbf{Vấn đề 2 - Đồng bộ pad:}
+\begin{itemize}
+    \item \textbf{Giảm an toàn}: Mất đồng bộ có thể dẫn đến việc sử dụng lại pad (two-time pad)
+    \item \textbf{Giảm khả dụng}: Người dùng không thể giao tiếp khi mất đồng bộ
+    \item \textbf{Tạo ra lỗ hổng}: Kẻ tấn công có thể khai thác sự mất đồng bộ
+\end{itemize}
+
+\textbf{Vấn đề 3 - Quản lý pad:}
+\begin{itemize}
+    \item \textbf{Giảm an toàn}: Pad tĩnh trên USB dễ bị tấn công vật lý
+    \item \textbf{Giảm khả dụng}: Cần thay thế USB thường xuyên, tốn kém
+    \item \textbf{Tạo ra điểm yếu}: USB là single point of failure
+\end{itemize}
+
+\textbf{c. Đề xuất cải tiến:}
+
+\textbf{Cải tiến 1 - Phân phối khóa:}
+\begin{itemize}
+    \item \textbf{Giải pháp}: Sử dụng giao thức trao đổi khóa Diffie-Hellman để tạo pad động
+    \item \textbf{Cách hoạt động}: Mỗi phiên giao tiếp tạo pad mới từ khóa chung
+    \item \textbf{Lợi ích}: Không cần phân phối pad trước, an toàn hơn
+    \item \textbf{Vẫn giữ OTP}: Pad được tạo ngẫu nhiên và chỉ dùng một lần
+\end{itemize}
+
+\textbf{Cải tiến 2 - Đồng bộ pad:}
+\begin{itemize}
+    \item \textbf{Giải pháp}: Sử dụng sequence number và checksum để đồng bộ
+    \item \textbf{Cách hoạt động}: Mỗi tin nhắn có sequence number, bên nhận xác nhận
+    \item \textbf{Lợi ích}: Phát hiện và phục hồi khi mất đồng bộ
+    \item \textbf{Vẫn giữ OTP}: Chỉ đồng bộ metadata, không ảnh hưởng đến pad
+\end{itemize}
+
+\textbf{Cải tiến 3 - Quản lý pad:}
+\begin{itemize}
+    \item \textbf{Giải pháp}: Sử dụng hardware security module (HSM) và mã hóa pad
+    \item \textbf{Cách hoạt động}: Pad được mã hóa bằng khóa master, chỉ giải mã khi cần
+    \item \textbf{Lợi ích}: Bảo vệ pad khỏi tấn công vật lý, dễ quản lý
+    \item \textbf{Vẫn giữ OTP}: Pad vẫn được tạo ngẫu nhiên và sử dụng đúng cách
+\end{itemize}
+
+\textbf{Kết luận}: Hệ thống gốc có nhiều vấn đề thực tiễn nghiêm trọng. Các cải tiến đề xuất giải quyết được các vấn đề này mà vẫn duy trì tính an toàn lý thuyết của OTP.
+
+\textbf{Tham khảo:} Chương 1.2 – Phần 4.4 (Vấn đề Phân phối Khóa), Chương 1.2 – Phần 3.1 (Two-Time Pads), Chương 1.1 – Phần 3.2 (Kerckhoff's Principle).
+
+\subsection{(15 điểm) Phân tích giao thức mã hóa đối xứng}
+
+Một công ty phần mềm phát triển một giao thức bảo mật cho ứng dụng nhắn tin tức thời với thiết kế như sau:
+
+\begin{itemize}
+    \item Mỗi người dùng tạo một khóa ngẫu nhiên 128-bit $K$ khi đăng ký tài khoản.
+    \item Để gửi thông điệp $M$, người gửi tính $C = K \oplus M$ và gửi $C$ cho người nhận.
+    \item Khi hai người dùng muốn liên lạc, họ trao đổi khóa của mình thông qua một ``kênh tuyệt mật'' do máy chủ thiết lập.
+    \item Công ty khẳng định giao thức này ``an toàn như one-time pad'' vì sử dụng phép XOR.
+\end{itemize}
+
+\textbf{Yêu cầu:}
+
+\begin{enumerate}
+    \item Dựa trên khung chứng minh bảo mật đã học, phân tích liệu sơ đồ này có thực sự đạt mức bảo mật như công ty tuyên bố không.
+    \item Nêu ít nhất ba lỗ hổng bảo mật nghiêm trọng của phương pháp này.
+    \item Nếu công ty thay đổi để mỗi người dùng tạo khóa mới mỗi ngày thay vì chỉ một lần, liệu điều này có khắc phục được các lỗ hổng trên không? Giải thích.
+    \item Đề xuất một giao thức sửa đổi giúp tăng cường bảo mật đáng kể, chỉ sử dụng các khái niệm mật mã đối xứng đã học. Giải thích lựa chọn dựa trên các nguyên tắc bảo mật đã thảo luận.
+\end{enumerate}
+
+\begin{center}
+\textbf{Trả lời:}
+\end{center}
+
+\textbf{a) Phân tích bảo mật theo khung chứng minh:}
+
+\textbf{Kết luận}: Sơ đồ này \textbf{KHÔNG} đạt mức bảo mật như công ty tuyên bố.
+
+\textbf{Phân tích chi tiết:}
+\begin{itemize}
+    \item \textbf{Vi phạm Perfect Secrecy}: OTP yêu cầu khóa dài bằng thông điệp và chỉ dùng một lần
+    \item \textbf{Vi phạm One-Time Use}: Khóa $K$ được sử dụng nhiều lần cho nhiều thông điệp
+    \item \textbf{Vi phạm Key Length}: Khóa 128-bit cố định không đủ cho thông điệp dài
+    \item \textbf{Vi phạm Kerckhoff's Principle}: Hệ thống phụ thuộc vào bí mật của ``kênh tuyệt mật''
+\end{itemize}
+
+\textbf{Chứng minh bằng Library Model:}
+\begin{itemize}
+    \item \textbf{L\_real}: $C = K \oplus M$ với $K$ cố định
+    \item \textbf{L\_ideal}: $C \leftarrow \{0,1\}^n$ (ngẫu nhiên đều)
+    \item \textbf{Distinguisher}: Gọi $C1 \leftarrow \text{ENC}(M1)$, $C2 \leftarrow \text{ENC}(M2)$, kiểm tra $C1 \oplus C2 = M1 \oplus M2$
+    \item \textbf{Kết quả}: Trong L\_real, $C1 \oplus C2 = (K \oplus M1) \oplus (K \oplus M2) = M1 \oplus M2$ (luôn đúng)
+    \item \textbf{Lợi thế}: Adv = 1 (phân biệt được hoàn toàn)
+\end{itemize}
+
+\textbf{b) Ba lỗ hổng bảo mật nghiêm trọng:}
+
+\textbf{1. Two-Time Pad Attack:}
+\begin{itemize}
+    \item \textbf{Mô tả}: Khóa $K$ được sử dụng nhiều lần
+    \item \textbf{Tấn công}: $C1 \oplus C2 = (K \oplus M1) \oplus (K \oplus M2) = M1 \oplus M2$
+    \item \textbf{Hậu quả}: Kẻ tấn công có thể suy ra $M1 \oplus M2$ từ hai bản mã
+    \item \textbf{Mức độ}: Nghiêm trọng - vi phạm hoàn toàn tính bảo mật
+\end{itemize}
+
+\textbf{2. Key Reuse Vulnerability:}
+\begin{itemize}
+    \item \textbf{Mô tả}: Khóa $K$ được sử dụng cho tất cả thông điệp của người dùng
+    \item \textbf{Tấn công}: Phân tích thống kê trên nhiều bản mã cùng khóa
+    \item \textbf{Hậu quả}: Có thể phá vỡ khóa $K$ và giải mã tất cả thông điệp
+    \item \textbf{Mức độ}: Nghiêm trọng - ảnh hưởng đến toàn bộ lịch sử giao tiếp
+\end{itemize}
+
+\textbf{3. Key Distribution Problem:}
+\begin{itemize}
+    \item \textbf{Mô tả}: ``Kênh tuyệt mật'' không được định nghĩa rõ ràng
+    \item \textbf{Tấn công}: Kẻ tấn công có thể chặn và thay đổi khóa trong quá trình trao đổi
+    \item \textbf{Hậu quả}: Man-in-the-middle attack, khóa bị lộ
+    \item \textbf{Mức độ}: Nghiêm trọng - phá vỡ toàn bộ hệ thống
+\end{itemize}
+
+\textbf{c) Thay đổi khóa mỗi ngày - Phân tích:}
+
+\textbf{Kết luận}: Thay đổi này \textbf{KHÔNG} khắc phục được các lỗ hổng trên.
+
+\textbf{Lý do:}
+\begin{itemize}
+    \item \textbf{Vẫn vi phạm One-Time Use}: Khóa vẫn được sử dụng nhiều lần trong cùng ngày
+    \item \textbf{Vẫn có Two-Time Pad}: Nhiều thông điệp cùng ngày vẫn sử dụng cùng khóa
+    \item \textbf{Vẫn có Key Reuse}: Khóa ngày hôm nay vẫn được sử dụng cho nhiều thông điệp
+    \item \textbf{Vấn đề phân phối khóa vẫn tồn tại}: ``Kênh tuyệt mật'' vẫn không được giải quyết
+\end{itemize}
+
+\textbf{Ví dụ cụ thể:}
+\begin{itemize}
+    \item Ngày 1: Khóa $K1$ được sử dụng cho 100 thông điệp
+    \item Kẻ tấn công vẫn có thể tính $C1 \oplus C2 = M1 \oplus M2$ cho mọi cặp thông điệp
+    \item Khóa $K1$ vẫn bị phá vỡ bởi phân tích thống kê
+\end{itemize}
+
+\textbf{d) Giao thức sửa đổi đề xuất:}
+
+\textbf{Giao thức mới:}
+\begin{verbatim}
+1. Key Generation: Mỗi người dùng tạo khóa master K_master
+2. Session Key Derivation: Mỗi phiên giao tiếp tạo khóa session K_session = H(K_master || timestamp || nonce)
+3. Message Encryption: C = K_session \oplus M (chỉ dùng K_session một lần)
+4. Key Exchange: Sử dụng giao thức trao đổi khóa Diffie-Hellman
+\end{verbatim}
+
+\textbf{Lý do lựa chọn:}
+\begin{itemize}
+    \item \textbf{Perfect Secrecy}: Mỗi thông điệp sử dụng khóa session mới (one-time use)
+    \item \textbf{Key Length}: Khóa session có độ dài phù hợp với thông điệp
+    \item \textbf{Kerckhoff's Principle}: Hệ thống không phụ thuộc vào bí mật của kênh
+    \item \textbf{Forward Secrecy}: Khóa session cũ không ảnh hưởng đến phiên mới
+    \item \textbf{Computational Security}: Dựa trên giả định bài toán khó (DLP)
+\end{itemize}
+
+\textbf{Cải tiến so với giao thức gốc:}
+\begin{itemize}
+    \item \textbf{Khắc phục Two-Time Pad}: Mỗi thông điệp có khóa riêng
+    \item \textbf{Khắc phục Key Reuse}: Khóa session chỉ dùng một lần
+    \item \textbf{Khắc phục Key Distribution}: Sử dụng giao thức trao đổi khóa an toàn
+    \item \textbf{Thêm Forward Secrecy}: Khóa cũ không ảnh hưởng đến tương lai
+\end{itemize}
+
+\textbf{Kết luận}: Giao thức gốc có nhiều lỗ hổng nghiêm trọng và không đạt được mức bảo mật như tuyên bố. Giao thức sửa đổi đề xuất giải quyết được các vấn đề này và đạt được mức bảo mật cao hơn đáng kể.
+
+\textbf{Tham khảo:} Chương 1.2 – Phần 3.1 (Two-Time Pads), Chương 1.2 – Phần 4.4 (Vấn đề Phân phối Khóa), Chương 1.1 – Phần 3.2 (Kerckhoff's Principle), Chương 1.3 – Phần 1.1 (Mô hình Thư viện).
+
+\subsection{Câu hỏi bổ sung}
+
+\subsubsection{(20 điểm - bonus) Ảnh hưởng của việc giải được bài toán logarit rời rạc đối với các giao thức mật mã hiện đại}
+
+Bài toán logarit rời rạc (Discrete Logarithm Problem - DLP) là nền tảng bảo mật của nhiều hệ thống mật mã hiện đại. Cho một nhóm cyclic $G$ bậc nguyên tố $p$ với phần tử sinh $g$, bài toán logarit rời rạc là: với một phần tử $h \in G$, tìm $x$ sao cho $g^x = h$.
+
+Giả sử tồn tại một thuật toán hiệu quả giải được DLP. Hãy chọn một giao thức mật mã hiện đại dựa trên tính khó của DLP và phân tích các khía cạnh sau:
+
+\begin{enumerate}
+    \item Ảnh hưởng đến tính an toàn của giao thức
+    \item Cách sửa đổi giao thức để đảm bảo an toàn
+    \item Bài toán toán học thay thế phù hợp
+\end{enumerate}
+
+\begin{center}
+\textbf{Trả lời:}
+\end{center}
+
+\textbf{Giao thức được chọn}: \textbf{Diffie-Hellman Key Exchange (DHKE)}
+
+\textbf{a) Ảnh hưởng đến tính an toàn của giao thức:}
+
+\textbf{Mô tả giao thức DHKE:}
+\begin{itemize}
+    \item Alice chọn $a \in \mathbb{Z}_p$, tính $A = g^a \bmod p$, gửi $A$ cho Bob
+    \item Bob chọn $b \in \mathbb{Z}_p$, tính $B = g^b \bmod p$, gửi $B$ cho Alice
+    \item Cả hai tính khóa chung: $K = A^b = B^a = g^{ab} \bmod p$
+\end{itemize}
+
+\textbf{Ảnh hưởng khi DLP được giải:}
+\begin{itemize}
+    \item \textbf{Phá vỡ hoàn toàn}: Kẻ tấn công có thể tính $a$ từ $A = g^a$ và $b$ từ $B = g^b$
+    \item \textbf{Tính khóa chung}: Kẻ tấn công tính $K = g^{ab} = A^b = B^a$
+    \item \textbf{Nghe lén}: Tất cả thông tin được mã hóa bằng $K$ đều bị lộ
+    \item \textbf{Man-in-the-middle}: Kẻ tấn công có thể thay thế $A$ và $B$ bằng giá trị của mình
+    \item \textbf{Tấn công retroactive}: Có thể giải mã tất cả thông tin đã lưu trữ trước đó
+\end{itemize}
+
+\textbf{Mức độ nghiêm trọng}: \textbf{Cực kỳ nghiêm trọng} - phá vỡ hoàn toàn tính bảo mật của giao thức
+
+\textbf{b) Cách sửa đổi giao thức để đảm bảo an toàn:}
+
+\textbf{Giải pháp 1: Sử dụng bài toán khó khác}
+\begin{itemize}
+    \item \textbf{Elliptic Curve Diffie-Hellman (ECDH)}: Chuyển sang nhóm elliptic curve
+    \item \textbf{Lợi ích}: DLP trên elliptic curve khó hơn DLP trên trường hữu hạn
+    \item \textbf{Cách hoạt động}: Thay $g^a$ bằng $a \cdot P$ (scalar multiplication trên elliptic curve)
+    \item \textbf{An toàn}: DLP trên elliptic curve vẫn khó ngay cả khi DLP trên trường hữu hạn được giải
+\end{itemize}
+
+\textbf{Giải pháp 2: Kết hợp với bài toán khó khác}
+\begin{itemize}
+    \item \textbf{Hybrid approach}: Sử dụng cả DLP và bài toán khác (ví dụ: RSA)
+    \item \textbf{Cách hoạt động}: $K = g^{ab} \oplus \text{RSA}_{encrypt}(g^{ab})$
+    \item \textbf{An toàn}: Cần giải được cả DLP và RSA để phá vỡ
+\end{itemize}
+
+\textbf{Giải pháp 3: Sử dụng Post-Quantum Cryptography}
+\begin{itemize}
+    \item \textbf{Lattice-based}: Sử dụng bài toán Learning With Errors (LWE)
+    \item \textbf{Code-based}: Sử dụng bài toán Decoding Random Linear Codes
+    \item \textbf{Hash-based}: Sử dụng hàm băm một chiều
+    \item \textbf{An toàn}: Các bài toán này được cho là khó ngay cả với máy tính lượng tử
+\end{itemize}
+
+\textbf{Giải pháp 4: Tăng cường tham số}
+\begin{itemize}
+    \item \textbf{Tăng kích thước nhóm}: Sử dụng $p$ lớn hơn (ví dụ: 4096-bit thay vì 2048-bit)
+    \item \textbf{Sử dụng nhóm con}: Chọn nhóm con có cấu trúc đặc biệt
+    \item \textbf{An toàn}: Tăng độ khó tính toán của DLP
+\end{itemize}
+
+\textbf{c) Bài toán toán học thay thế phù hợp:}
+
+\textbf{1. Elliptic Curve Discrete Logarithm Problem (ECDLP):}
+\begin{itemize}
+    \item \textbf{Định nghĩa}: Cho elliptic curve $E$ và điểm $P, Q \in E$, tìm $k$ sao cho $Q = kP$
+    \item \textbf{Ưu điểm}: 
+    \begin{itemize}
+        \item Khó hơn DLP trên trường hữu hạn
+        \item Tham số nhỏ hơn cho cùng mức bảo mật
+        \item Hiệu quả tính toán cao
+    \end{itemize}
+    \item \textbf{Ứng dụng}: ECDH, ECDSA, Ed25519
+\end{itemize}
+
+\textbf{2. Learning With Errors (LWE):}
+\begin{itemize}
+    \item \textbf{Định nghĩa}: Cho ma trận $A$ và vector $b = As + e$, tìm $s$ khi biết $A, b$
+    \item \textbf{Ưu điểm}:
+    \begin{itemize}
+        \item Kháng máy tính lượng tử
+        \item Có thể chứng minh được an toàn
+        \item Linh hoạt trong thiết kế
+    \end{itemize}
+    \item \textbf{Ứng dụng}: Kyber (NIST Post-Quantum Standard), FrodoKEM
+\end{itemize}
+
+\textbf{3. Decoding Random Linear Codes:}
+\begin{itemize}
+    \item \textbf{Định nghĩa}: Cho ma trận $H$ và vector $s$, tìm vector lỗi $e$ sao cho $He = s$
+    \item \textbf{Ưu điểm}:
+    \begin{itemize}
+        \item Kháng máy tính lượng tử
+        \item Đã được nghiên cứu lâu dài
+        \item Hiệu quả trong một số ứng dụng
+    \end{itemize}
+    \item \textbf{Ứng dụng}: Classic McEliece (NIST Post-Quantum Standard)
+\end{itemize}
+
+\textbf{4. Multivariate Quadratic Problem:}
+\begin{itemize}
+    \item \textbf{Định nghĩa}: Giải hệ phương trình đa thức bậc hai trên trường hữu hạn
+    \item \textbf{Ưu điểm}:
+    \begin{itemize}
+        \item Kháng máy tính lượng tử
+        \item Hiệu quả trong chữ ký số
+        \item Có thể tối ưu hóa
+    \end{itemize}
+    \item \textbf{Ứng dụng}: Rainbow (NIST Post-Quantum Standard), GeMSS
+\end{itemize}
+
+\textbf{Khuyến nghị lựa chọn:}
+\begin{itemize}
+    \item \textbf{Ngắn hạn}: ECDLP (chuyển đổi từ DLP)
+    \item \textbf{Dài hạn}: LWE hoặc Code-based (chuẩn bị cho máy tính lượng tử)
+    \item \textbf{Kết hợp}: Hybrid approach sử dụng cả hai loại
+\end{itemize}
+
+\textbf{Kết luận}: Việc giải được DLP sẽ phá vỡ hoàn toàn nhiều giao thức mật mã hiện đại. Cần có kế hoạch chuyển đổi sang các bài toán khó khác, đặc biệt là các bài toán kháng máy tính lượng tử để đảm bảo an toàn lâu dài.
+
+\textbf{Tham khảo:} Chương 1.1 – Phần 2.3 (Diffie-Hellman), Chương 1.3 – Phần 2.2 (Thời gian bất khả thi), Chương 1.1 – Phần 2.2 (Hàm băm).
