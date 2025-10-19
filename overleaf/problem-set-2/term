@@ -49,73 +49,74 @@
 \addtocontents{lot}{\protect\thispagestyle{empty}}
 
 % ===== Cấu hình khổ giấy và lề trang =====
-\def\thesislayout{	% A4: 210 × 297
-	\geometry{
-		a4paper,
-		total={160mm,240mm},  % fix over page
-		left=30mm,
-		top=22mm,
-            right=20mm,
-            bottom=20mm,
-	}
+\def\thesislayout{\t% A4: 210 × 297
+\t\geometry{
+\t\ta4paper,
+\t\tleft=30mm,
+\t\ttop=22mm,
+\t            right=20mm,
+\t            bottom=20mm,
+\t}
 }
-\def\thesisheadlayout{	% A4: 210 × 297
-	\geometry{
-		a4paper,
-		total={160mm,240mm},  % fix over page
-		left=30mm,
-		top=10mm,
-	}
+\def\thesisheadlayout{\t% A4: 210 × 297
+\t\geometry{
+\t\ta4paper,
+\t\tleft=30mm,
+\t\ttop=10mm,
+\t}
 }
 \thesislayout
 
 % ===== Cấu hình hiển thị mã nguồn (listings) =====
 \lstset{
-	language=R,
-	basicstyle=\footnotesize\sffamily,
-	commentstyle=\ttfamily\color{black},
-	numbers=left,
-	numberstyle=\ttfamily\color{black}\footnotesize,
-	stepnumber=1,
-	numbersep=5pt,
-	backgroundcolor=\color{white},
-	showspaces=false,
-	showstringspaces=false,
-	showtabs=false,
-	frame=single,
-	tabsize=2,
-	captionpos=b,
-	breaklines=true,
-	breakatwhitespace=false,
-	title=\lstname,
-	escapeinside={},
-	keywordstyle={},
-	morekeywords={}
+language=R,
+basicstyle=\footnotesize\sffamily,
+commentstyle=\ttfamily\color{black},
+numbers=left,
+numberstyle=\ttfamily\color{black}\footnotesize,
+stepnumber=1,
+numbersep=5pt,
+backgroundcolor=\color{white},
+showspaces=false,
+showstringspaces=false,
+showtabs=false,
+frame=single,
+tabsize=2,
+captionpos=b,
+breaklines=true,
+breakatwhitespace=false,
+title=\lstname,
+escapeinside={},
+keywordstyle={},
+morekeywords={}
 }
 
 % ===== Cấu hình header/footer (fancyhdr) =====
 \setlength{\headheight}{40pt}
 \pagestyle{fancy}
-\fancyhead{} % clear all header fields
+\fancyhead{} % xóa mặc định
 \renewcommand{\footruleskip}{1mm}
 
 \fancyhead[L]{
-	\begin{tabular}{rl}
-		\begin{picture}(25,15)(0,0)
-		\put(0,-8){\includegraphics[width=10mm, height=10mm]{images/hcmut.png}}
-	\end{picture}&
-		\begin{tabular}{l}
-			\textbf{  Trường Đại Học Bách Khoa - Đại học Quốc gia TP.HCM }\\
-			\textbf{  Khoa Khoa Học \& Kỹ Thuật Máy Tính}
-		\end{tabular} 	
-	\end{tabular}
+\t\begin{tabular}{rl}
+\t\t\begin{picture}(25,15)(0,0)
+\t\t\put(0,-8){\includegraphics[width=10mm, height=10mm]{images/hcmut.png}}
+\t\t%\put(0,-8){\epsfig{width=10mm,figure=hcmut.eps}}
+\t\end{picture}&
+\t\t%\includegraphics[width=8mm, height=8mm]{hcmut.png} & %
+\t\t\begin{tabular}{l}
+\t\t\t\textbf{  Trường Đại Học Bách Khoa - Đại học Quốc gia TP.HCM }\\
+\t\t\t\textbf{  Khoa Khoa Học \& Kỹ Thuật Máy Tính}
+\t\t\end{tabular}
+\t\end{tabular}
 }
 
 \fancyhead[R]{
-	\begin{tabular}{l}
-		\tiny \bf \\
-		\tiny \bf 
-	\end{tabular}  }
+\t\begin{tabular}{l}
+\t\t\tiny \bf \\
+\t\t\tiny \bf
+\t\end{tabular}
+}
 
 \fancyfoot{} % xóa footer mặc định
 \fancyfoot[L]{\scriptsize  Báo cáo Bài tập lớn Khai phá dữ liệu - HK2 2024 - 2025}
@@ -124,16 +125,16 @@
 \renewcommand{\headrulewidth}{0.3pt}
 \renewcommand{\footrulewidth}{0.3pt}
 
-%%%
+%%% ===== Độ sâu đánh số, mục lục, và các định nghĩa mục con sâu =====
 \setcounter{secnumdepth}{4}
 \setcounter{tocdepth}{3}
 \makeatletter
 \newcounter {subsubsubsection}[subsubsection]
 \renewcommand\thesubsubsubsection{\thesubsubsection .\@alph\c@subsubsubsection}
 \newcommand\subsubsubsection{\@startsection{subsubsubsection}{4}{\z@}%
-									{-3.25ex\@plus -1ex \@minus -.2ex}%
-									{1.5ex \@plus .2ex}%
-									{\normalfont\normalsize\bfseries}}
+\t\t\t\t\t\t\t{-3.25ex\@plus -1ex \@minus -.2ex}%
+\t\t\t\t\t\t\t{1.5ex \@plus .2ex}%
+\t\t\t\t\t\t\t{\normalfont\normalsize\bfseries}}
 \newcommand*\l@subsubsubsection{\@dottedtocline{3}{10.0em}{4.1em}}
 \newcommand*{\subsubsubsectionmark}[1]{}
 \makeatother
@@ -147,9 +148,6 @@
 \setlength{\textfloatsep}{5pt plus 2pt minus 2pt}
 \setlength{\intextsep}{10pt plus 2pt minus 2pt}
 
-\thesislayout
-\onehalfspacing
-
 % ===== Bắt đầu tài liệu =====
 \onehalfspacing
 \begin{document}
@@ -157,56 +155,55 @@
 % ===== Trang tiêu đề (khung viền, logo, tên môn, tiêu đề) =====
 \begin{titlepage}
 \begin{tikzpicture}[remember picture, overlay]
-	\draw[line width = 4pt] ($(current page.north west) + (0.4in,-0.5in)$) rectangle ($(current page.south east) + (-0.4in,0.5in)$);
-	\draw[line width=1.5pt]
-		($ (current page.north west) + (0.45in,-0.55in) $)
-		rectangle
-		($ (current page.south east) + (-0.45in,0.55in) $);
+\t\draw[line width = 4pt] ($(current page.north west) + (0.4in,-0.5in)$) rectangle ($(current page.south east) + (-0.4in,0.5in)$);
+\t\draw[line width=1.5pt]
+\t\t($ (current page.north west) + (0.45in,-0.55in) $)
+\t\trectangle
+\t\t($ (current page.south east) + (-0.45in,0.55in) $);
 \end{tikzpicture}
 
 \begin{center}
-\LARGE \textbf{ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH} \\
-\vspace{0.15cm}
-\LARGE \textbf{TRƯỜNG ĐẠI HỌC BÁCH KHOA} \\
-\vspace{0.15cm}
-\LARGE \textbf{KHOA KHOA HỌC VÀ KĨ THUẬT MÁY TÍNH}
+\t\LARGE \textbf{ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH} \\
+\t\vspace{0.15cm}
+\t\LARGE \textbf{TRƯỜNG ĐẠI HỌC BÁCH KHOA} \\
+\t\vspace{0.15cm}
+\t\LARGE \textbf{KHOA KHOA HỌC VÀ KĨ THUẬT MÁY TÍNH}
 \end{center}
 
 \vspace{0.2cm}
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=7cm]{images/hcmut.png}
+\t\includegraphics[width=7cm]{images/hcmut.png}
 \end{center}
 \end{figure}
 
 \begin{center}
-\begin{tabular}{c}
-\textbf{{\LARGE CO3084 - Mật mã học và Mã hóa Thông tin (TN)}} \\
-\\
-\textbf{{\LARGE Problem Set 1}} \\
-\\
-\parbox{0.5\textwidth}{%
-    \centering
-    \textbf{\LARGE Provable Security Foundations}
-}
-\end{tabular}
+\t\begin{tabular}{c}
+\t\t\textbf{{\LARGE CO3084 - Mật mã học và Mã hóa Thông tin (TN)}} \\
+\t\\
+\t\t\textbf{{\LARGE Problem Set 1}} \\
+\t\\
+\t\t\parbox{0.5\textwidth}{%
+\t\t\t\centering
+\t\t\t\textbf{\LARGE Provable Security Foundations}
+\t\t}
+\t\end{tabular}
 \end{center}
 
 \begin{table}[h]
 \begin{tabular}{rll}
-\hspace{3.7cm} &   \textbf{\Large SVTH:  } {\Large Nguyễn Tấn Tài - 2212990}
-\\
-\\
+\t\hspace{3.7cm} & \textbf{\Large SVTH: } {\Large Nguyễn Tấn Tài - 2212990}
+\t\\
+\t\\
 \end{tabular}
 \end{table}
+
 \vspace{6cm}
 \begin{center}
-{\Large TP. Hồ Chí Minh, Tháng 9/2025 }
+\t{\Large TP. Hồ Chí Minh, Tháng 9/2025 }
 \end{center}
 \end{titlepage}
-
-\newpage
 
 % ===== Mục lục =====
 \newpage
@@ -232,3 +229,5 @@
 \input{contents/7.SoSanh}
 
 \end{document}
+
+
