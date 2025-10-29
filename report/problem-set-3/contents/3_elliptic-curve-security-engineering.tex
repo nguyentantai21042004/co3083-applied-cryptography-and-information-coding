@@ -1,0 +1,39 @@
+\section{Kỹ thuật bảo mật đường cong elliptic}
+
+\subsection{Lựa chọn đường cong dưới áp lực (15 điểm)}
+
+\subsubsection{Tranh cãi về “cửa hậu chính phủ” (8 điểm)}
+Bạn là kiến trúc sư bảo mật cho một ứng dụng nhắn tin mới.
+Giới mật mã đang tranh luận liệu NIST P-256 có cửa hậu của chính phủ hay không, trong khi Curve25519 được xem là an toàn hơn nhưng ít được phần cứng hỗ trợ.
+
+\begin{enumerate}[i.]
+\item Phân tích các mối lo ngại cụ thể về NIST curve: cửa hậu trông như thế nào, và có thể bị khai thác ra sao mà không phá vỡ hoàn toàn vấn đề toán học nền tảng?
+\item Thiết kế khung đánh giá rủi ro để chọn giữa P-256 và Curve25519. Những yếu tố nào nên ảnh hưởng đến quyết định?
+\item Đội pháp lý báo cáo rằng một số quốc gia yêu cầu chuẩn NIST cho các sản phẩm bán cho chính phủ. Hãy đề xuất giải pháp dung hòa giữa lo ngại cửa hậu và yêu cầu tuân thủ.
+\end{enumerate}
+
+\subsubsection{Kịch bản tấn công “đường cong không hợp lệ” (7 điểm)}
+Một nhà nghiên cứu phát hiện triển khai ECDH của bạn không kiểm tra hợp lệ điểm đầu vào, khiến nó dễ bị tấn công Invalid Curve.
+
+\begin{enumerate}[i.]
+\item Thiết kế cuộc tấn công cụ thể khai thác lỗ hổng này. Kẻ tấn công có thể thu được thông tin gì?
+\item Phát triển chiến lược kiểm tra đầu vào toàn diện để ngăn lớp tấn công này. Phân tích tác động hiệu năng của giải pháp.
+\end{enumerate}
+
+\subsection{Phân tích lỗ hổng triển khai (15 điểm)}
+
+\subsubsection{Phòng thí nghiệm tấn công kênh kề (Side-Channel Attack) (8 điểm)}
+Bạn được giao nhiệm vụ kiểm thử thiết bị nhúng có triển khai ECDSA nhằm phát hiện lỗ hổng kênh kề.
+
+\begin{enumerate}[i.]
+\item Thiết kế tấn công thời gian (timing attack) đối với ECDSA. Bạn có thể phân biệt hai thao tác nào?
+\item Phát triển các biện pháp đối phó duy trì hiệu năng mà chống được tấn công. Bạn sẽ triển khai kỹ thuật tính toán thời gian hằng (constant-time) nào?
+\end{enumerate}
+
+\subsubsection{Khủng hoảng xác thực Ed25519 (7 điểm)}
+Bạn phát hiện rằng hai thư viện Ed25519 phổ biến chấp nhận các chữ ký khác nhau là hợp lệ cho cùng một thông điệp và khóa công khai, dẫn đến mất khả năng tương tác.
+
+\begin{enumerate}[i.]
+\item Điều tra nguyên nhân sự khác biệt: bước xác thực nào mỗi thư viện xử lý khác nhau?
+\item Phân tích hệ quả bảo mật: liệu kẻ tấn công có thể lợi dụng sự khác biệt này để thực hiện tấn công thực tế?
+\end{enumerate}

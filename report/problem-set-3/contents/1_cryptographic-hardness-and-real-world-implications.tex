@@ -1,0 +1,41 @@
+\section{Độ khó mật mã và các tác động trong thế giới thực}
+
+\subsection{Phá vỡ mật mã: Các kịch bản tấn công (10 điểm)}
+
+\subsubsection{Kịch bản “Tận thế mật mã” (5 điểm)}
+Hãy tưởng tượng bạn thức dậy và thấy dòng tít báo lớn:
+
+“Thuật toán đột phá chứng minh \( P = NP \) – Các nhà khoa học máy tính xác nhận!”
+
+\begin{enumerate}[i.]
+\item Với tư cách Giám đốc an ninh thông tin (CSO) của một ngân hàng lớn, hãy viết bản ghi nhớ ứng phó khủng hoảng, mô tả những hệ thống nào sẽ sụp đổ ngay lập tức, và bạn sẽ triển khai những biện pháp khẩn cấp nào.
+\item Hãy thiết kế mô hình bảo mật thay thế cho ngân hàng trực tuyến trong thế giới hậu \( P=NP \). Bạn sẽ dựa vào các giả định nào khác để đảm bảo an toàn?
+\end{enumerate}
+
+\subsubsection{Vấn đề tham số Diffie–Hellman yếu (5 điểm)}
+Một nhà nghiên cứu bảo mật phát hiện rằng một thư viện mật mã phổ biến tạo tham số Diffie–Hellman trong đó số nguyên tố \( p \) thỏa mãn \( p-1 \) có nhiều ước nhỏ, khiến 75\% nhóm sinh ra dễ bị tấn công Pohlig–Hellman.
+
+\begin{enumerate}[i.]
+\item Hãy đánh giá xem phát hiện này có làm sụp đổ hoàn toàn Diffie–Hellman hay chỉ làm suy yếu một phần. Cần phân tích cả khía cạnh toán học lẫn tác động triển khai thực tế.
+\item Đề xuất chiến lược ứng phó cho các hệ thống đang dùng thư viện này: có nên tái sinh toàn bộ tham số, thêm bước kiểm tra hợp lệ, hay chọn cách tiếp cận khác?
+\end{enumerate}
+
+\subsection{Kiến trúc bảo mật logarit rời rạc (10 điểm)}
+
+\subsubsection{Thảm họa tham số yếu (5 điểm)}
+Cuộc kiểm toán an ninh phát hiện hệ thống kế thừa đang sử dụng tham số cho trao đổi khóa Diffie–Hellman:
+
+\[ p = 2047 = 23 \times 89,\quad g = 2. \]
+
+\begin{enumerate}[i.]
+\item Phân tích chi tiết tại sao lựa chọn này cực kỳ yếu. Ước lượng thời gian tấn công cần thiết cho một kẻ tấn công chỉ dùng máy tính xách tay hiện đại.
+\item Thiết kế kế hoạch ứng phó khẩn cấp: làm sao chuyển người dùng sang tham số an toàn hơn mà vẫn duy trì dịch vụ liên tục?
+\end{enumerate}
+
+\subsubsection{Phân tích đánh đổi giữa Elliptic Curve và Trường hữu hạn (5 điểm)}
+Bạn đang thiết kế giao thức mật mã cho thiết bị IoT có hạn chế nghiêm trọng về tính toán và băng thông.
+
+\begin{enumerate}[i.]
+\item So sánh logarit rời rạc trên đường cong elliptic (ECDLP) và trên trường hữu hạn (DLP) cho trường hợp này: loại nào an toàn hơn trên mỗi bit khóa, loại nào hiệu quả tính toán hơn?
+\item Giải thích tại sao tấn công Index Calculus hoạt động được với trường hữu hạn nhưng không áp dụng cho elliptic curve. Sự khác biệt này ảnh hưởng thế nào đến biên độ an toàn?
+\end{enumerate}

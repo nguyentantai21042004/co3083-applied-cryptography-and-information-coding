@@ -1,0 +1,51 @@
+\section{Nghiên cứu tình huống về mật mã ứng dụng}
+
+\subsection{Phân tích lược đồ chữ ký trong tiền điện tử (15 điểm)}
+
+Một dự án tiền mã hóa mới cần chọn giữa ECDSA và Ed25519 cho chữ ký giao dịch.
+Yêu cầu hệ thống gồm:
+
+\begin{itemize}
+\item Tốc độ xử lý cao (hàng nghìn chữ ký mỗi giây)
+\item Bảo mật lâu dài (an toàn hàng thập kỷ)
+\item Tương thích với ví phần cứng và thiết bị di động
+\item Ký giao dịch theo cách xác định (deterministic) để dễ tái lập
+\end{itemize}
+
+Hãy phân tích và trả lời:
+
+\begin{enumerate}[a.]
+\item (5 điểm) So sánh ECDSA và Ed25519 theo từng tiêu chí trên. Thuật toán nào phù hợp hơn, và vì sao?
+\item (5 điểm) Thảo luận tác động của tính biến dạng chữ ký (signature malleability). Điều này ảnh hưởng ra sao đến mỗi thuật toán, và vì sao nó quan trọng với tiền điện tử?
+\item (5 điểm) Đưa ra khuyến nghị cuối cùng có giải thích rõ ràng, cân nhắc cả kỹ thuật lẫn thực tiễn.
+\end{enumerate}
+
+\subsection{Thiết kế hệ thống liên lạc bảo mật (15 điểm)}
+
+Bạn được giao kiến trúc hệ thống liên lạc an toàn cho tổ chức có trên 10.000 nhân viên, phải chống cả tấn công bên ngoài lẫn nội gián, hỗ trợ:
+
+\begin{itemize}
+\item Nhắn tin thời gian thực
+\item Chia sẻ tệp
+\item Cuộc gọi thoại
+\end{itemize}
+
+Hãy thiết kế và phân tích giải pháp hoàn chỉnh:
+
+\begin{enumerate}[a.]
+\item (5 điểm) Xác định thuật toán mật mã bạn chọn cho từng thành phần:
+\begin{itemize}
+\item Giao thức trao đổi khóa
+\item Lược đồ chữ ký số
+\item Thuật toán mã hóa đối xứng
+\item Hàm băm và MAC
+\end{itemize}
+\item (5 điểm) Mô tả kiến trúc quản lý khóa: cách khởi tạo tin cậy, phân phối khóa, và xoay vòng khóa.
+\item (5 điểm) Phân tích tính bảo mật của hệ thống trước các kịch bản tấn công:
+\begin{itemize}
+\item Nghe lén mạng
+\item Máy chủ bị xâm nhập
+\item Thiết bị người dùng bị chiếm quyền
+\item Nội gián trong tổ chức
+\end{itemize}
+\end{enumerate}

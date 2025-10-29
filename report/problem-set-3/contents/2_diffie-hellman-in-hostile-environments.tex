@@ -1,0 +1,30 @@
+\section{Diffie–Hellman trong môi trường thù địch}
+
+\subsection{Các kịch bản tấn công và phòng thủ (10 điểm)}
+
+\subsubsection{Kẻ trung gian hoàn hảo (Perfect Man-in-the-Middle) (5 điểm)}
+Kẻ tấn công kiểm soát hoàn toàn mạng giữa Alice và Bob, có thể chỉnh sửa mọi thông điệp và giả mạo kết nối từ bất kỳ bên nào.
+
+\begin{enumerate}[i.]
+\item Thiết kế cuộc tấn công trung gian hiệu quả nhất vào Diffie–Hellman không xác thực, sao cho Alice và Bob không thể phát hiện trong quá trình trao đổi khóa.
+\item Giả sử Alice và Bob chưa từng gặp nhau, nhưng mỗi người có dấu vân tay khóa công khai của người kia ghi trên giấy. Hãy thiết kế giao thức xác thực đánh bại tấn công trên, chỉ sử dụng các dấu vân tay này.
+\item So sánh phương pháp dùng dấu vân tay với mô hình cơ quan chứng thực (CA) và web-of-trust. Phân tích sự đánh đổi giữa tính tiện dụng và an toàn.
+\end{enumerate}
+
+\subsubsection{Kịch bản “người tố giác hoang tưởng” (5 điểm)}
+Một người tố giác cần liên lạc bảo mật với nhà báo. Họ tin rằng chính phủ giám sát toàn bộ Internet, đã xâm nhập hầu hết CA, và có thể thực hiện MITM trên mọi kết nối.
+
+\begin{enumerate}[i.]
+\item Thiết kế giao thức trao đổi khóa phù hợp trong bối cảnh này, chỉ dùng công cụ mà người dân bình thường có thể tiếp cận (không phần cứng chuyên dụng, không bí mật chia sẻ trước).
+\item Phân tích nếu chính phủ chiếm được thiết bị của một bên sau khi trao đổi khóa, làm thế nào để duy trì bí mật chuyển tiếp (forward secrecy)?
+\end{enumerate}
+
+\subsection{Thử thách thiết kế giao thức (10 điểm)}
+
+\subsubsection{Phân tích SSH Trust-on-First-Use (TOFU)}
+Tổ chức của bạn triển khai SSH trên 10.000 máy chủ, nhưng mô hình TOFU hiện tại gây ra vấn đề về bảo mật và khả năng sử dụng.
+
+\begin{enumerate}[a.]
+\item (5 điểm) Phân tích các kịch bản tấn công cụ thể khiến mô hình TOFU thất bại. Khi nào người dùng dễ bị tấn công nhất?
+\item (5 điểm) Thiết kế mô hình xác thực cải tiến vẫn giữ đơn giản như SSH, nhưng đảm bảo an toàn hơn TOFU thuần túy.
+\end{enumerate}
