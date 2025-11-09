@@ -1,0 +1,185 @@
+\section{Case Studies Mật Mã Ứng Dụng (Applied Cryptography Case Studies)}
+
+\subsection{Câu 1. (15 điểm) Phân Tích Cơ Chế Chữ Ký Cho Tiền Điện Tử}
+
+Một dự án tiền điện tử mới đang lựa chọn giữa ECDSA và Ed25519 cho chữ ký giao dịch. Yêu cầu hệ thống bao gồm:
+\begin{itemize}
+    \item Thông lượng giao dịch cao (hàng ngàn chữ ký mỗi giây).
+    \item Bảo mật lâu dài (hệ thống cần giữ an toàn trong nhiều thập kỷ).
+    \item Tương thích với ví phần cứng và thiết bị di động.
+    \item Ký định tính (deterministic signing) để đảm bảo khả năng tái lập lại.
+\end{itemize}
+
+Hãy phân tích quyết định này:
+
+\subsubsection{(a) (5 điểm) So Sánh ECDSA và Ed25519}
+
+So sánh ECDSA và Ed25519 cho từng yêu cầu nêu trên. Thuật toán nào đáp ứng tốt hơn từng tiêu chí và vì sao?
+
+\subsubsection{(b) (5 điểm) Thảo Luận Về Hệ Quả Của Tính Có Thể Thay Đổi Chữ Ký (Signature Malleability)}
+
+Thảo luận về hệ quả của tính có thể thay đổi chữ ký (signature malleability). Điều này ảnh hưởng đến từng thuật toán như thế nào và tại sao có thể quan trọng với ứng dụng tiền điện tử?
+
+\subsubsection{(c) (5 điểm) Đưa Ra Khuyến Nghị Cuối Cùng}
+
+Đưa ra khuyến nghị cuối cùng cùng lý do, cân nhắc cả khía cạnh kỹ thuật và thực tiễn (practical factors).
+
+\begin{center}
+    \textbf{Trả lời:}
+\end{center}
+
+\textbf{(a) So sánh ECDSA và Ed25519}
+
+Dưới đây là so sánh hai thuật toán dựa trên các yêu cầu của dự án tiền điện tử:
+
+\textbf{1. Thông lượng giao dịch cao (Hiệu năng)}
+
+\textbf{Ed25519 (EdDSA):} Đáp ứng tốt hơn. Tài liệu mô tả EdDSA là ``nhanh hơn'' so với các tiêu chuẩn cũ. Ed25519 sử dụng Curve25519, vốn được biết là ``nhanh hơn'' các đường cong NIST (thường dùng với ECDSA). Tốc độ tính toán nhanh hơn đồng nghĩa với thông lượng chữ ký cao hơn.
+
+\textbf{ECDSA:} Mặc dù nhanh hơn RSA, nhưng thường chậm hơn EdDSA.
+
+\textbf{2. Bảo mật lâu dài}
+
+\textbf{Ed25519 (EdDSA):} Đáp ứng tốt hơn. EdDSA được mô tả là ``an toàn hơn''. Nó được thiết kế để ``loại bỏ hoàn toàn nhóm lỗ hổng liên quan đến 'randomness''''.
+
+\textbf{ECDSA:} Rủi ro cao hơn. ECDSA có một ``điểm yếu chí mạng'' (critical weakness). Nó yêu cầu một số ngẫu nhiên (nonce) $k$ bí mật cho mỗi chữ ký. Nếu $k$ bị rò rỉ, bị lặp lại, hoặc có thể dự đoán, ``khóa riêng (private key) $d$ sẽ bị lộ ngay lập tức''. Vụ hack Sony PS3 là một ví dụ kinh điển về lỗi này. Đây là một rủi ro nghiêm trọng về lâu dài.
+
+\textbf{3. Tương thích với ví phần cứng và thiết bị di động}
+
+\textbf{Cả hai:} Đều đáp ứng tốt. Cả hai đều là thuật toán Mật mã Đường cong Elliptic (ECC), vốn cung cấp khóa nhỏ hơn với độ an toàn tương đương. Điều này giúp ``giảm tiêu thụ pin'' và ``tiết kiệm băng thông'', khiến chúng ``đặc biệt quan trọng cho thiết bị di động và IoT''.
+
+\textbf{Thực tế:} ECDSA đã được sử dụng rộng rãi trong Bitcoin và Ethereum, trong khi Ed25519 được dùng trong Signal và WhatsApp.
+
+\textbf{4. Ký định tính (Deterministic signing)}
+
+\textbf{Ed25519 (EdDSA):} Đáp ứng hoàn hảo. EdDSA là ``xác định'' (deterministic). Nó ``không cần số $k$ ngẫu nhiên''. Thay vào đó, nó tạo ra nonce bằng cách băm (hash) khóa riêng và tin nhắn.
+
+\textbf{ECDSA:} Không đáp ứng (theo thiết kế cơ bản). Thiết kế tiêu chuẩn của ECDSA yêu cầu một số $k$ ngẫu nhiên, khiến nó vốn không có tính định tính. (Mặc dù các triển khai sau này (như RFC 6979) đã thêm tính năng định tính để khắc phục điểm yếu, nhưng thiết kế gốc của EdDSA đã giải quyết việc này).
+
+\begin{center}
+    \textbf{Trả lời:}
+\end{center}
+
+\textbf{(b) Hệ quả của tính có thể thay đổi chữ ký (Signature Malleability)}
+
+Sau khi rà soát kỹ lưỡng cả hai tài liệu được cung cấp (\texttt{1.7-hard-problems\&diffie-hellman.md} và \texttt{1.8-elliptic\_curves\&digital\_signatures.md}), tôi xác nhận rằng chủ đề về ``tính có thể thay đổi chữ ký'' (signature malleability) không được đề cập đến trong bất kỳ phần nào của tài liệu.
+
+Do đó, tôi không thể phân tích hệ quả của nó hoặc ảnh hưởng của nó đến hai thuật toán dựa trên nguồn tài liệu đã cung cấp.
+
+\begin{center}
+    \textbf{Trả lời:}
+\end{center}
+
+\textbf{(c) Đưa ra khuyến nghị cuối cùng}
+
+\textbf{Khuyến nghị:} Sử dụng Ed25519.
+
+\textbf{Lý do:}
+
+\begin{enumerate}
+    \item \textbf{Bảo mật vượt trội:} Ed25519 giải quyết được ``điểm yếu chí mạng'' của ECDSA liên quan đến việc tạo số ngẫu nhiên $k$. Bằng cách sử dụng chữ ký xác định, nó loại bỏ hoàn toàn nguy cơ lộ khóa riêng do lỗi triển khai nonce, điều đã từng xảy ra trong thực tế (ví dụ Sony PS3). Đây là yếu tố quan trọng nhất cho ``bảo mật lâu dài''.
+    
+    \item \textbf{Đáp ứng yêu cầu ký định tính:} Ed25519 được thiết kế ``xác định'' ngay từ đầu, đáp ứng trực tiếp yêu cầu của dự án.
+    
+    \item \textbf{Hiệu năng cao:} Ed25519 ``nhanh hơn'', đáp ứng yêu cầu về ``thông lượng giao dịch cao''.
+    
+    \item \textbf{Phù hợp với di động:} Giống như các thuật toán ECC khác, nó rất phù hợp cho thiết bị di động và đã được chứng minh trong các ứng dụng quy mô lớn như Signal và WhatsApp.
+\end{enumerate}
+
+Tài liệu đã kết luận rõ ràng: ``Khuyến nghị: Sử dụng Ed25519 cho các dự án mới''. Mặc dù ECDSA đã được sử dụng trong các tiền điện tử lớn, Ed25519 là một tiêu chuẩn hiện đại, an toàn hơn và nhanh hơn, phù hợp hơn cho một dự án mới.
+
+\subsection{Câu 2. (15 điểm) Kiến Trúc Hệ Thống Liên Lạc An Toàn}
+
+Bạn đang thiết kế hệ thống liên lạc an toàn cho một tổ chức lớn (10.000+ nhân viên) cần bảo vệ khỏi cả tấn công bên ngoài và nguy cơ nội bộ. Hệ thống phải hỗ trợ nhắn tin thời gian thực, chia sẻ file và gọi thoại. Hãy thiết kế và phân tích một giải pháp hoàn chỉnh:
+
+\subsubsection{(a) (5 điểm) Chỉ Định Các Lựa Chọn Thuật Toán Mật Mã}
+
+Chỉ định các lựa chọn thuật toán mật mã cho:
+\begin{itemize}
+    \item Giao thức trao đổi khóa (Key exchange protocols)
+    \item Thuật toán chữ ký số (Digital signature schemes)
+    \item Thuật toán mã đối xứng (Symmetric encryption algorithms)
+    \item Hàm băm và MACs (Hash functions and MACs).
+\end{itemize}
+
+\subsubsection{(b) (5 điểm) Mô Tả Kiến Trúc Quản Lý Khóa}
+
+Mô tả kiến trúc quản lý khóa của bạn. Làm sao bạn khởi tạo lòng tin (bootstrap trust), phân phối khóa, và xử lý luân chuyển (key rotation)?
+
+\subsubsection{(c) (5 điểm) Phân Tích Tính Bảo Mật Của Hệ Thống}
+
+Phân tích tính bảo mật của hệ thống trước các kịch bản tấn công:
+\begin{itemize}
+    \item Nghe lén mạng (network eavesdropping)
+    \item Máy chủ bị xâm phạm (server compromise)
+    \item Thiết bị đầu cuối bị xâm phạm (endpoint compromise)
+    \item Tấn công từ nội bộ (insider attacks).
+\end{itemize}
+
+\begin{center}
+    \textbf{Trả lời:}
+\end{center}
+
+\textbf{(a) Chỉ định các lựa chọn thuật toán mật mã}
+
+Dựa trên các khuyến nghị và ví dụ trong tài liệu, các thuật toán sau được lựa chọn:
+
+\begin{enumerate}
+    \item \textbf{Giao thức trao đổi khóa (Key exchange protocols):} ECDH (Elliptic Curve Diffie-Hellman). Đây là phiên bản hiện đại của Diffie-Hellman, cung cấp hiệu quả vượt trội (khóa nhỏ hơn). Cụ thể, chúng ta nên dùng triển khai dựa trên Curve25519 vì các tham số minh bạch và thiết kế an toàn của nó.
+    
+    \item \textbf{Thuật toán chữ ký số (Digital signature schemes):} Ed25519 (EdDSA). Tài liệu khuyến nghị EdDSA/Ed25519 cho các dự án mới vì nó ``an toàn và nhanh hơn''. Quan trọng nhất, nó là ``xác định'' (deterministic) và ``loại bỏ hoàn toàn nhóm lỗ hổng liên quan đến 'randomness''' mà ECDSA mắc phải.
+    
+    \item \textbf{Thuật toán mã đối xứng (Symmetric encryption algorithms):} AES hoặc ChaCha20. Khóa cho các thuật toán này sẽ được tạo ra từ khóa chung bí mật ($S$) thu được từ ECDH.
+    
+    \item \textbf{Hàm băm và MACs (Hash functions and MACs):} Tài liệu đề cập đến việc sử dụng các hàm HASH như một thành phần cốt lõi của chữ ký (ví dụ: $h$ là hash của tin nhắn trong ECDSA, và EdDSA tạo nonce bằng cách HASH(khóa riêng $||$ tin nhắn)). Mặc dù tài liệu không chỉ định một thuật toán HASH cụ thể, chúng là bắt buộc để đảm bảo tính toàn vẹn của tin nhắn và cho hoạt động an toàn của EdDSA.
+\end{enumerate}
+
+\begin{center}
+    \textbf{Trả lời:}
+\end{center}
+
+\textbf{(b) Mô tả kiến trúc quản lý khóa}
+
+Với 10.000+ nhân viên, chúng ta cần một mô hình có khả năng mở rộng để xác thực khóa công khai, tránh các cuộc tấn công MITM.
+
+\textbf{1. Khởi tạo lòng tin (Bootstrap Trust):} Chúng ta sẽ triển khai mô hình Certificate Authority (CA) nội bộ, tương tự như mô hình TLS/HTTPS. Tổ chức sẽ tạo ra một cặp khóa CA gốc. Khóa công khai của CA gốc này sẽ được cài đặt sẵn và được tin tưởng trên tất cả 10.000+ thiết bị đầu cuối của nhân viên.
+
+\textbf{2. Phân phối khóa (Key Distribution):}
+
+\begin{enumerate}
+    \item Mỗi nhân viên tạo cặp khóa chữ ký Ed25519 của riêng mình (khóa riêng và khóa công khai).
+    
+    \item Nhân viên gửi khóa công khai của mình đến CA nội bộ để được ký.
+    
+    \item CA nội bộ xác minh danh tính nhân viên và cấp phát một ``chứng chỉ'' (certificate) chứa khóa công khai của nhân viên đó, được ký bởi khóa riêng của CA.
+    
+    \item Khi hai nhân viên muốn liên lạc, họ trao đổi các chứng chỉ này. Mỗi bên xác minh chữ ký trên chứng chỉ của người kia bằng khóa công khai CA mà họ đã tin tưởng. Điều này cung cấp tính xác thực (Authentication) và ngăn chặn tấn công MITM.
+\end{enumerate}
+
+\textbf{3. Luân chuyển khóa (Key Rotation):} Các tài liệu được cung cấp (1.7 và 1.8) không thảo luận về các quy trình hoặc chính sách luân chuyển khóa.
+
+\begin{center}
+    \textbf{Trả lời:}
+\end{center}
+
+\textbf{(c) Phân tích tính bảo mật của hệ thống}
+
+\textbf{1. Nghe lén mạng (Network Eavesdropping):} Hệ thống có khả năng chống nghe lén cao. Kẻ nghe lén (Eve) chỉ thấy các khóa công khai (ví dụ: $A = a \cdot G$ và $B = b \cdot G$) được trao đổi. Việc tính toán khóa bí mật chung ($S = ab \cdot G$) từ các giá trị này đòi hỏi phải giải quyết Bài toán Logarithm Rời rạc Đường cong Elliptic (ECDLP), được cho là ``cực kỳ khó về mặt tính toán''.
+
+\textbf{2. Máy chủ bị xâm phạm (Server Compromise):}
+
+\begin{itemize}
+    \item \textbf{Máy chủ chuyển tiếp tin nhắn:} Nếu máy chủ chuyển tiếp tin nhắn bị xâm phạm, kẻ tấn công vẫn không thể đọc được nội dung tin nhắn. Giao thức ECDH đảm bảo rằng khóa bí mật chung $S$ chỉ tồn tại trên thiết bị của hai người dùng cuối. Điều này duy trì tính bảo mật (Confidentiality).
+    
+    \item \textbf{Máy chủ CA:} Đây là một kịch bản nghiêm trọng. Nếu máy chủ CA nội bộ bị xâm phạm, kẻ tấn công có thể sử dụng khóa riêng của CA để ký các chứng chỉ giả mạo, cho phép chúng thực hiện các cuộc tấn công Man-in-the-Middle (MITM) hiệu quả và mạo danh bất kỳ nhân viên nào.
+\end{itemize}
+
+\textbf{3. Thiết bị đầu cuối bị xâm phạm (Endpoint Compromise):} Đây là điểm yếu nhất của hệ thống. Nếu thiết bị của nhân viên bị xâm phạm, kẻ tấn công sẽ có toàn quyền truy cập vào khóa riêng (private key) Ed25519 của nhân viên đó. Chúng có thể mạo danh nhân viên (phá vỡ tính xác thực), ký các giao dịch lừa đảo (phá vỡ tính chống chối bỏ), và giải mã tất cả các tin nhắn trong quá khứ và tương lai của họ.
+
+\textbf{4. Tấn công từ nội bộ (Insider Attacks):}
+
+\begin{itemize}
+    \item \textbf{Nhân viên độc hại:} Hệ thống mật mã đảm bảo tính xác thực, nghĩa là một nhân viên độc hại không thể mạo danh một nhân viên khác (trừ khi họ xâm phạm được CA). Tuy nhiên, hệ thống không thể ngăn cản một nhân viên đã được xác thực sử dụng quyền truy cập hợp pháp của mình để làm rò rỉ thông tin.
+    
+    \item \textbf{Quản trị viên CA độc hại:} Như đã đề cập ở trên, một quản trị viên có quyền truy cập vào khóa riêng của CA có thể phá vỡ toàn bộ mô hình tin cậy và thực hiện các cuộc tấn công MITM.
+\end{itemize}

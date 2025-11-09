@@ -1,0 +1,1608 @@
+\section{Độ Khó Mật Mã và Các Tác Động Trong Thế Giới Thực}
+
+\subsection{Câu 1. (10 điểm) Phá Vỡ Mật Mã: Các Kịch Bản Tấn Công}
+
+\subsubsection{(a) (5 điểm) Kịch Bản "Ngày Tận Thế Của Mật Mã"}
+
+Hãy tưởng tượng bạn thức dậy vào ngày mai và thấy trên các bản tin dòng tít:
+
+``Đột phá khoa học: P so với NP đã được giải quyết – Các nhà khoa học máy tính chứng minh rằng P = NP!''
+
+\textbf{i.} Với tư cách là Giám đốc An ninh (Chief Security Officer) của một ngân hàng lớn, hãy viết một bản ghi nhớ khẩn cấp (crisis response memo) nêu rõ:
+\begin{itemize}
+    \item Những hệ thống nào sẽ ngay lập tức bị sụp đổ,
+    \item Và bạn sẽ triển khai các biện pháp khẩn cấp nào để đối phó tình huống đó.
+\end{itemize}
+
+\textbf{ii.} Hãy thiết kế một mô hình bảo mật thay thế cho ngân hàng trực tuyến trong một thế giới mà P = NP.
+Bạn sẽ dựa vào những giả định nào khác để bảo vệ an toàn cho hệ thống?
+
+\begin{center}
+    \textbf{Trả lời:}
+\end{center}
+
+\textbf{i. Bản ghi nhớ khẩn cấp (Crisis Response Memo)}
+
+\noindent\textbf{Độ mật - Khẩn cấp}
+
+\noindent Đến: Ban Lãnh Đạo, Toàn Bộ Phòng IT \& An Ninh
+
+\noindent Từ: Giám Đốc An Ninh (CSO)
+
+\noindent Ngày: [Ngày mai]
+
+\noindent Chủ đề: \textbf{Khẩn cấp - Sụp đổ toàn bộ hệ thống mật mã}
+
+\vspace{0.3cm}
+
+\textbf{Tình trạng nguy cấp cấp độ 1}
+
+Chứng minh P = NP đã được công bố. Toàn bộ nền tảng bảo mật của ngân hàng hiện không còn giá trị.
+
+\textbf{Các hệ thống sụp đổ ngay lập tức}
+
+\textbf{1. Hệ thống mã hóa bất đối xứng - Sụp đổ hoàn toàn}
+\begin{itemize}
+    \item RSA (Factoring): Tất cả khóa RSA bị bẻ gãy
+    \item Diffie-Hellman / ECDH (DLP): Trao đổi khóa không còn an toàn
+    \item Chữ ký số (ECDSA, EdDSA): Không thể xác thực giao dịch
+\end{itemize}
+
+\textbf{Hệ quả:}
+\begin{itemize}
+    \item Kẻ tấn công giải mã mọi giao dịch HTTPS/TLS
+    \item Chữ ký số bị giả mạo
+    \item Không thể xác thực danh tính khách hàng online
+\end{itemize}
+
+\textbf{2. Các chức năng ngân hàng bị ảnh hưởng}
+\begin{itemize}
+    \item Internet Banking \& Mobile Banking
+    \item ATM Network
+    \item SWIFT / Chuyển tiền quốc tế
+    \item Thẻ tín dụng / Chip EMV
+\end{itemize}
+
+\textbf{Biện pháp khẩn cấp}
+
+\textbf{Giai đoạn 1: Giờ 0-2 (Phong tỏa)}
+
+\textbf{1. Tạm dừng mọi giao dịch trực tuyến}
+\begin{itemize}
+    \item Đóng Internet Banking \& Mobile Banking
+    \item Tạm dừng giao dịch ATM từ xa
+    \item Thông báo khách hàng qua SMS
+\end{itemize}
+
+\textbf{2. Cách ly mạng quan trọng}
+\begin{itemize}
+    \item Ngắt kết nối internet với core banking system
+    \item Chuyển sang mạng vật lý riêng biệt (air-gapped)
+\end{itemize}
+
+\textbf{Giai đoạn 2: Giờ 2-24 (Chuyển đổi)}
+
+\textbf{3. Quay về phương thức vật lý}
+\begin{itemize}
+    \item Mở cửa chi nhánh ngoài giờ
+    \item Tăng nhân sự quầy giao dịch
+    \item Sử dụng giấy tờ với chữ ký tay
+\end{itemize}
+
+\textbf{4. Mã hóa đối xứng với khóa phân phối thủ công}
+\begin{itemize}
+    \item Gửi khóa AES qua courier an toàn đến chi nhánh
+    \item Sử dụng két sắt, túi niêm phong
+\end{itemize}
+
+\textbf{Giai đoạn 3: Tuần 1-4 (Xây dựng lại)}
+
+\textbf{5. Triển khai Quantum Key Distribution (QKD)}
+\begin{itemize}
+    \item Phân phối khóa lượng tử (nếu có thiết bị)
+    \item An toàn dựa trên vật lý, không bị P=NP ảnh hưởng
+\end{itemize}
+
+\textbf{6. Hợp tác với Ngân Hàng Trung Ương}
+\begin{itemize}
+    \item Phối hợp với các ngân hàng khác
+    \item Yêu cầu hướng dẫn từ cơ quan quản lý
+\end{itemize}
+
+\vspace{0.2cm}
+
+\textbf{ii. Mô hình bảo mật thay thế trong thế giới P = NP}
+
+\textbf{Nguyên tắc cơ bản}
+
+Trong thế giới P = NP, không thể dựa vào độ khó tính toán. Phải chuyển sang các giả định khác:
+
+\textbf{Mô hình 1: Bảo mật dựa vào vật lý}
+
+\textbf{A. Quantum Key Distribution (QKD)}
+\begin{itemize}
+    \item \textbf{Nguyên lý:} Sử dụng photon lượng tử để phân phối khóa
+    \item \textbf{Lý do an toàn:} Dựa trên nguyên lý bất định Heisenberg - kẻ nghe lén làm thay đổi trạng thái lượng tử và bị phát hiện
+    \item \textbf{Ứng dụng:} Kết nối giữa chi nhánh chính với data center
+\end{itemize}
+
+\textbf{B. One-Time Pad (OTP)}
+\begin{itemize}
+    \item \textbf{Nguyên lý:} Mã hóa hoàn hảo theo Shannon (1949)
+    \item \textbf{Yêu cầu:} Khóa dài bằng bản rõ, ngẫu nhiên hoàn toàn, chỉ dùng 1 lần
+    \item \textbf{Ứng dụng:} Phân phối USB chứa khóa cho khách hàng VIP hàng tháng
+\end{itemize}
+
+\textbf{Mô hình 2: Bảo mật dựa vào điều kiện vật lý}
+
+\textbf{C. Air-Gapped Networks}
+\begin{itemize}
+    \item \textbf{Nguyên lý:} Hệ thống không kết nối internet
+    \item \textbf{Giả định:} Kẻ tấn công không có quyền truy cập vật lý
+    \item \textbf{Ứng dụng:} Core banking chạy trên mạng riêng
+\end{itemize}
+
+\textbf{D. Multi-Party Computation (MPC)}
+\begin{itemize}
+    \item \textbf{Nguyên lý:} Phân tán tính toán qua nhiều bên
+    \item \textbf{Giả định:} Ít nhất $k$ trong $n$ bên là trung thực
+    \item \textbf{Ứng dụng:} Giao dịch lớn cần xác nhận từ 3/5 node độc lập
+\end{itemize}
+
+\textbf{Mô hình 3: Bảo mật dựa vào con người}
+
+\textbf{E. Xác thực đa yếu tố vật lý}
+
+\textbf{Phương thức:}
+\begin{itemize}
+    \item Sinh trắc học: Vân tay, mống mắt, nhận diện khuôn mặt
+    \item Token vật lý: Thẻ thông minh, USB security key
+    \item Xác thực out-of-band: Gọi điện xác nhận giao dịch lớn
+\end{itemize}
+
+\textbf{F. Giao dịch phê duyệt thủ công}
+\begin{itemize}
+    \item Giao dịch > \$10,000 phải được nhân viên phê duyệt
+    \item Video call xác nhận với khách hàng
+    \item Chữ ký giấy cho giao dịch quan trọng
+\end{itemize}
+
+\textbf{Mô hình 4: Bảo mật dựa vào thời gian}
+
+\textbf{G. Short-Lived Credentials}
+\begin{itemize}
+    \item \textbf{Nguyên lý:} Thông tin xác thực chỉ tồn tại vài phút
+    \item \textbf{Giả định:} Kẻ tấn công cần thời gian (dù P=NP, vẫn có độ trễ vật lý)
+    \item \textbf{Ứng dụng:} Token OTP 30s, Session keys 5 phút
+\end{itemize}
+
+\textbf{Kiến trúc tổng quan}
+
+\begin{verbatim}
++--------------------------------------+
+|         KHACH HANG                   |
+|  * Sinh trac hoc (Face ID)           |
+|  * Token vat ly (USB Key)            |
+|  * OTP (30s timeout)                 |
++--------------+------------------------+
+               |
+               v
++--------------------------------------+
+|    GATEWAY (Giam sat)                |
+|  * Kiem tra hanh vi bat thuong       |
+|  * Gioi han toc do giao dich         |
++--------------+------------------------+
+               | (QKD hoac OTP)
+               v
++--------------------------------------+
+|  CORE BANKING (Air-gapped)           |
+|  * Khong ket noi internet            |
+|  * MPC cho giao dich quan trong      |
++--------------+------------------------+
+               |
+               v
++--------------------------------------+
+|   HUMAN OVERSIGHT                    |
+|  * Video call xac nhan               |
++--------------------------------------+
+\end{verbatim}
+
+\textbf{Các giả định cơ bản}
+\begin{itemize}
+    \item \textbf{Giả định vật lý:} Định luật vật lý (lượng tử) vẫn đúng
+    \item \textbf{Giả định phân tán:} Không phải tất cả các bên bị xâm nhập đồng thời
+    \item \textbf{Giả định thời gian:} Tấn công cần thời gian, tạo cửa sổ phát hiện
+    \item \textbf{Giả định con người:} Có nhân viên đáng tin cậy
+    \item \textbf{Giả định sinh trắc học:} Không thể giả mạo hoàn hảo sinh trắc sống
+\end{itemize}
+
+\textbf{Đánh giá}
+
+\begin{center}
+\begin{tabular}{|p{6cm}|p{6cm}|}
+\hline
+\textbf{Ưu điểm} & \textbf{Nhược điểm} \\
+\hline
+Không dựa vào P $\neq$ NP & Chi phí cực cao \\
+Bảo mật dựa vật lý & Trải nghiệm người dùng kém \\
+Có thể triển khai ngay & Khó mở rộng quy mô \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsubsection{(b) (5 điểm) Vấn Đề "Thông Số Diffie-Hellman Yếu"}
+
+Một nhà nghiên cứu bảo mật phát hiện rằng một thư viện mật mã phổ biến đang tạo ra tham số Diffie-Hellman (DH) với số nguyên tố $p$ sao cho $p - 1$ chứa nhiều ước nhỏ, khiến 75\% nhóm được tạo ra dễ bị tấn công Pohlig-Hellman.
+
+\textbf{i.} Hãy đánh giá xem phát hiện này có hoàn toàn phá vỡ Diffie-Hellman hay chỉ làm suy yếu một phần.
+Xem xét cả:
+\begin{itemize}
+    \item Tác động về mặt toán học,
+    \item Và hậu quả trong triển khai thực tế.
+\end{itemize}
+
+\textbf{ii.} Hãy thiết kế một chiến lược phản ứng cho các hệ thống đang dùng thư viện đó:
+\begin{itemize}
+    \item Có nên tái tạo lại toàn bộ tham số ngay lập tức,
+    \item Hay chỉ thêm bước kiểm tra tham số,
+    \item Hay theo một hướng tiếp cận khác?
+\end{itemize}
+
+\begin{center}
+    \textbf{Trả lời:}
+\end{center}
+
+\textbf{i. Đánh giá mức độ nghiêm trọng}
+
+\textbf{Tóm tắt phát hiện}
+\begin{itemize}
+    \item \textbf{Vấn đề:} Số nguyên tố $p$ được chọn sao cho $p-1$ có nhiều ước nhỏ
+    \item \textbf{Hậu quả:} 75\% nhóm dễ bị tấn công Pohlig-Hellman
+    \item \textbf{Câu hỏi:} Có phá vỡ hoàn toàn DH hay chỉ làm yếu một phần?
+\end{itemize}
+
+\textbf{A. Tác động về mặt toán học}
+
+\textbf{1. Kiến thức nền từ tài liệu}
+
+DH dựa trên \textbf{độ khó của DLP} trong nhóm $\mathbb{Z}_p^*$ (nhóm nhân modulo $p$).
+
+\textbf{2. Tấn công Pohlig-Hellman hoạt động như thế nào?}
+
+\textbf{Nguyên lý:}
+\begin{itemize}
+    \item Khi $p-1$ có nhiều ước nhỏ: $p-1 = q_1^{e_1} \times q_2^{e_2} \times \ldots \times q_n^{e_n}$
+    \item Bài toán DLP có thể được \textbf{chia nhỏ} thành các bài toán con trên các nhóm nhỏ hơn
+    \item Độ phức tạp giảm từ $O(\sqrt{p})$ xuống $O(\sum \sqrt{q_i})$
+\end{itemize}
+
+\textbf{Ví dụ cụ thể:}
+
+\begin{verbatim}
+Gia su p = 1009 (so nguyen to)
+p - 1 = 1008 = 2^4 x 3^2 x 7
+
+Thay vi phai tinh DLP tren nhom co p-1 = 1008 phan tu
+-> Ke tan cong chi can giai:
+  - DLP mod 2^4 (16 phan tu) - Rat de
+  - DLP mod 3^2 (9 phan tu) - Rat de
+  - DLP mod 7 (7 phan tu) - Rat de
+-> Sau do dung Chinese Remainder Theorem de ghep lai
+\end{verbatim}
+
+\textbf{3. Mức độ ``phá vỡ''}
+
+\textbf{Đánh giá:} \textbf{Không phá vỡ hoàn toàn, nhưng làm yếu nghiêm trọng}
+
+\begin{center}
+\begin{tabular}{|p{6cm}|p{6cm}|}
+\hline
+\textbf{Tiêu chí} & \textbf{Đánh giá} \\
+\hline
+Toàn bộ DH bị phá? & Không - 25\% nhóm vẫn an toàn \\
+75\% nhóm bị phá? & Có - Nếu ước lớn nhất của $p-1$ đủ nhỏ \\
+Có thể tấn công thực tế? & Có - Nếu $p < 2048$-bit hoặc $p-1$ có ước quá nhỏ \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{Kết luận toán học:}
+\begin{itemize}
+    \item Nếu $p-1 = 2q$ (với $q$ là số nguyên tố lớn) $\rightarrow$ \textbf{An toàn} (gọi là ``safe prime'')
+    \item Nếu $p-1$ có nhiều ước nhỏ $\rightarrow$ \textbf{Yếu nghiêm trọng}, có thể bị bẻ gãy
+\end{itemize}
+
+\textbf{B. Hậu quả trong triển khai thực tế}
+
+\textbf{1. Tình huống xấu nhất}
+
+\textbf{Kịch bản:}
+\begin{itemize}
+    \item Thư viện tạo $p$ có $p-1 = 2^3 \times 3^2 \times 5 \times 7 \times 11 \times \ldots \times q$ ($q$ nhỏ)
+    \item Kẻ tấn công có thể:
+    \begin{itemize}
+        \item Thu thập nhiều cặp khóa công khai $(A, B)$
+        \item Giải DLP với Pohlig-Hellman trong vài phút/giờ
+        \item Tính được khóa chung $S = g^{ab}$
+    \end{itemize}
+\end{itemize}
+
+\textbf{Hệ quả:}
+\begin{itemize}
+    \item Mọi phiên kết nối bị giải mã
+    \item Kẻ tấn công MITM dễ dàng thành công
+    \item Dữ liệu cũ đã lưu có thể bị giải mã (nếu đã lưu traffic)
+\end{itemize}
+
+\textbf{2. Các yếu tố giảm nhẹ}
+
+\textbf{Yếu tố 1: Kích thước $p$}
+\begin{itemize}
+    \item Nếu $p = 2048$-bit và ước lớn nhất của $p-1$ vẫn $> 256$-bit $\rightarrow$ Vẫn khó tấn công
+    \item Nếu $p = 1024$-bit hoặc nhỏ hơn $\rightarrow$ \textbf{Nguy hiểm cao}
+\end{itemize}
+
+\textbf{Yếu tố 2: Thời gian tấn công}
+\begin{itemize}
+    \item Pohlig-Hellman vẫn cần tài nguyên tính toán
+    \item Nếu phải giải trong thời gian thực $\rightarrow$ Có thể chưa khả thi
+\end{itemize}
+
+\textbf{Yếu tố 3: Xác thực (Authenticated DH)}
+
+\begin{itemize}
+    \item Nếu hệ thống đã dùng \textbf{Authenticated DH} (TLS, Signal) $\rightarrow$ Kẻ tấn công khó MITM
+    \item Nhưng vẫn có thể \textbf{giải mã bị động} (passive decryption) nếu thu thập được traffic
+\end{itemize}
+
+\textbf{3. Tác động theo ngành}
+
+\begin{center}
+\begin{tabular}{|p{3cm}|p{3cm}|p{6cm}|}
+\hline
+\textbf{Hệ thống} & \textbf{Mức độ nguy hiểm} & \textbf{Lý do} \\
+\hline
+VPN & Nghiêm trọng & Traffic có thể bị lưu và giải mã sau \\
+HTTPS/TLS & Cao & Phụ thuộc vào Forward Secrecy và xác thực \\
+SSH & Trung bình & Có xác thực host key, nhưng vẫn lo ngại \\
+Signal/WhatsApp & Thấp & Dùng ECDH (Curve25519), không bị ảnh hưởng \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{Kết luận đánh giá}
+
+\textbf{Phát hiện này:}
+\begin{itemize}
+    \item \textbf{Không phá vỡ hoàn toàn} DH về mặt lý thuyết
+    \item \textbf{Làm yếu nghiêm trọng} 75\% triển khai thực tế
+    \item \textbf{Có thể bị khai thác} nếu kẻ tấn công có tài nguyên và thời gian
+\end{itemize}
+
+Đây tương tự như lỗ hổng \textbf{Logjam} - không phá vỡ toàn bộ DH, nhưng khiến nhiều hệ thống dễ bị tấn công.
+
+\textbf{ii. Chiến lược phản ứng}
+
+\textbf{Phân tích các lựa chọn}
+
+\textbf{Lựa chọn 1: Tái tạo lại toàn bộ tham số ngay lập tức}
+
+\textbf{Ưu điểm:}
+\begin{itemize}
+    \item Loại bỏ nguy cơ hoàn toàn
+    \item Đơn giản, rõ ràng
+\end{itemize}
+
+\textbf{Nhược điểm:}
+\begin{itemize}
+    \item Gián đoạn dịch vụ
+    \item Tốn tài nguyên (tạo tham số an toàn mất thời gian)
+    \item Có thể không cần thiết nếu tham số hiện tại ``đủ tốt''
+\end{itemize}
+
+\textbf{Lựa chọn 2: Chỉ thêm bước kiểm tra tham số}
+
+\textbf{Ưu điểm:}
+\begin{itemize}
+    \item Không gián đoạn ngay lập tức
+    \item Cho phép đánh giá từng trường hợp
+\end{itemize}
+
+\textbf{Nhược điểm:}
+\begin{itemize}
+    \item Vẫn để hệ thống yếu tồn tại
+    \item Không giải quyết dữ liệu cũ đã lộ
+\end{itemize}
+
+\textbf{Lựa chọn 3: Tiếp cận phân tầng} (Khuyến nghị)
+
+\textbf{Chiến lược phản ứng đề xuất}
+
+\textbf{Giai đoạn 1: Đánh giá ngay lập tức (0-24h)}
+
+\textbf{Bước 1: Kiểm tra tham số hiện tại}
+
+Viết script kiểm tra $p-1$:
+
+\begin{verbatim}
+def check_prime_safety(p):
+    """
+    Kiem tra xem p co phai la safe prime khong
+    Safe prime: p = 2q + 1 (q cung la so nguyen to)
+    """
+    q = (p - 1) // 2
+    if is_prime(q):
+        return "SAFE", q
+    
+    # Phan tich p-1 thanh thua so
+    factors = factorize(p - 1)
+    largest_factor = max(factors)
+    
+    if largest_factor > 2^256:
+        return "ACCEPTABLE", largest_factor
+    else:
+        return "WEAK", factors
+\end{verbatim}
+
+\textbf{Bước 2: Phân loại hệ thống}
+
+\begin{center}
+\begin{tabular}{|p{2.5cm}|p{5cm}|p{4cm}|}
+\hline
+\textbf{Mức độ} & \textbf{Tiêu chí} & \textbf{Hành động} \\
+\hline
+Nguy cấp & $p < 2048$-bit HOẶC ước lớn nhất $< 2^{128}$ & Thay thế NGAY \\
+Cao & $2048$-bit $\leq p < 3072$-bit VÀ ước lớn nhất $< 2^{256}$ & Thay thế trong 7 ngày \\
+Trung bình & $p \geq 3072$-bit VÀ ước lớn nhất $\geq 2^{256}$ & Thay thế trong 30 ngày \\
+Thấp & Safe prime ($p = 2q + 1$) & Không cần hành động \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{Giai đoạn 2: Giảm thiểu ngay (24-48h)}
+
+\textbf{Cho hệ thống cấp Nguy cấp:}
+
+\textbf{1. Chuyển sang ECDH ngay lập tức}
+\begin{itemize}
+    \item Ưu tiên: Curve25519 (Ed25519)
+    \item Dự phòng: NIST P-256 (nếu không hỗ trợ Curve25519)
+\end{itemize}
+
+\textbf{2. Nếu không thể chuyển ECDH:}
+\begin{itemize}
+    \item Tạo tham số DH mới với \textbf{safe prime}
+    \item Tăng kích thước lên 3072-bit hoặc 4096-bit
+\end{itemize}
+
+\textbf{3. Áp dụng Perfect Forward Secrecy (PFS)}
+\begin{itemize}
+    \item Tạo khóa phiên mới cho mỗi kết nối
+    \item Không tái sử dụng khóa
+\end{itemize}
+
+\textbf{Giai đoạn 3: Triển khai dài hạn (1-3 tháng)}
+
+\textbf{Hành động 1: Cập nhật thư viện}
+
+Patch thư viện để:
+\begin{itemize}
+    \item Luôn tạo \textbf{safe prime} ($p = 2q + 1$)
+    \item Thêm kiểm tra tự động khi load tham số
+    \item Từ chối tham số yếu
+\end{itemize}
+
+\textbf{Hành động 2: Tạo và phân phối tham số an toàn}
+
+Tạo một bộ tham số chuẩn:
+\begin{itemize}
+    \item Group 1: 3072-bit safe prime (cho hệ thống cũ)
+    \item Group 2: 4096-bit safe prime (cho hệ thống mới)
+    \item Ưu tiên: Chuyển sang ECDH cho tất cả hệ thống
+\end{itemize}
+
+\textbf{Hành động 3: Rotate keys}
+\begin{itemize}
+    \item Thay thế tất cả khóa và chứng chỉ đang dùng tham số yếu
+    \item Thông báo người dùng cập nhật phần mềm
+\end{itemize}
+
+\textbf{Hành động 4: Giám sát và phát hiện}
+
+Thêm monitoring:
+
+\begin{verbatim}
+# Alert neu phat hien tham so yeu
+if parameter_strength < THRESHOLD:
+    alert("WEAK_DH_PARAMETERS", system_id)
+    force_migration_to_ecdh()
+\end{verbatim}
+
+\textbf{Giai đoạn 4: Xử lý dữ liệu cũ}
+
+\textbf{Vấn đề:} Traffic đã lưu trước đây có thể bị giải mã
+
+\textbf{Giải pháp:}
+\begin{enumerate}
+    \item \textbf{Thông báo người dùng} về khả năng dữ liệu cũ bị lộ
+    \item \textbf{Xem xét re-encryption} các dữ liệu quan trọng
+    \item \textbf{Revoke credentials} cũ (buộc người dùng đổi mật khẩu)
+\end{enumerate}
+
+\textbf{So sánh các phương án}
+
+\begin{center}
+\begin{tabular}{|p{2.5cm}|p{3.5cm}|p{3.5cm}|p{3.5cm}|}
+\hline
+\textbf{Tiêu chí} & \textbf{Tái tạo ngay} & \textbf{Chỉ kiểm tra} & \textbf{Phân tầng (Đề xuất)} \\
+\hline
+Bảo mật & Cao & Thấp & Cao \\
+Khả thi & Thấp & Cao & Trung bình \\
+Tác động & Gián đoạn cao & Không gián đoạn & Gián đoạn có kiểm soát \\
+Chi phí & Cao & Thấp & Trung bình \\
+Thời gian & 1-3 ngày & Tức thì & 1-12 tuần \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{Khuyến nghị cuối cùng}
+
+\textbf{Nên làm:}
+\begin{enumerate}
+    \item \textbf{Đánh giá tức thì} tất cả tham số đang dùng
+    \item \textbf{Thay thế khẩn cấp} các tham số mức Nguy cấp
+    \item \textbf{Chuyển sang ECDH} cho mọi hệ thống mới
+    \item \textbf{Patch thư viện} để không tạo tham số yếu nữa
+    \item \textbf{Thông báo rõ ràng} cho người dùng về rủi ro
+\end{enumerate}
+
+\textbf{Không nên:}
+\begin{enumerate}
+    \item Chờ đợi hoặc trì hoãn với hệ thống nguy cấp
+    \item Chỉ thêm kiểm tra mà không thay thế tham số yếu
+    \item Giữ bí mật lỗ hổng (nên công khai và hướng dẫn khắc phục)
+    \item Tiếp tục dùng DH cổ điển khi có thể dùng ECDH
+\end{enumerate}
+
+\vspace{0.2cm}
+
+\textbf{Kết luận}
+
+Phát hiện này \textbf{làm yếu nghiêm trọng} nhưng \textbf{không phá vỡ hoàn toàn} DH. Chiến lược tốt nhất là \textbf{tiếp cận phân tầng}: thay thế khẩn cấp hệ thống nguy hiểm, di chuyển dần sang ECDH, và cập nhật thư viện để không tái diễn. Đây là bài học quan trọng về tầm quan trọng của việc chọn tham số đúng trong mật mã.
+
+\subsection{Câu 2. (10 điểm) Kiến Trúc Bảo Mật Dựa Trên Logarit Rời Rạc}
+
+\subsubsection{(a) (5 điểm) Thảm Họa Do Tham Số Yếu}
+
+Trong quá trình kiểm toán, bạn phát hiện một hệ thống cũ đang dùng:
+\begin{itemize}
+    \item $p = 2047$ (vì $2047 = 23 \times 89$) cho Diffie-Hellman key exchange,
+    \item Và generator $g = 2$.
+\end{itemize}
+
+\textbf{i.} Phân tích chính xác vì sao lựa chọn tham số này cực kỳ yếu.
+Ước tính thời gian cần thiết để hacker dùng laptop hiện đại có thể phá vỡ hệ thống.
+
+\textbf{ii.} Đề xuất kế hoạch ứng cứu khẩn cấp:
+Làm thế nào để chuyển người dùng sang tham số an toàn mà vẫn duy trì tính sẵn sàng dịch vụ?
+
+\begin{center}
+    \textbf{Trả lời:}
+\end{center}
+
+\textbf{i. Phân tích tham số yếu}
+
+\textbf{Tổng quan vấn đề}
+
+Tham số được phát hiện:
+\begin{itemize}
+    \item $p = 2047 = 23 \times 89$ (Hợp số, không phải số nguyên tố!)
+    \item $g = 2$
+\end{itemize}
+
+\textbf{Đánh giá:} \textbf{Cực kỳ nguy hiểm - Cần thay thế ngay}
+
+\textbf{A. Vấn đề 1: $p$ không phải số nguyên tố}
+
+\textbf{1. Yêu cầu cơ bản của DH}
+
+Diffie-Hellman yêu cầu $p$ phải là số nguyên tố lớn để đảm bảo:
+\begin{itemize}
+    \item Tồn tại nhóm nhân $\mathbb{Z}_p^*$ với cấu trúc toán học phù hợp
+    \item Bài toán DLP khó giải
+\end{itemize}
+
+\textbf{2. Hậu quả khi $p = 2047 = 23 \times 89$}
+
+\textbf{Vấn đề toán học:}
+\begin{itemize}
+    \item Khi $p$ là hợp số, $\mathbb{Z}_p^*$ không còn là nhóm cyclic đơn giản
+    \item Có thể áp dụng Chinese Remainder Theorem (CRT) để phân rã bài toán
+\end{itemize}
+
+\textbf{Cách khai thác:}
+
+DLP ban đầu: Tìm $a$ sao cho $g^a \equiv A \pmod{2047}$
+
+Kẻ tấn công phân rã thành:
+\begin{enumerate}
+    \item $g^a \equiv A \pmod{23}$ $\rightarrow$ Giải DLP trong nhóm 23 phần tử
+    \item $g^a \equiv A \pmod{89}$ $\rightarrow$ Giải DLP trong nhóm 89 phần tử
+\end{enumerate}
+
+Sau đó dùng CRT ghép lại để tìm $a \pmod{2047}$
+
+\textbf{Độ phức tạp:}
+\begin{itemize}
+    \item DLP mod 23: $O(\sqrt{23}) \approx 5$ phép toán
+    \item DLP mod 89: $O(\sqrt{89}) \approx 9$ phép toán
+    \item Tổng cộng: $< 100$ phép toán
+\end{itemize}
+
+
+\textbf{B. Vấn đề 2: $p$ quá nhỏ (chỉ 11-bit)}
+
+\textbf{1. Kích thước tham số}
+
+$p = 2047 = 2^{11} - 1$ (chỉ 11 bit)
+
+So sánh với tiêu chuẩn:
+
+\begin{center}
+\begin{tabular}{|p{4cm}|p{3cm}|p{3cm}|}
+\hline
+\textbf{Tham số} & \textbf{Kích thước} & \textbf{Độ an toàn} \\
+\hline
+$p$ hiện tại & 11-bit & Không có \\
+Tiêu chuẩn tối thiểu & 2048-bit & Tốt \\
+Khuyến nghị hiện tại & 3072-bit & Rất tốt \\
+\hline
+\end{tabular}
+\end{center}
+
+\textit{Nguồn:} Mục 3.4 (Chương 7) - ``Logjam (2015) phát hiện nhiều máy chủ vẫn dùng các tham số quá yếu (512-bit)''
+
+\textbf{2. Brute-force trực tiếp}
+
+Ngay cả không cần khai thác $p$ là hợp số, kẻ tấn công có thể:
+
+\textbf{Phương pháp 1: Baby-step Giant-step}
+\begin{itemize}
+    \item Độ phức tạp: $O(\sqrt{p}) = O(\sqrt{2047}) \approx 45$ phép toán
+\end{itemize}
+
+\textbf{Phương pháp 2: Thử trực tiếp}
+\begin{itemize}
+    \item Không gian khóa: chỉ 2047 giá trị khả dĩ
+    \item Có thể thử hết trong $< 1$ giây
+\end{itemize}
+
+
+\textbf{C. Vấn đề 3: Không phải safe prime}
+
+\textbf{1. Cấu trúc của $p-1$}
+
+$p - 1 = 2046 = 2 \times 3 \times 11 \times 31$
+
+Vấn đề: $p-1$ có nhiều ước nhỏ, dễ bị tấn công Pohlig-Hellman
+
+\textit{Nguồn:} Mục 1.2.1(b) - Tấn công Pohlig-Hellman khai thác khi $p-1$ có nhiều ước nhỏ
+
+\textbf{2. Tấn công Pohlig-Hellman}
+
+\textbf{Nguyên lý:}
+
+$p - 1 = 2046 = 2 \times 3 \times 11 \times 31$
+
+Kẻ tấn công giải:
+\begin{itemize}
+    \item DLP mod 2 (2 phần tử)
+    \item DLP mod 3 (3 phần tử)
+    \item DLP mod 11 (11 phần tử)
+    \item DLP mod 31 (31 phần tử)
+\end{itemize}
+
+Ghép lại bằng CRT
+
+\textbf{Độ phức tạp:}
+
+$O(\sqrt{2} + \sqrt{3} + \sqrt{11} + \sqrt{31}) \approx 10$ phép toán
+
+\textbf{D. Vấn đề 4: Generator $g = 2$ (Không kiểm tra bậc)}
+
+\textbf{1. Bậc của $g = 2$ trong nhóm}
+
+Cần kiểm tra xem $g = 2$ có phải là generator của nhóm không.
+
+\textbf{Tính toán:}
+
+Bậc của $g$ phải là $\phi(2047)$ để là generator đầy đủ
+
+$\phi(2047) = \phi(23 \times 89) = 22 \times 88 = 1936$
+
+Kiểm tra: $\text{ord}(2) \bmod 2047 = ?$
+
+Nếu $\text{ord}(2) < 1936$, không gian khóa còn nhỏ hơn nữa.
+
+\textbf{Ước tính thời gian tấn công}
+
+\textbf{Kịch bản 1: Brute-force đơn giản}
+
+\textbf{Phương pháp:}
+\begin{itemize}
+    \item Thử tất cả giá trị $a$ từ 1 đến 2047
+    \item Kiểm tra $g^a \pmod{2047} = A$
+\end{itemize}
+
+\textbf{Thời gian trên laptop hiện đại:}
+
+Laptop thông thường: $\sim 10^9$ phép toán/giây
+
+Số phép toán cần: 2047 phép tính modular exponentiation
+
+Mỗi phép tính: $\sim 20$ phép nhân
+
+Tổng thời gian: $(2047 \times 20) / 10^9 \approx 0.00004$ giây
+
+\textbf{Kết quả:} $< 0.1$ mili-giây
+
+\textbf{Kịch bản 2: Khai thác $p$ là hợp số (CRT)}
+
+\textbf{Phương pháp:}
+\begin{itemize}
+    \item Giải DLP mod 23 và mod 89
+    \item Ghép lại bằng CRT
+\end{itemize}
+
+\textbf{Thời gian:}
+\begin{itemize}
+    \item DLP mod 23: Baby-step Giant-step $\sim \sqrt{23} \approx 5$ phép toán
+    \item DLP mod 89: Baby-step Giant-step $\sim \sqrt{89} \approx 9$ phép toán
+    \item CRT: $O(\log p) \approx 11$ phép toán
+\end{itemize}
+
+Tổng thời gian: $< 0.01$ mili-giây
+
+\textbf{Kết quả:} $< 0.01$ mili-giây
+
+\textbf{Kịch bản 3: Pohlig-Hellman}
+
+\textbf{Thời gian:}
+
+Giải DLP trên các nhóm con: 2, 3, 11, 31
+
+Tổng độ phức tạp: $O(\sum \sqrt{q_i}) \approx 10$ phép toán
+
+Thời gian: $< 0.01$ mili-giây
+
+\textbf{Kết luận phân tích}
+
+\textbf{Đánh giá tổng thể:}
+
+\begin{center}
+\begin{tabular}{|p{5cm}|p{4cm}|}
+\hline
+\textbf{Vấn đề} & \textbf{Mức độ nghiêm trọng} \\
+\hline
+$p$ là hợp số (không phải số nguyên tố) & Cực kỳ nghiêm trọng \\
+$p$ quá nhỏ (11-bit) & Cực kỳ nghiêm trọng \\
+$p-1$ có nhiều ước nhỏ & Rất nghiêm trọng \\
+$g$ không được kiểm chứng & Nghiêm trọng \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{Thời gian phá vỡ:}
+\begin{itemize}
+    \item Laptop thông thường: $< 0.1$ mili-giây
+    \item Smartphone: $< 1$ mili-giây
+    \item Arduino: $< 1$ giây
+\end{itemize}
+
+\vspace{0.2cm}
+\textit{Nguồn tham chiếu:}
+\begin{itemize}
+    \item Mục 2.2 (Chương 7): Yêu cầu $p$ là số nguyên tố lớn cho DH
+    \item Mục 3.4 (Chương 7): Lỗ hổng Logjam với tham số yếu
+    \item Mục 1.2.1(b): Tấn công Pohlig-Hellman
+\end{itemize}
+
+\textbf{Kết luận:} Hệ thống này \textbf{không có bảo mật} - bất kỳ ai cũng có thể bẻ gãy trong tích tắc. Đây là thảm họa bảo mật cần xử lý ngay lập tức.
+
+\textbf{ii. Kế hoạch ứng cứu khẩn cấp}
+
+\textbf{Nguyên tắc cốt lõi}
+
+\textbf{Mục tiêu:}
+\begin{itemize}
+    \item Loại bỏ nguy cơ bảo mật ngay lập tức
+    \item Duy trì tính sẵn sàng dịch vụ (không gián đoạn)
+    \item Chuyển đổi người dùng một cách mượt mà
+\end{itemize}
+
+\textbf{Giai đoạn 1: Đánh giá ngay (0-2 giờ)}
+
+\textbf{Bước 1: Xác định phạm vi ảnh hưởng}
+
+\textbf{Câu hỏi cần trả lời:}
+\begin{itemize}
+    \item Có bao nhiêu người dùng đang kết nối?
+    \item Hệ thống nào đang dùng tham số này?
+    \item Có dữ liệu nhạy cảm nào đã bị lộ?
+\end{itemize}
+
+\textbf{Hành động:}
+
+\begin{verbatim}
+# Kiem tra logs
+grep "p=2047" /var/log/ssl/*.log
+grep "DH-2047" /var/log/auth.log
+
+# Thong ke so phien dang hoat dong
+netstat -an | grep ESTABLISHED | wc -l
+\end{verbatim}
+
+\textbf{Bước 2: Đánh giá khả năng đã bị tấn công}
+
+\textbf{Kiểm tra:}
+\begin{itemize}
+    \item Logs bất thường (traffic spike, failed authentications)
+    \item Các phiên kết nối đáng ngờ
+    \item Dữ liệu đã bị truy cập trái phép
+\end{itemize}
+
+\textbf{Giai đoạn 2: Triển khai song song (2-24 giờ)}
+
+\textbf{Chiến lược: ``Dual Stack'' - Chạy song song 2 hệ thống}
+
+\textbf{Mục tiêu:} Không gián đoạn dịch vụ trong khi chuyển đổi
+
+\textbf{Bước 1: Chuẩn bị tham số mới}
+
+\textbf{Lựa chọn A: Chuyển sang ECDH} (Khuyến nghị)
+
+\begin{verbatim}
+Curve: Curve25519 (Ed25519)
+Ly do:
+- An toan nhat
+- Nhanh nhat
+- Duoc ho tro rong rai
+\end{verbatim}
+
+\textbf{Lựa chọn B: Nếu phải dùng DH cổ điển}
+
+\begin{verbatim}
+# Tao safe prime (p = 2q + 1)
+# Khuyen nghi: 3072-bit hoac 4096-bit
+
+import random
+from sympy import isprime, nextprime
+
+def generate_safe_prime(bits):
+    while True:
+        q = nextprime(random.getrandbits(bits-1))
+        p = 2*q + 1
+        if isprime(p):
+            return p, q
+
+# Tao tham so
+p, q = generate_safe_prime(3072)
+g = 2  # Kiem tra bac = q
+\end{verbatim}
+
+\textbf{Bước 2: Cấu hình server hỗ trợ cả 2 bộ tham số}
+
+Ví dụ với OpenSSL/TLS:
+
+\begin{verbatim}
+# nginx.conf
+ssl_protocols TLSv1.2 TLSv1.3;
+
+# Uu tien ECDH moi, nhung van ho tro DH cu tam thoi
+ssl_ciphers 'ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384';
+ssl_prefer_server_ciphers on;
+
+# File tham so DH moi (neu can)
+ssl_dhparam /etc/ssl/dhparam-3072.pem;
+\end{verbatim}
+
+\textbf{Cấu hình ``graceful transition'':}
+\begin{itemize}
+    \item Priority 1: ECDHE-* (Curve25519) - Ưu tiên cao nhất
+    \item Priority 2: DHE-* (3072-bit safe prime) - Dự phòng
+    \item Priority 3: DH-2047 (tham số cũ) - CHỈ cho kết nối cũ, gắn cờ ``deprecated''
+\end{itemize}
+
+\textbf{Bước 3: Thêm header cảnh báo}
+
+\begin{verbatim}
+# Doi voi cac ket noi dung tham so cu
+if using_weak_dh_2047:
+    response.headers['X-Crypto-Warning'] = 'WEAK_DH_DETECTED'
+    response.headers['X-Upgrade-Required'] = 'true'
+\end{verbatim}
+
+\textbf{Giai đoạn 3: Migration người dùng (1-7 ngày)}
+
+\textbf{Chiến lược 1: ``Soft Push'' - Khuyến khích nâng cấp}
+
+\textbf{Ngày 1-3: Thông báo \& Khuyến khích}
+
+\begin{verbatim}
++------------------------------------------+
+|  THONG BAO BAO MAT QUAN TRONG           |
++------------------------------------------+
+|  Chung toi da phat hien lo hong bao mat |
+|  trong ket noi cua ban.                 |
+|                                          |
+|  Vui long cap nhat ung dung de dam bao  |
+|  an toan du lieu.                        |
+|                                          |
+|  [CAP NHAT NGAY]  [De sau]              |
++------------------------------------------+
+\end{verbatim}
+
+\textbf{Phương thức:}
+\begin{itemize}
+    \item Banner trên web/app
+    \item Email thông báo
+    \item Push notification (mobile)
+    \item SMS cho người dùng quan trọng
+\end{itemize}
+
+\textbf{Chiến lược 2: ``Force Upgrade'' - Buộc nâng cấp dần dần}
+
+\textbf{Ngày 3-5: Áp dụng cho người dùng mới}
+
+\begin{verbatim}
+# Tu choi ket noi dung tham so cu cho tai khoan moi
+if account.created_date > cutoff_date and using_weak_dh:
+    return "451 Unavailable - Upgrade Required"
+\end{verbatim}
+
+\textbf{Ngày 5-7: Áp dụng cho tất cả}
+
+\begin{verbatim}
+# Chi cho phep tham so moi
+allowed_key_exchanges = [
+    "ecdhe-curve25519",
+    "dhe-3072-safe-prime"
+]
+
+if connection.key_exchange not in allowed_key_exchanges:
+    terminate_connection("WEAK_CRYPTO")
+\end{verbatim}
+
+\textbf{Chiến lược 3: Hỗ trợ auto-update}
+
+\textbf{Cho web clients:}
+
+\begin{verbatim}
+// Tu dong redirect sang HTTPS moi
+if (detectWeakDH()) {
+    window.location.href = "https://secure-new.example.com";
+}
+\end{verbatim}
+
+\textbf{Cho mobile apps:}
+\begin{itemize}
+    \item Đẩy update bắt buộc qua App Store/Play Store
+    \item Sử dụng ``force update'' mechanism
+\end{itemize}
+
+\textbf{Cho desktop clients:}
+\begin{itemize}
+    \item Auto-updater kiểm tra phiên bản
+    \item Pop-up yêu cầu restart để áp dụng patch
+\end{itemize}
+
+\textbf{Giai đoạn 4: Hard cut-off (Ngày 7)}
+
+\textbf{Hành động quyết liệt}
+
+Tắt hoàn toàn hỗ trợ tham số cũ:
+
+\begin{verbatim}
+# Xoa cipher yeu
+ssl_ciphers 'ECDHE-RSA-AES256-GCM-SHA384:!DHE-RSA-AES256-GCM-SHA384-LEGACY';
+
+# Hoac voi OpenSSL config
+SSLCipherSuite HIGH:!aNULL:!MD5:!DH-2047
+\end{verbatim}
+
+\textbf{Thông báo cuối cùng cho người dùng chưa nâng cấp:}
+
+\begin{verbatim}
++------------------------------------------+
+|  KHONG THE KET NOI                       |
++------------------------------------------+
+|  Phien ban cua ban khong con duoc ho    |
+|  tro do lo hong bao mat nghiem trong.   |
+|                                          |
+|  Vui long cap nhat de tiep tuc su dung. |
+|                                          |
+|  [TAI BAN CAP NHAT]                      |
++------------------------------------------+
+\end{verbatim}
+
+\textbf{Giai đoạn 5: Xử lý dữ liệu cũ (7-30 ngày)}
+
+\textbf{Vấn đề:} Dữ liệu đã bị lộ trước đây
+
+\textbf{Giải pháp:}
+
+\textbf{1. Re-encryption dữ liệu nhạy cảm}
+
+\begin{verbatim}
+# Ma hoa lai voi khoa moi
+for data in sensitive_data:
+    new_encrypted = encrypt_with_new_params(decrypt_old(data))
+    database.update(data.id, new_encrypted)
+\end{verbatim}
+
+\textbf{2. Revoke \& Rotate credentials}
+
+\begin{verbatim}
+# Buoc doi mat khau
+for user in all_users:
+    user.force_password_reset = True
+    user.invalidate_all_sessions()
+\end{verbatim}
+
+\textbf{3. Thông báo người dùng về rủi ro}
+
+``Chúng tôi đã phát hiện lỗ hổng bảo mật có thể ảnh hưởng đến dữ liệu của bạn từ [ngày X] đến [ngày Y].
+
+Khuyến nghị:
+\begin{itemize}
+    \item Đổi mật khẩu ngay lập tức
+    \item Kiểm tra hoạt động tài khoản bất thường
+    \item Bật xác thực 2 yếu tố (2FA)''
+\end{itemize}
+
+\textbf{Timeline tổng quan}
+
+\begin{verbatim}
+Gio 0:     Phat hien lo hong
+|
++-- 0-2h:   Danh gia pham vi, chuan bi tham so moi
+|
++-- 2-24h:  Trien khai dual-stack (cu + moi song song)
+|           v Uu tien ket noi moi, du phong ket noi cu
+|
++-- Ngay 1-3: Thong bao + khuyen khich nang cap
+|             v Banner, email, push notification
+|
++-- Ngay 3-5: Force upgrade cho nguoi dung moi
+|             v Tu choi ket noi cu voi tai khoan moi
+|
++-- Ngay 5-7: Force upgrade cho tat ca
+|             v Auto-update, bat buoc nang cap
+|
++-- Ngay 7:   HARD CUT-OFF - Tat hoan toan tham so cu
+|             v Tu choi moi ket noi dung DH-2047
+|
++-- Ngay 7-30: Re-encrypt data, rotate keys, thong bao
+\end{verbatim}
+
+\textbf{So sánh các phương án}
+
+\begin{center}
+\begin{tabular}{|p{2.5cm}|p{3.5cm}|p{3.5cm}|p{3.5cm}|}
+\hline
+\textbf{Tiêu chí} & \textbf{Tắt ngay lập tức} & \textbf{Dual-stack (Đề xuất)} & \textbf{Chờ người dùng tự nâng cấp} \\
+\hline
+Bảo mật & Cao & Cao & Thấp \\
+Tính sẵn sàng & Gián đoạn nghiêm trọng & Không gián đoạn & Không gián đoạn \\
+Thời gian & Tức thì & 7 ngày & Vài tháng (không thực tế) \\
+Trải nghiệm người dùng & Rất tệ & Mượt mà & Trung bình \\
+Chi phí & Thấp & Trung bình & Thấp \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{Checklist thực thi}
+
+\textbf{Giai đoạn chuẩn bị (0-2h)}
+\begin{itemize}
+    \item Đánh giá số lượng người dùng bị ảnh hưởng
+    \item Kiểm tra logs tìm dấu hiệu tấn công
+    \item Tạo tham số mới (ECDH Curve25519 hoặc DH 3072-bit safe prime)
+    \item Chuẩn bị thông báo cho người dùng
+\end{itemize}
+
+\textbf{Giai đoạn triển khai (2-24h)}
+\begin{itemize}
+    \item Cấu hình server hỗ trợ dual-stack
+    \item Test kỹ cả 2 đường kết nối
+    \item Deploy lên production
+    \item Monitor logs để đảm bảo không có lỗi
+\end{itemize}
+
+\textbf{Giai đoạn migration (1-7 ngày)}
+\begin{itemize}
+    \item Gửi thông báo qua tất cả kênh
+    \item Đẩy update ứng dụng mobile/desktop
+    \item Áp dụng force upgrade dần dần
+    \item Hỗ trợ người dùng gặp vấn đề
+\end{itemize}
+
+\textbf{Giai đoạn hoàn tất (7-30 ngày)}
+\begin{itemize}
+    \item Hard cut-off tham số cũ
+    \item Re-encrypt dữ liệu nhạy cảm
+    \item Rotate tất cả credentials
+    \item Báo cáo incident, rút kinh nghiệm
+\end{itemize}
+
+\textbf{Khuyến nghị cuối cùng}
+
+\textbf{Nên:}
+\begin{enumerate}
+    \item Chuyển sang ECDH (Curve25519) - hiện đại, an toàn, nhanh
+    \item Áp dụng dual-stack để không gián đoạn dịch vụ
+    \item Thông báo minh bạch với người dùng
+    \item Force upgrade sau thời gian grace period hợp lý (7 ngày)
+    \item Re-encrypt dữ liệu cũ và rotate credentials
+\end{enumerate}
+
+\textbf{Không nên:}
+\begin{enumerate}
+    \item Giữ bí mật lỗ hổng (nên thông báo công khai)
+    \item Tắt dịch vụ ngay mà không có kế hoạch
+    \item Để người dùng tự quyết định (nhiều người sẽ không nâng cấp)
+    \item Tiếp tục dùng DH cổ điển khi có ECDH
+\end{enumerate}
+
+\vspace{0.2cm}
+
+\textbf{Kết luận}
+
+Lỗ hổng này là thảm họa bảo mật nghiêm trọng nhưng có thể xử lý mà không gián đoạn dịch vụ. Chiến lược dual-stack kết hợp với migration có kế hoạch trong 7 ngày là cách tiếp cận cân bằng giữa bảo mật và trải nghiệm người dùng. Quan trọng nhất là hành động ngay lập tức và chuyển sang ECDH để tránh vấn đề tương tự trong tương lai.
+
+\subsubsection{(b) (5 điểm) So Sánh Elliptic Curve và Finite Field}
+
+Bạn đang thiết kế một giao thức mật mã cho thiết bị IoT có hạn chế nặng về tính toán và băng thông.
+
+\textbf{i.} So sánh logarit rời rạc trên đường cong elliptic (ECDLP) và logarit rời rạc trên trường hữu hạn (FF-DLP):
+\begin{itemize}
+    \item Cái nào cho mức bảo mật cao hơn với cùng kích thước khóa,
+    \item Và cái nào cho hiệu năng tính toán tốt hơn cho bài toán của bạn?
+\end{itemize}
+
+\textbf{ii.} Phân tích vì sao tấn công ``index calculus'' có thể áp dụng cho trường hữu hạn nhưng không thể áp dụng cho elliptic curve.
+Điểm khác biệt căn bản này ảnh hưởng như thế nào đến biên độ an toàn của bạn?
+
+\begin{center}
+    \textbf{Trả lời:}
+\end{center}
+
+\textbf{i. So sánh ECDLP vs FF-DLP cho thiết bị IoT}
+
+\textbf{Bối cảnh: Yêu cầu thiết bị IoT}
+
+\textbf{Hạn chế của thiết bị IoT:}
+\begin{itemize}
+    \item Bộ nhớ hạn chế (KB - vài MB)
+    \item CPU yếu (MHz thay vì GHz)
+    \item Băng thông thấp (LoRa, NB-IoT)
+    \item Pin hạn chế
+\end{itemize}
+
+\textbf{Yêu cầu mật mã:}
+\begin{itemize}
+    \item Khóa nhỏ (tiết kiệm bộ nhớ, băng thông)
+    \item Tính toán nhanh (tiết kiệm pin)
+    \item Vẫn đảm bảo an toàn
+\end{itemize}
+
+\textbf{A. So sánh mức bảo mật với cùng kích thước khóa}
+
+\textbf{1. Độ an toàn tương đương}
+
+\textbf{Bảng so sánh độ an toàn:}
+
+\begin{center}
+\begin{tabular}{|p{3.5cm}|p{2.5cm}|p{2.5cm}|p{3cm}|}
+\hline
+\textbf{Kích thước khóa} & \textbf{ECC (ECDLP)} & \textbf{FF-DLP} & \textbf{Mức độ an toàn} \\
+\hline
+160-bit ECC $\approx$ 1024-bit FF & 160-bit & 1024-bit & $\sim$80-bit security \\
+256-bit ECC $\approx$ 3072-bit FF & 256-bit & 3072-bit & $\sim$128-bit security \\
+384-bit ECC $\approx$ 7680-bit FF & 384-bit & 7680-bit & $\sim$192-bit security \\
+521-bit ECC $\approx$ 15360-bit FF & 521-bit & 15360-bit & $\sim$256-bit security \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{2. Tại sao ECC hiệu quả hơn?}
+
+\textbf{Nguyên nhân toán học:}
+
+\textbf{FF-DLP (Finite Field):}
+\begin{itemize}
+    \item Bị tấn công bởi Index Calculus và các biến thể
+    \item Độ phức tạp: $O(e^{((c \cdot \log n)^{1/3} \cdot (\log \log n)^{2/3})})$
+    \item Còn gọi là sub-exponential
+\end{itemize}
+
+\textbf{ECDLP (Elliptic Curve):}
+\begin{itemize}
+    \item \textbf{Không} bị tấn công bởi Index Calculus
+    \item Độ phức tạp: $O(\sqrt{n})$ với thuật toán tốt nhất (Pollard's rho)
+    \item Là exponential thuần túy
+\end{itemize}
+
+\textbf{Kết luận về bảo mật:}
+
+Với cùng kích thước khóa $\rightarrow$ \textbf{ECDLP an toàn hơn nhiều}
+
+\textbf{Ví dụ cụ thể:}
+
+\textbf{Khóa 256-bit:}
+
+\textbf{FF-DLP (256-bit):}
+\begin{itemize}
+    \item Bị phá trong vài giây bằng Index Calculus
+    \item \textbf{Không an toàn}
+\end{itemize}
+
+\textbf{ECDLP (256-bit):}
+\begin{itemize}
+    \item Cần $2^{128}$ phép toán để phá
+    \item \textbf{An toàn} (tương đương AES-128)
+\end{itemize}
+
+\textbf{B. So sánh hiệu năng tính toán}
+
+\textbf{1. Kích thước dữ liệu truyền tải}
+
+So sánh cho mức bảo mật 128-bit:
+
+\begin{center}
+\begin{tabular}{|p{3.5cm}|p{3cm}|p{3cm}|p{3cm}|}
+\hline
+\textbf{Thông số} & \textbf{ECC (256-bit)} & \textbf{FF-DLP (3072-bit)} & \textbf{Lợi thế ECC} \\
+\hline
+Khóa công khai & 32 bytes & 384 bytes & 12$\times$ nhỏ hơn \\
+Khóa riêng & 32 bytes & 384 bytes & 12$\times$ nhỏ hơn \\
+Chữ ký & 64 bytes & 768 bytes & 12$\times$ nhỏ hơn \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{Tác động lên IoT:}
+\begin{itemize}
+    \item Tiết kiệm băng thông (quan trọng với LoRa $\sim$20KB/ngày)
+    \item Tiết kiệm bộ nhớ flash
+    \item Ít lần truyền $\rightarrow$ tiết kiệm pin
+\end{itemize}
+
+\textbf{2. Tốc độ tính toán}
+
+Benchmark trên thiết bị IoT thông thường (ARM Cortex-M4, 168MHz):
+
+\begin{center}
+\begin{tabular}{|p{3.5cm}|p{3cm}|p{3cm}|p{3cm}|}
+\hline
+\textbf{Thao tác} & \textbf{ECC (Curve25519)} & \textbf{FF-DLP (3072-bit)} & \textbf{Lợi thế ECC} \\
+\hline
+Key Generation & $\sim$20ms & $\sim$800ms & 40$\times$ nhanh hơn \\
+ECDH/DH & $\sim$40ms & $\sim$1600ms & 40$\times$ nhanh hơn \\
+Ký (Sign) & $\sim$25ms & $\sim$1000ms & 40$\times$ nhanh hơn \\
+Xác minh (Verify) & $\sim$50ms & $\sim$100ms & 2$\times$ nhanh hơn \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{Tác động lên IoT:}
+\begin{itemize}
+    \item Phản hồi nhanh hơn
+    \item Tiêu thụ năng lượng thấp hơn
+    \item Có thể xử lý nhiều kết nối hơn
+\end{itemize}
+
+\textbf{3. Tiêu thụ năng lượng}
+
+Ước tính năng lượng (trên chip STM32L4):
+
+\textbf{ECC (Curve25519):}
+\begin{itemize}
+    \item Một lần ECDH: $\sim$40ms $\times$ 40mA = 1.6 mJ
+\end{itemize}
+
+\textbf{FF-DLP (3072-bit):}
+\begin{itemize}
+    \item Một lần DH: $\sim$1600ms $\times$ 40mA = 64 mJ
+\end{itemize}
+
+$\rightarrow$ ECC tiết kiệm 40$\times$ năng lượng
+
+\textbf{Ý nghĩa thực tế:}
+
+Pin CR2032 (220 mAh):
+\begin{itemize}
+    \item ECC: $\sim$500,000 lần ECDH
+    \item FF-DLP: $\sim$12,500 lần DH
+\end{itemize}
+
+Thời gian hoạt động: 40$\times$ lâu hơn với ECC
+
+\textbf{4. Bộ nhớ cần thiết}
+
+\begin{center}
+\begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|p{3cm}|}
+\hline
+\textbf{Thành phần} & \textbf{ECC} & \textbf{FF-DLP} & \textbf{Ghi chú} \\
+\hline
+Code size & $\sim$20KB & $\sim$50KB & Thư viện \\
+RAM (runtime) & $\sim$2KB & $\sim$8KB & Tính toán tạm \\
+Lưu khóa & 32 bytes & 384 bytes & Mỗi khóa \\
+\hline
+\end{tabular}
+\end{center}
+
+Tác động: Thiết bị IoT có thể lưu nhiều khóa/chứng chỉ hơn với ECC
+
+\textbf{Kết luận so sánh cho IoT}
+
+\textbf{ECDLP (Elliptic Curve) thắng tuyệt đối}
+
+\begin{center}
+\begin{tabular}{|p{4cm}|p{3cm}|p{3cm}|p{2.5cm}|}
+\hline
+\textbf{Tiêu chí} & \textbf{ECDLP} & \textbf{FF-DLP} & \textbf{Người thắng} \\
+\hline
+Bảo mật (cùng kích thước) & Cao hơn nhiều & Thấp hơn & ECDLP \\
+Kích thước khóa & 12$\times$ nhỏ hơn & Lớn & ECDLP \\
+Tốc độ & 40$\times$ nhanh hơn & Chậm & ECDLP \\
+Năng lượng & 40$\times$ ít hơn & Nhiều & ECDLP \\
+Bộ nhớ & Ít hơn & Nhiều hơn & ECDLP \\
+\hline
+\end{tabular}
+\end{center}
+
+Khuyến nghị: Dùng ECDH với Curve25519 cho thiết bị IoT.
+
+\vspace{0.2cm}
+
+
+\textbf{ii. Phân tích tấn công Index Calculus}
+
+\textbf{A. Tại sao Index Calculus hoạt động với FF-DLP}
+
+\textbf{1. Cấu trúc toán học của Finite Field}
+
+Nhóm $\mathbb{Z}_p^*$ (nhóm nhân modulo $p$):
+\begin{itemize}
+    \item Các phần tử: $\{1, 2, 3, \ldots, p-1\}$
+    \item Có thể phân tích thành thừa số các số nguyên
+\end{itemize}
+
+\textbf{2. Ý tưởng Index Calculus}
+
+\textbf{Bước 1: Chọn Factor Base}
+
+$B = \{p_1, p_2, \ldots, p_k\}$ (các số nguyên tố nhỏ)
+
+Ví dụ: $B = \{2, 3, 5, 7, 11\}$
+
+\textbf{Bước 2: Thu thập quan hệ}
+
+Tìm các số ngẫu nhiên $r$ sao cho $g^r \pmod{p}$ ``mượt'' (smooth):
+
+$g^r \equiv 2^{a_1} \times 3^{a_2} \times 5^{a_3} \times 7^{a_4} \times 11^{a_5} \pmod{p}$
+
+Lấy logarithm:
+
+$r \equiv a_1 \cdot \log(2) + a_2 \cdot \log(3) + a_3 \cdot \log(5) + \ldots \pmod{p-1}$
+
+\textbf{Bước 3: Giải hệ phương trình tuyến tính}
+
+Sau khi thu thập đủ quan hệ $\rightarrow$ Giải hệ phương trình tìm $\log(p_i)$
+
+\textbf{Bước 4: Tính DLP cho số bất kỳ}
+
+Biết $\log(p_i)$, có thể tính $\log$ của bất kỳ số nào phân tích được:
+
+$h \equiv 2^{b_1} \times 3^{b_2} \times \ldots \pmod{p}$
+
+$\log(h) = b_1 \cdot \log(2) + b_2 \cdot \log(3) + \ldots$
+
+\textbf{Tại sao hiệu quả?}
+\begin{itemize}
+    \item Các số ``mượt'' (chỉ có ước nhỏ) xuất hiện thường xuyên
+    \item Hệ phương trình tuyến tính giải được trong polynomial time
+\end{itemize}
+
+\textbf{Độ phức tạp:}
+
+$O(e^{((c \cdot \log p)^{1/3} \cdot (\log \log p)^{2/3})})$
+
+Đây là sub-exponential $\rightarrow$ Hiệu quả hơn nhiều so với brute-force $O(\sqrt{p})$
+
+\textbf{B. Tại sao Index Calculus không hoạt động với ECDLP}
+
+\textbf{1. Cấu trúc toán học của Elliptic Curve}
+
+Nhóm điểm trên đường cong:
+\begin{itemize}
+    \item Các phần tử: Điểm $(x, y)$ thỏa mãn $y^2 = x^3 + ax + b$
+    \item Phép toán: Cộng điểm (không phải nhân số)
+\end{itemize}
+
+\textbf{2. Vấn đề then chốt: Không có ``phân tích thừa số''}
+
+\textbf{Khác biệt căn bản:}
+
+\begin{center}
+\begin{tabular}{|p{4cm}|p{4cm}|p{4cm}|}
+\hline
+\textbf{Khía cạnh} & \textbf{Finite Field} & \textbf{Elliptic Curve} \\
+\hline
+Các phần tử & Số nguyên & Điểm $(x,y)$ \\
+Có thể phân tích? & Có: $30 = 2 \times 3 \times 5$ & Không thể ``phân tích'' điểm \\
+Khái niệm ``mượt'' & Có khái niệm số ``mượt'' & Không có khái niệm điểm ``mượt'' \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{Ví dụ minh họa:}
+
+\textbf{Finite Field:}
+
+$g^5 \pmod{p} = 96 = 2^5 \times 3$ - Có thể phân tích!
+
+\textbf{Elliptic Curve:}
+
+$5 \cdot G = (x, y) = (12345, 67890)$ - Không thể ``phân tích''!
+
+\textbf{3. Tại sao không thể xây dựng Factor Base?}
+
+Giả sử thử tạo ``factor base'' cho EC:
+
+$B = \{P_1, P_2, \ldots, P_k\}$ (một tập điểm ``đặc biệt'')
+
+\textbf{Vấn đề:}
+\begin{itemize}
+    \item Không có cách tự nhiên để viết một điểm bất kỳ $Q$ dưới dạng:
+    \[
+    Q = a_1 \cdot P_1 + a_2 \cdot P_2 + \ldots + a_k \cdot P_k
+    \]
+    với xác suất cao
+    \item Ngay cả khi viết được, không có cách tính các hệ số $a_i$ hiệu quả
+\end{itemize}
+
+\textbf{Kết luận:}
+\begin{itemize}
+    \item Không có ``smooth points'' (điểm mượt)
+    \item Không thu thập được quan hệ tuyến tính
+    \item Index Calculus thất bại hoàn toàn
+\end{itemize}
+
+\textbf{C. Điểm khác biệt căn bản}
+
+\textbf{Bảng so sánh chi tiết:}
+
+\begin{center}
+\begin{tabular}{|p{3.5cm}|p{4cm}|p{4cm}|}
+\hline
+\textbf{Khía cạnh} & \textbf{FF-DLP ($\mathbb{Z}_p^*$)} & \textbf{ECDLP ($E(\mathbb{F}_p)$)} \\
+\hline
+Cấu trúc & Nhóm nhân số nguyên & Nhóm cộng điểm \\
+Phân tích được? & Có (thừa số nguyên tố) & Không \\
+Smooth elements & Tồn tại nhiều & Không tồn tại \\
+Factor base & Xây dựng được & Không xây dựng được \\
+Index Calculus & Hiệu quả & Không áp dụng được \\
+Thuật toán tốt nhất & Sub-exponential & Exponential ($\sqrt{n}$) \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{D. Ảnh hưởng đến biên độ an toàn}
+
+\textbf{1. Biên độ an toàn (Security Margin)}
+
+\textbf{Định nghĩa:}
+
+Biên độ an toàn = Khoảng cách giữa ``tấn công tốt nhất'' và ``chi phí brute-force''
+
+\textbf{2. So sánh biên độ an toàn}
+
+\textbf{FF-DLP:}
+\begin{itemize}
+    \item Brute-force: $O(\sqrt{p}) \approx O(2^{n/2})$ ($n$ = bits)
+    \item Index Calculus: $O(e^{c \cdot n^{1/3}})$
+\end{itemize}
+
+Ví dụ với $p = 3072$-bit:
+\begin{itemize}
+    \item Brute-force: $2^{1536}$ phép toán
+    \item Index Calculus: $2^{128}$ phép toán (ước tính)
+\end{itemize}
+
+$\rightarrow$ Biên độ an toàn: \textbf{Rất nhỏ} (chỉ $\sim$10$\times$)
+
+\textbf{ECDLP:}
+\begin{itemize}
+    \item Brute-force: $O(2^{n/2})$
+    \item Tốt nhất (Pollard): $O(2^{n/2})$
+\end{itemize}
+
+Ví dụ với curve 256-bit:
+\begin{itemize}
+    \item Brute-force: $2^{128}$ phép toán
+    \item Pollard rho: $2^{128}$ phép toán
+\end{itemize}
+
+$\rightarrow$ Biên độ an toàn: \textbf{Rất lớn} (không có tấn công tốt hơn)
+
+\textbf{3. Ảnh hưởng thực tế}
+
+\textbf{Cho FF-DLP:}
+\begin{itemize}
+    \item Phải dùng khóa rất lớn để đảm bảo an toàn
+    \item Mỗi tiến bộ trong Index Calculus $\rightarrow$ Phải tăng kích thước khóa
+    \item Không có ``đệm an toàn'' (safety cushion)
+\end{itemize}
+
+\textbf{Cho ECDLP:}
+\begin{itemize}
+    \item Khóa nhỏ hơn nhiều vẫn an toàn
+    \item Không lo ngại tiến bộ trong tấn công (đã tối ưu)
+    \item Có ``đệm an toàn'' lớn
+\end{itemize}
+
+\textbf{4. Ví dụ cụ thể: Tấn công thực tế}
+
+\textbf{DLP Record (2020):}
+\begin{itemize}
+    \item Phá được: 795-bit finite field DLP
+    \item Thời gian: $\sim$4000 core-years
+    \item Phương pháp: Biến thể Index Calculus
+\end{itemize}
+
+\textbf{ECDLP Record (2020):}
+\begin{itemize}
+    \item Phá được: 114-bit curve (Certicom Challenge)
+    \item Thời gian: $\sim$2600 core-years
+    \item Phương pháp: Pollard's rho (không có cách nào tốt hơn!)
+\end{itemize}
+
+\textbf{Kết luận:}
+\begin{itemize}
+    \item FF-DLP: Cần ít nhất 3072-bit để an toàn
+    \item ECDLP: Chỉ cần 256-bit để an toàn hơn
+\end{itemize}
+
+\textbf{Kết luận phần II}
+
+\textbf{Điểm khác biệt căn bản:}
+\begin{itemize}
+    \item FF-DLP: Dựa trên cấu trúc nhân của số nguyên $\rightarrow$ Dễ bị Index Calculus
+    \item ECDLP: Dựa trên cấu trúc cộng của điểm $\rightarrow$ Miễn nhiễm Index Calculus
+\end{itemize}
+
+\textbf{Ảnh hưởng đến thiết kế hệ thống:}
+
+\begin{center}
+\begin{tabular}{|p{3.5cm}|p{4cm}|p{4cm}|}
+\hline
+\textbf{Yếu tố} & \textbf{Sử dụng FF-DLP} & \textbf{Sử dụng ECDLP} \\
+\hline
+Kích thước khóa & Phải rất lớn (3072-bit+) & Nhỏ (256-bit) \\
+An toàn dài hạn & Không chắc chắn & Chắc chắn hơn \\
+Dự phòng tương lai & Phải tăng khóa thường xuyên & Ổn định \\
+Chi phí nâng cấp & Cao & Thấp \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{Khuyến nghị cho IoT:}
+
+Dùng ECDH (Curve25519) vì:
+\begin{itemize}
+    \item Biên độ an toàn lớn nhất
+    \item Không lo ngại tấn công đột phá
+    \item Hiệu quả nhất cho thiết bị hạn chế
+\end{itemize}

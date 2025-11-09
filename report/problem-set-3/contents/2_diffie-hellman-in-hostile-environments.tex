@@ -1,0 +1,153 @@
+\section{Diffie–Hellman Trong Môi Trường Thù Địch}
+
+\subsection{Câu 1. (10 điểm) Các Kịch Bản Tấn Công và Phòng Thủ}
+
+\subsubsection{(a) (5 điểm) Kẻ Tấn Công Trung Gian Hoàn Hảo (Perfect Man-in-the-Middle)}
+
+Giả sử một kẻ tấn công có toàn quyền kiểm soát mạng giữa Alice và Bob. Hắn có thể:
+\begin{itemize}
+    \item Chặn và sửa đổi mọi thông điệp,
+    \item Có thể tạo kết nối giả trông như đến từ bất kỳ bên nào (Alice hoặc Bob).
+\end{itemize}
+
+\textbf{i.} \textit{Thiết kế cuộc tấn công trung gian hiệu quả nhất chống lại giao thức Diffie–Hellman không xác thực. Cuộc tấn công của bạn phải không thể bị phát hiện bởi Alice hoặc Bob trong quá trình trao đổi khóa.}
+
+\begin{itemize}
+    \item Mallory (kẻ tấn công) đứng giữa Alice và Bob, tiến hành hai phiên giao thức Diffie-Hellman riêng biệt với mỗi bên.
+    \item Khi Alice gửi giá trị công khai $A = g^a$ tới Bob, Mallory chặn lại.
+    \item Mallory sinh một khoá bí mật $m$ và tính $M = g^m$, gửi $M$ cho Bob (giả vờ là A).
+    \item Khi Bob gửi giá trị công khai $B = g^b$ tới Alice, Mallory cũng chặn lại.
+    \item Mallory gửi $M$ của mình cho Alice (giả vờ là B).
+    \item Kết quả: 
+    \begin{itemize}
+        \item Alice tính được khoá chung $S_{AM} = M^a = g^{am}$ (với Mallory).
+        \item Bob tính được khoá chung $S_{BM} = M^b = g^{bm}$ (với Mallory).
+        \item Mallory có thể tính được cả hai khoá: $A^m = g^{am}$ (với Alice) và $B^m = g^{bm}$ (với Bob).
+    \end{itemize}
+    \item Alice và Bob đều nghĩ rằng họ có liên kết an toàn với nhau, nhưng thực tế chỉ ''an toàn'' với Mallory. Mallory có thể đọc và chỉnh sửa toàn bộ thông tin trao đổi.
+\end{itemize}
+
+\textbf{ii.} \textit{Thiết kế một giao thức xác thực dựa trên ``dấu vân tay khóa công khai''.}
+
+\begin{itemize}
+    \item Alice và Bob tiến hành trao đổi khóa Diffie–Hellman như bình thường.
+    \item Trước khi dùng khoá chung (sau khi nhận giá trị công khai), mỗi người tính fingerprint của khoá công khai phía kia và so sánh với bản copy mà họ đã ghi lại trên giấy từ trước đó (out-of-band).
+    \item Nếu fingerprint hợp lệ (trùng khớp), họ biết chắc giá trị công khai nhận được thật sự là của đối tác.
+    \item Nếu fingerprint không trùng, phát hiện có MITM (Mallory) và dừng giao tiếp.
+    \item Tính chất của giải pháp: Không phụ thuộc vào bên thứ ba, việc xác thực phải thực hiện ngoài băng tần (so sánh giấy và trên màn hình).
+\end{itemize}
+
+\textbf{iii.} \textit{So sánh giải pháp fingerprint với Certificate Authority (CA) và Web-of-Trust. Phân tích sự đánh đổi giữa khả năng sử dụng và bảo mật.}
+
+\begin{center}
+    \begin{tabular}{|p{0.28\textwidth}|p{0.28\textwidth}|p{0.28\textwidth}|}
+    \hline
+    \textbf{Tiêu chí} & \textbf{Fingerprint (Vân tay ngang hàng)} & \textbf{CA / Web-of-Trust} \\
+    \hline
+    Bảo mật & Không phụ thuộc vào bên thứ ba, an toàn nếu người dùng thực sự kiểm tra fingerprint. Tin tưởng trực tiếp giữa hai bên. & Dựa vào một bên thứ ba (CA) hoặc mạng tin cậy; nếu CA hoặc chuỗi tin bị xâm phạm, có thể mất an toàn toàn mạng. \\
+    \hline
+    Khả năng sử dụng & Phức tạp: Người dùng phải thực hiện thao tác thủ công (so sánh, đối chiếu vân tay), không phù hợp cho quy mô lớn hoặc nhiều quan hệ kết nối. & Rất tiện dụng: Tự động hóa hoàn toàn (CA), người dùng cuối thường không phải làm gì, dễ dàng mở rộng và quản lý số lượng lớn đối tượng. \\
+    \hline
+    Đánh đổi & Độ tin tưởng rất cao, không phụ thuộc bên ngoài, nhưng khó mở rộng và bất tiện. & Đơn giản, mở rộng tốt, nhưng phải tin cậy bên ngoài (có nguy cơ bị tấn công/phá vỡ nếu CA/WOTrust bị compromise). \\
+    \hline
+    \end{tabular}
+\end{center}
+
+\vspace{0.2cm}
+Tóm lại: Fingerprint cho bảo mật tối đa với quan hệ tin tưởng trực tiếp (như trong các ứng dụng chat bảo mật: Signal, Wire...), còn CA/Web-of-Trust thích hợp hơn với quy mô lớn và cần sự tiện dụng, tự động.
+
+
+\subsubsection{(b) (5 điểm) Kịch Bản "Người Tố Giác Hoang Mang" (Paranoid Whistleblower)}
+
+Một người tố giác cần liên lạc an toàn với một nhà báo.
+Họ giả định rằng:
+\begin{itemize}
+    \item Chính phủ giám sát toàn bộ lưu lượng Internet,
+    \item Hầu hết các Certificate Authority (CA) đã bị xâm nhập,
+    \item Và kẻ tấn công có thể thực hiện Man-in-the-Middle trên mọi kết nối.
+\end{itemize}
+
+\textbf{i.} Hãy thiết kế một giao thức trao đổi khóa phù hợp với tình huống này,
+chỉ sử dụng những phương tiện mà người dân bình thường có thể tiếp cận (không dùng phần cứng chuyên dụng hay bí mật chia sẻ sẵn).
+
+\textbf{ii.} Phân tích điều gì sẽ xảy ra nếu chính phủ có thể xâm nhập một trong hai thiết bị sau khi quá trình trao đổi khóa đã hoàn tất.
+Làm thế nào để đảm bảo tính ``forward secrecy'' (bí mật chuyển tiếp) trong trường hợp này?
+
+\subsection{Câu 2. (10 điểm) Thử Thách Thiết Kế Giao Thức}
+
+Phân tích cơ chế Trust-on-First-Use (TOFU) trong SSH
+Tổ chức của bạn muốn triển khai SSH trên hơn 10.000 máy chủ,
+nhưng mô hình TOFU hiện tại (Trust-On-First-Use) gây ra vấn đề về bảo mật và khả năng sử dụng khi triển khai ở quy mô lớn.
+
+\subsubsection{(a) (5 điểm)}
+
+Phân tích những kịch bản tấn công cụ thể trong đó mô hình TOFU thất bại trên thực tế.
+Người dùng dễ bị tấn công nhất trong những tình huống nào?
+
+\subsubsection{(b) (5 điểm)}
+
+Hãy thiết kế một mô hình xác thực cải tiến cho SSH,
+vừa giữ được sự đơn giản của TOFU,
+nhưng lại cung cấp mức bảo mật cao hơn so với TOFU thuần túy.
+
+\begin{center}
+    \textbf{Trả lời:}
+\end{center}
+
+\textbf{(a) Kịch bản tấn công mô hình TOFU}
+
+Mô hình Tin tưởng trong lần sử dụng đầu tiên (TOFU) thất bại trong một kịch bản tấn công Man-in-the-Middle (MITM) xảy ra ngay trong lần kết nối đầu tiên.
+
+\textbf{Kịch bản tấn công cụ thể diễn ra như sau:}
+
+Người dùng dễ bị tấn công nhất chính là vào thời điểm họ kết nối với một máy chủ SSH lần đầu tiên, vì đây là lúc khóa máy chủ (host key) chưa được lưu trữ.
+
+\begin{enumerate}
+    \item Kẻ tấn công (Mallory) đã kiểm soát mạng và đứng giữa người dùng (Alice) và máy chủ (Bob).
+    
+    \item Khi Alice thực hiện kết nối SSH đầu tiên, Mallory chặn yêu cầu này.
+    
+    \item Mallory mạo danh máy chủ Bob, gửi ``khóa máy chủ'' (public key) giả mạo của chính hắn cho Alice.
+    
+    \item Vì đây là lần kết nối đầu tiên, máy khách SSH của Alice sẽ hiển thị thông báo TOFU, hỏi rằng cô có tin tưởng vân tay khóa của Mallory hay không.
+    
+    \item Alice (người dùng) chấp nhận vân tay khóa này, tin rằng đó là của máy chủ Bob. Khóa giả mạo của Mallory được lưu vào tệp \texttt{known\_hosts} của Alice.
+    
+    \item Từ thời điểm này, Mallory thực hiện một kết nối MITM hoàn chỉnh, thiết lập một phiên riêng với Alice (dùng khóa giả mạo) và một phiên riêng với máy chủ Bob (dùng khóa thật của Bob).
+\end{enumerate}
+
+\textbf{Hậu quả:} Kẻ tấn công có thể giải mã, đọc và sửa đổi toàn bộ lưu lượng SSH của Alice mà không bị phát hiện. Mọi kết nối sau này của Alice đến máy chủ Bob sẽ tự động tin tưởng khóa của Mallory (vì nó đã được lưu), khiến cuộc tấn công trở nên vô hình.
+
+\begin{center}
+    \textbf{Trả lời:}
+\end{center}
+
+\textbf{(b) Thiết kế mô hình xác thực cải tiến (Mô hình CA nội bộ)}
+
+Để giải quyết vấn đề của TOFU ở quy mô lớn (10.000 máy chủ), chúng ta có thể thiết kế một mô hình xác thực dựa trên Chứng chỉ số (Certificates), tương tự như cách TLS/HTTPS hoạt động, nhưng được áp dụng cho SSH.
+
+\textbf{Thiết kế mô hình ``SSH Certificate Authority (CA) nội bộ'':}
+
+\begin{enumerate}
+    \item \textbf{Tạo CA nội bộ:} Tổ chức sẽ tạo ra một cặp khóa Public/Private cho riêng mình, đóng vai trò là một ``Nhà cung cấp chứng chỉ'' (CA) nội bộ, đáng tin cậy.
+    
+    \item \textbf{Ký chứng chỉ cho máy chủ:} Thay vì để người dùng tin tưởng 10.000 khóa máy chủ riêng lẻ, CA nội bộ sẽ dùng khóa riêng (private key) của mình để ``ký'' và cấp phát chứng chỉ cho 10.000 khóa công khai (public host key) của các máy chủ.
+    
+    \item \textbf{Phân phối khóa CA:} Khóa công khai (public key) của CA nội bộ được cài đặt sẵn vào tệp \texttt{known\_hosts} trên máy của tất cả người dùng (máy khách) và được đánh dấu là một ``authority'' (nhà chức trách).
+\end{enumerate}
+
+\textbf{Quy trình kết nối:}
+
+\begin{enumerate}
+    \item Khi người dùng kết nối đến một máy chủ (ví dụ \texttt{server-9876.example.com}) lần đầu tiên, máy chủ đó không chỉ gửi khóa công khai của nó, mà nó gửi chứng chỉ đã được ký bởi CA nội bộ.
+    
+    \item Máy khách SSH của người dùng tự động kiểm tra chữ ký trên chứng chỉ này.
+    
+    \item Nếu chữ ký hợp lệ (tức là nó được ký bởi CA nội bộ đã được tin cậy), máy khách sẽ tự động tin tưởng máy chủ và tiến hành kết nối.
+\end{enumerate}
+
+\textbf{So sánh và đánh đổi:}
+
+\textbf{1. Tính đơn giản (Khả năng sử dụng):} Đối với người dùng cuối, mô hình này đơn giản hơn TOFU. Họ sẽ không bao giờ nhìn thấy thông báo ``Are you sure you want to continue connecting?'' đáng sợ nữa. Việc xác thực là tự động và minh bạch, giống như truy cập một trang web HTTPS nội bộ.
+
+\textbf{2. Bảo mật:} Mô hình này an toàn hơn nhiều so với TOFU thuần túy. Lòng tin không được thiết lập ``trong'' lần kết nối đầu tiên, mà được thiết lập trước đó (khi cài đặt khóa CA). Điều này vô hiệu hóa hoàn toàn kịch bản tấn công MITM trong lần kết nối đầu tiên.
