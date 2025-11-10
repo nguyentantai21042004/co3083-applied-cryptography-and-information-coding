@@ -1,0 +1,50 @@
+\section{Chứng minh phi tương tác và phép biến đổi Fiat–Shamir}
+
+(Non-Interactive Proofs and Fiat-Shamir)
+
+\subsection{(1) [20 điểm] Phép biến đổi Fiat–Shamir (Fiat–Shamir Transform)}
+
+\subsubsection{(a) [10 điểm] Từ tương tác sang phi tương tác (From Interactive to Non-Interactive)}
+
+Bạn đang chuyển đổi giao thức nhận dạng Schnorr thành một sơ đồ chữ ký số bằng phép biến đổi Fiat–Shamir.
+
+\textbf{i. Trình bày toàn bộ thuật toán ký cho thông điệp:}
+
+``Transfer \$1000 to Bob''
+
+Bao gồm cách tính thách thức $c = H(A, Y, m)$.
+
+\textbf{ii. Giải thích vì sao việc đưa thông điệp $m$ vào trong hàm băm là cực kỳ quan trọng.}
+
+Nếu thay vào đó sử dụng $c = H(A, Y)$, thì loại tấn công nào sẽ trở nên khả thi?
+
+\vspace{0.5cm}
+
+\subsubsection{(b) [10 điểm] Bảo mật trong mô hình Random Oracle}
+
+Phép biến đổi Fiat–Shamir giả định rằng hàm băm hoạt động như một Random Oracle.
+
+\textbf{i. Giải thích những thuộc tính của Random Oracle mà một hàm băm thực tế (như SHA-256) có thể không đạt được hoàn hảo.}
+
+\textbf{ii. Mô tả ở mức cao Bổ đề Forking (Forking Lemma).}
+
+Giải thích cách bổ đề này cho phép rút trích nhân chứng (witness) từ một kẻ tấn công có khả năng giả mạo chứng minh Fiat–Shamir.
+
+\vspace{0.5cm}
+
+\subsection{(2) [15 điểm] Mạch và Zero-Knowledge tổng quát (Circuits and General-Purpose ZK)}
+
+Bạn muốn chứng minh rằng mình biết một giá trị $x$ sao cho
+$\text{SHA-256}(x) = y$
+với một $y$ đã cho.
+
+\subsubsection{(a) [7.5 điểm] Giải thích vì sao việc tạo một giao thức Sigma riêng cho phát biểu này là rất khó khăn.}
+
+Làm thế nào việc biểu diễn SHA-256 dưới dạng mạch (circuit) lại khiến chứng minh này trở nên khả thi?
+
+\subsubsection{(b) [7.5 điểm] Ứng dụng của bạn cần chứng minh mệnh đề:}
+
+``Tôi biết $x$ sao cho $x^3 + x + 5 = 35$ trong $\mathbb{Z}_{101}$''
+
+Bạn sẽ chọn giao thức tùy chỉnh hay dạng mạch tổng quát?
+Hãy giải thích lựa chọn của bạn.

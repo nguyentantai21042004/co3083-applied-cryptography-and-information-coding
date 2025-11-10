@@ -1,0 +1,34 @@
+\section{Ứng dụng thực tế (Real-World Applications)}
+
+\subsection{(1) [10 điểm] Các hệ thống bảo vệ quyền riêng tư (Privacy-Preserving Systems)}
+
+Zcash và quyền riêng tư tài chính:
+Zcash sử dụng zk-SNARKs để cho phép giao dịch riêng tư trên chuỗi khối công khai.
+
+\subsubsection{(a) [5 điểm] Giải thích một giao dịch ``shielded'' trong Zcash chứng minh điều gì mà không tiết lộ điều gì.}
+
+Hãy nêu rõ những dữ liệu nào được giữ bí mật, và những dữ liệu nào được công khai.
+
+\subsubsection{(b) [5 điểm] Zcash đã tiến hóa từ Sprout $\rightarrow$ Sapling $\rightarrow$ Halo 2 (không cần thiết lập tin cậy).}
+
+Giải thích vì sao việc loại bỏ ``trusted setup'' lại có ý nghĩa lớn đối với khả năng được chấp nhận của hệ thống.
+
+\vspace{0.5cm}
+
+\subsection{Bonus Question (10 điểm cộng)}
+
+Bạn đang thiết kế một ví đa chữ ký (multi-signature wallet), trong đó bất kỳ 2 trong 3 bên đều có thể ủy quyền giao dịch.
+
+\textbf{(a) Giải thích cách bạn có thể sử dụng chứng minh OR để tạo sơ đồ chữ ký ngưỡng (threshold signature).}
+
+Cụ thể, làm thế nào một tập con các bên ký có thể chứng minh họ cùng ký mà không tiết lộ bên nào thực sự đã ký?
+
+\textbf{(b) Giả sử ba bên có khóa công khai}
+
+$A_1 = g^{a_1}$,\quad $A_2 = g^{a_2}$,\quad $A_3 = g^{a_3}$
+
+Nếu bên 1 và 3 muốn cùng ký, hãy phác thảo giao thức Sigma mà họ sẽ sử dụng.
+
+\textbf{(c) Thảo luận sự khác biệt giữa cách tiếp cận Zero-Knowledge này và các sơ đồ multi-signature truyền thống.}
+
+Ưu điểm về quyền riêng tư mà bản ZK cung cấp là gì, và chi phí tính toán tăng thêm ra sao?

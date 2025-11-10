@@ -1,0 +1,30 @@
+\section{Giao thức Sigma và sự kết hợp (Sigma Protocols and Composition)}
+
+\subsection{(1) [20 điểm] Xây dựng các chứng minh phức tạp}
+
+\subsubsection{(a) [10 điểm] Chứng minh OR (OR Proofs)}
+
+Bạn đang xây dựng một hệ thống tố giác ẩn danh (anonymous whistleblower system), trong đó người dùng có thể chứng minh rằng họ hoặc là nhân viên hiện tại (có khóa công khai $A_1$) hoặc là cựu nhân viên hợp lệ (có khóa công khai $A_2$) — mà không tiết lộ họ thuộc trường hợp nào.
+
+\textbf{i. Thiết kế một chứng minh dạng OR cho kịch bản này.}
+
+Giả sử người tố giác biết khóa riêng $a_1$ tương ứng với $A_1$.
+Hãy mô tả cách họ tạo ra bằng chứng khi bên xác minh đưa ra thách thức $C = 50$.
+
+\textbf{ii. Giải thích vì sao bên xác minh không thể biết liệu người chứng minh biết $a_1$ hay $a_2$.}
+
+Sử dụng khái niệm về bản ghi mô phỏng (simulated transcripts) so với bản ghi thật (real transcripts).
+
+\vspace{0.5cm}
+
+\subsubsection{(b) [10 điểm] Chứng minh AND và tính bằng nhau (AND Proofs and Equality)}
+
+Một sàn giao dịch tiền điện tử yêu cầu người dùng chứng minh rằng họ sở hữu tài khoản trên ba blockchain khác nhau, trong đó mỗi tài khoản dùng cùng một khóa riêng nhưng với các bộ sinh (generator) khác nhau:
+
+$A_1 = g_1^a$,\quad $A_2 = g_2^a$,\quad $A_3 = g_3^a$
+
+\textbf{i. Xây dựng một giao thức Sigma chứng minh rằng người dùng biết một $a$ sao cho cả ba log rời rạc đều bằng nhau.}
+
+Giải thích cách dùng chung một thách thức $C$ cho cả ba chứng minh giúp duy trì tính soundness.
+
+\textbf{ii. Giải thích vì sao việc chạy ba chứng minh Schnorr độc lập (với các thách thức riêng biệt) sẽ không đạt được cùng mục tiêu.}
