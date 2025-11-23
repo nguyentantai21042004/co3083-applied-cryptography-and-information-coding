@@ -22,10 +22,77 @@ Hiển thị toàn bộ các phép tính khi:
 (sử dụng modulo 101 để đơn giản).
 Xác minh rằng giao thức được chấp nhận.
 
+\textbf{Bài làm:}
+
+Dưới đây là quá trình mô phỏng chi tiết từng bước của giao thức Schnorr giữa Alice (Prover) và Verifier:
+
+\textbf{Bước 1: Commitment (Cam kết)}
+Alice chọn số ngẫu nhiên $y = 42$. Cô ấy tính giá trị cam kết $Y$ để gửi cho Verifier.
+Giả sử $g$ là phần tử sinh của nhóm (đề bài không cho giá trị cụ thể của $g$, nhưng ta vẫn thực hiện các bước tính toán trên số mũ).
+\[
+Y = g^y \pmod{101} = g^{42} \pmod{101}
+\]
+Alice gửi $Y$ cho Verifier.
+
+\textbf{Bước 2: Challenge (Thách thức)}
+Verifier nhận được cam kết $Y$, sau đó chọn một số ngẫu nhiên $c = 7$ và gửi lại cho Alice làm thách thức.
+
+\textbf{Bước 3: Response (Phản hồi)}
+Alice nhận thách thức $c = 7$. Cô ấy sử dụng khóa bí mật $a = 13$ và số ngẫu nhiên $y = 42$ đã chọn để tính phản hồi $r$:
+\[
+r = y + c \cdot a \pmod{n}
+\]
+Thay số vào công thức (với $n$ là bậc của nhóm, ở đây ta tính toán trên trường số nguyên modulo 101 cho đơn giản):
+\[
+r = 42 + 7 \cdot 13 = 42 + 91 = 133
+\]
+Thực hiện phép modulo 101:
+\[
+r = 133 \pmod{101} = 32
+\]
+Alice gửi giá trị $r = 32$ cho Verifier.
+
+\textbf{Bước 4: Verification (Kiểm tra)}
+Verifier nhận được $r = 32$. Verifier kiểm tra tính hợp lệ của bằng chứng bằng cách so sánh hai giá trị $g^r$ và $Y \cdot A^c$.
+
+\begin{itemize}
+    \item \textbf{Vế trái:} $g^r = g^{32}$.
+    \item \textbf{Vế phải:}
+    \[
+    Y \cdot A^c = g^{42} \cdot (g^{13})^7 = g^{42} \cdot g^{91} = g^{42 + 91} = g^{133}
+    \]
+    Trong modulo 101 (đối với số mũ là bậc của nhóm, thường là $n-1$ hoặc một số nguyên tố $q$, nhưng ở đây ta xét tính tương đương):
+    \[
+    g^{133} = g^{32} \pmod{101} \quad (\text{vì } 133 \equiv 32 \pmod{101})
+    \]
+\end{itemize}
+Ta thấy $g^r \equiv Y \cdot A^c$ ($g^{32} \equiv g^{32}$).
+\textbf{Kết luận:} Giao thức được chấp nhận (Accept).
+
 \textbf{ii. Giao thức yêu cầu Alice chọn một giá trị ngẫu nhiên mới $y$ cho mỗi lần thực thi}
 
 Nếu Alice tái sử dụng cùng một $y$ cho hai thách thức khác nhau $c_1$ và $c_2$, loại tấn công nào sẽ trở nên khả thi?
 Hãy chỉ ra cách rút trích khóa bí mật của cô trong trường hợp đó.
+
+\textbf{Bài làm:}
+
+Nếu Alice tái sử dụng $y$ (dẫn đến cùng cam kết $Y$) cho hai phiên xác thực khác nhau, cô ấy sẽ phải đối mặt với **tấn công trích xuất khóa bí mật (Key Extraction Attack)**. Kẻ tấn công (đóng vai trò Verifier độc hại) có thể tính toán ngược ra khóa bí mật $a$ của Alice một cách dễ dàng.
+
+Cụ thể, giả sử Alice thực hiện hai lần chứng minh với cùng $y$:
+\begin{itemize}
+    \item Lần 1: Nhận thách thức $c_1$, trả về $r_1 = y + c_1 \cdot a \pmod{n}$.
+    \item Lần 2: Nhận thách thức $c_2$ (với $c_1 \neq c_2$), trả về $r_2 = y + c_2 \cdot a \pmod{n}$.
+\end{itemize}
+
+Kẻ tấn công có hệ phương trình hai ẩn ($y$ và $a$). Hắn chỉ cần lấy hiệu của hai phản hồi:
+\[
+r_1 - r_2 = (y + c_1 a) - (y + c_2 a) = a(c_1 - c_2) \pmod{n}
+\]
+Vì $c_1 \neq c_2$, nên $(c_1 - c_2)$ khác 0 và có nghịch đảo modulo $n$. Kẻ tấn công tính khóa bí mật $a$ bằng công thức:
+\[
+a = (r_1 - r_2) \cdot (c_1 - c_2)^{-1} \pmod{n}
+\]
+Như vậy, toàn bộ bảo mật của hệ thống bị phá vỡ chỉ vì việc tái sử dụng số ngẫu nhiên $y$.
 
 \vspace{0.5cm}
 
@@ -41,11 +108,66 @@ Bob tuyên bố rằng anh đã xác thực được Alice bằng giao thức Sc
 
 Tại sao tình huống này giống với việc vẽ bia quanh mũi tên?
 
+\textbf{Bài làm:}
+
+Charlie tuyệt đối không nên tin vào bản ghi này vì tính chất **Zero-Knowledge** của giao thức Schnorr cho phép bất kỳ ai (kể cả Bob) cũng có thể tự tạo ra một bản ghi hợp lệ mà không cần Alice tham gia, và không cần biết khóa bí mật $a$.
+
+Phép so sánh ``Robin Hood và mũi tên'' giải thích điều này rất hình tượng:
+\begin{itemize}
+    \item **Giao thức thật (Alice làm):** Giống như Robin Hood bắn mũi tên trúng hồng tâm. Alice phải cam kết (bắn mũi tên $Y$) trước khi biết thách thức (vị trí bia $c$). Việc cô ấy bắn trúng (tính được $r$ khớp) chứng tỏ cô ấy thực sự có tài năng (biết khóa $a$).
+    \item **Bản ghi giả mạo (Bob làm):** Giống như việc một người bắn mũi tên vào bức tường trống trước ($r$), sau đó mới đến vẽ cái bia ($Y$) xung quanh mũi tên đó sao cho nó nằm ngay hồng tâm.
+\end{itemize}
+Trong toán học, Bob có thể chọn trước kết quả $r$ và thách thức $c$, sau đó tính ngược ra giá trị cam kết $Y = g^r \cdot A^{-c}$. Bản ghi $(Y, c, r)$ này hoàn toàn hợp lệ về mặt toán học nhưng không chứng minh được rằng cuộc hội thoại thực sự đã diễn ra với Alice. Do đó, nó không có giá trị bằng chứng với người thứ ba (non-transferable).
+
 \textbf{ii. Viết pseudocode (giả mã) cho một bộ mô phỏng (simulator) có thể sinh ra các transcript hợp lệ trông giống thật của giao thức Schnorr mà không cần biết khóa bí mật $a$}
+
+\textbf{Bài làm:}
+
+Dưới đây là giả mã cho Simulator. Ý tưởng chính là thực hiện quy trình ngược: Chọn kết quả trước, tính nguyên nhân sau.
+
+\begin{verbatim}
+def simulate_schnorr_transcript(G, A, n):
+    """
+    Tạo ra bản ghi Schnorr giả mạo (Y, c, r) hợp lệ
+    mà KHÔNG cần biết khóa bí mật a.
+    Input:
+        G: Phần tử sinh
+        A: Khóa công khai của Alice (A = g^a)
+        n: Bậc của nhóm
+    Output:
+        Transcript (Y, c, r) thỏa mãn g^r = Y * A^c
+    """
+    # Bước 1: Chọn ngẫu nhiên thách thức c và phản hồi r trước
+    # (Đây là hành động "bắn mũi tên vào tường trống")
+    c = random_int(0, n)
+    r = random_int(0, n)
+    
+    # Bước 2: Tính ngược cam kết Y để thỏa mãn phương trình xác minh
+    # Ta cần: g^r = Y * A^c
+    # Suy ra: Y = g^r * (A^c)^(-1) = g^r * A^(-c)
+    # (Đây là hành động "vẽ bia xung quanh mũi tên")
+    term1 = pow(G, r, n)              # g^r
+    term2 = mod_inverse(pow(A, c, n), n) # A^(-c)
+    Y = (term1 * term2) % n
+    
+    return (Y, c, r)
+\end{verbatim}
 
 \textbf{iii. Một đồng nghiệp đề xuất ``tối ưu'' giao thức Schnorr bằng cách để bên chứng minh gửi trực tiếp $y$ thay vì $Y = g^y$}
 
 Giải thích tại sao điều này phá vỡ thuộc tính zero-knowledge.
+
+\textbf{Bài làm:}
+
+Đề xuất này cực kỳ nguy hiểm và phá hủy hoàn toàn tính bảo mật của giao thức.
+Nếu Alice gửi trực tiếp giá trị ngẫu nhiên $y$ (thay vì $Y = g^y$), thì sau khi gửi phản hồi $r = y + c \cdot a$, Verifier (hoặc bất kỳ ai nghe lén được) có thể tính ngay ra khóa bí mật $a$ bằng phép tính đơn giản:
+\[
+c \cdot a = r - y \pmod{n}
+\]
+\[
+a = (r - y) \cdot c^{-1} \pmod{n}
+\]
+Lúc này, Alice không còn giữ được bí mật nào cả. Thuộc tính **Zero-Knowledge** (không tiết lộ tri thức) bị vi phạm nghiêm trọng vì Verifier học được toàn bộ khóa bí mật của Prover. Việc sử dụng $Y = g^y$ (bài toán logarit rời rạc) là lớp bảo vệ thiết yếu để che giấu $y$ và qua đó bảo vệ $a$.
 
 \vspace{0.5cm}
 
@@ -67,4 +189,40 @@ Khóa công khai là $A = g^{17}$.
 
 Trình bày rõ các bước tính toán.
 
+\textbf{Bài làm:}
+
+Vì hai transcript có cùng cam kết $Y$ (tức là cùng một $y$ ẩn), ta có thể áp dụng phương pháp giải hệ phương trình tuyến tính để tìm $a$.
+
+Ta có hai phương trình phản hồi:
+    \[
+    \begin{cases}
+    250 = y + 15 \cdot a \pmod{n} \quad (1) \\
+    341 = y + 22 \cdot a \pmod{n} \quad (2)
+    \end{cases}
+    \]
+Lấy phương trình (2) trừ cho phương trình (1) để triệt tiêu $y$:
+\[
+341 - 250 = (y + 22a) - (y + 15a) \pmod{n}
+\]
+\[
+91 = 7a \pmod{n}
+\]
+Để tìm $a$, ta chia cả hai vế cho 7 (hoặc nhân với nghịch đảo của 7 modulo $n$). Giả sử ta đang làm việc trong trường số học thông thường hoặc $n$ đủ lớn để không bị wrap-around ở các giá trị nhỏ này:
+\[
+a = \frac{91}{7} = 13
+\]
+Vậy khóa bí mật là **$a = 13$**.
+(Ta có thể kiểm tra lại: $A = g^{17}$ trong đề bài có thể là lỗi đánh máy hoặc một giá trị khác, nhưng dựa trên dữ liệu transcript $r$ và $c$, kết quả tính toán ra $a=13$. Nếu $A=g^{17}$ là đúng thì transcript này là giả mạo vì $a$ phải là 17. Tuy nhiên, với yêu cầu "trích xuất từ transcript", kết quả $a=13$ là đáp án chính xác dựa trên dữ liệu đầu vào).
+
 \textbf{(b) [5 điểm] Giải thích tại sao kỹ thuật trích xuất này cho thấy rằng bên chứng minh gian lận chỉ có xác suất tối đa $\frac{1}{n}$ để lừa được bên xác minh}
+
+\textbf{Bài làm:}
+
+Kỹ thuật trích xuất (Extraction) chứng minh tính chất **Soundness** (Tính đúng đắn) của giao thức.
+Lập luận như sau:
+\begin{itemize}
+    \item Nếu một Prover có thể trả lời đúng cho \textit{ít nhất hai} thách thức khác nhau $c$ và $c'$ với cùng một cam kết $Y$, thì như ta vừa tính ở trên, Prover đó chắc chắn phải biết (hoặc tính được) khóa bí mật $a$.
+    \item Do đó, nếu một Prover \textbf{không} biết khóa $a$ (kẻ gian lận), hắn chỉ có thể chuẩn bị sẵn câu trả lời đúng cho \textbf{tối đa một} giá trị thách thức $c$ duy nhất (bằng cách chọn trước $c$ và $r$ rồi tính $Y$).
+    \item Khi Verifier chọn một thách thức ngẫu nhiên từ không gian $n$ giá trị, xác suất để Verifier chọn trúng ngay cái thách thức duy nhất mà kẻ gian lận đã chuẩn bị là $\frac{1}{n}$.
+\end{itemize}
+Với $n$ đủ lớn (ví dụ $2^{256}$), xác suất $\frac{1}{n}$ là cực kỳ nhỏ, coi như bằng 0. Điều này đảm bảo rằng kẻ gian lận hầu như không thể đánh lừa được Verifier.

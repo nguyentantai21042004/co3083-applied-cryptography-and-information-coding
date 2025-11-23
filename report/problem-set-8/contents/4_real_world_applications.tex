@@ -5,13 +5,65 @@
 Zcash và quyền riêng tư tài chính:
 Zcash sử dụng zk-SNARKs để cho phép giao dịch riêng tư trên chuỗi khối công khai.
 
-\subsubsection{(a) [5 điểm] Giải thích một giao dịch ``shielded'' trong Zcash chứng minh điều gì mà không tiết lộ điều gì.}
+\subsubsection{(a) [5 điểm] Giải thích một giao dịch ``shielded'' trong Zcash chứng minh điều gì mà không tiết lộ điều gì}
+
+\begin{center}
+    \textbf{Trả lời:}
+\end{center}
 
 Hãy nêu rõ những dữ liệu nào được giữ bí mật, và những dữ liệu nào được công khai.
 
-\subsubsection{(b) [5 điểm] Zcash đã tiến hóa từ Sprout $\rightarrow$ Sapling $\rightarrow$ Halo 2 (không cần thiết lập tin cậy).}
+\textbf{Bài làm:}
+
+Trong Zcash, một giao dịch được bảo vệ (shielded transaction) sử dụng zk-SNARKs để chứng minh tính hợp lệ của việc chuyển tiền mà không để lộ thông tin nhạy cảm.
+
+**Những điều được chứng minh (nhưng không tiết lộ chi tiết):**
+\begin{enumerate}
+    \item **Quyền sở hữu:** Người gửi thực sự sở hữu các đồng coin đầu vào (tức là biết khóa bí mật chi tiêu tương ứng với cam kết trên blockchain).
+    \item **Chống chi tiêu đôi (Double-spending):** Các đồng coin này chưa từng được chi tiêu trước đó (thông qua cơ chế Nullifier duy nhất).
+    \item **Bảo toàn giá trị:** Tổng giá trị tiền đầu vào bằng tổng giá trị tiền đầu ra cộng với phí giao dịch (không có tiền nào được tạo ra từ hư không).
+\end{enumerate}
+
+**Phân loại dữ liệu:**
+\begin{itemize}
+    \item \textbf{Dữ liệu BÍ MẬT (được ẩn đi):}
+        \begin{itemize}
+            \item Địa chỉ người gửi (Sender address).
+            \item Địa chỉ người nhận (Receiver address).
+            \item Số tiền giao dịch (Amount).
+            \item Khóa bí mật chi tiêu (Spending Key).
+        \end{itemize}
+    \item \textbf{Dữ liệu CÔNG KHAI (trên Blockchain):}
+        \begin{itemize}
+            \item Bằng chứng zk-SNARK (Proof string).
+            \item Các cam kết (Commitments) của các đồng coin mới được tạo ra (dưới dạng mã hóa).
+            \item Nullifiers (các chuỗi số ngẫu nhiên đại diện cho việc hủy bỏ đồng coin cũ, để ngăn chặn việc dùng lại).
+            \item Phí giao dịch (nếu là giao dịch minh bạch một phần).
+        \end{itemize}
+\end{itemize}
+
+\subsubsection{(b) [5 điểm] Zcash đã tiến hóa từ Sprout \texorpdfstring{$\rightarrow$}{->} Sapling \texorpdfstring{$\rightarrow$}{->} Halo 2 (không cần thiết lập tin cậy)}
+
+\begin{center}
+    \textbf{Trả lời:}
+\end{center}
 
 Giải thích vì sao việc loại bỏ ``trusted setup'' lại có ý nghĩa lớn đối với khả năng được chấp nhận của hệ thống.
+
+\textbf{Bài làm:}
+
+**Trusted Setup (Thiết lập tin cậy)** là quy trình khởi tạo các tham số hệ thống cho zk-SNARKs đời đầu (như trong bản Sprout của Zcash). Nó yêu cầu một nhóm người tham gia tạo ra một "bí mật chung" (toxic waste) và sau đó phải tiêu hủy nó hoàn toàn.
+
+**Rủi ro của Trusted Setup:**
+Nếu nhóm người này thông đồng với nhau và giữ lại phần bí mật đó thay vì tiêu hủy, họ có thể tạo ra các bằng chứng giả mạo hợp lệ. Trong trường hợp của Zcash, điều này có nghĩa là họ có thể **in tiền vô hạn** mà không ai phát hiện ra, làm sụp đổ hoàn toàn nền kinh tế của đồng tiền này.
+
+**Ý nghĩa của việc loại bỏ (trong Halo 2):**
+Halo 2 sử dụng hệ thống chứng minh mới không cần Trusted Setup (gọi là Transparent Setup). Điều này có ý nghĩa cực lớn:
+\begin{itemize}
+    \item **Loại bỏ yếu tố con người:** Không cần phải tin tưởng vào sự trung thực của bất kỳ cá nhân hay tổ chức nào trong lễ khởi tạo.
+    \item **An toàn tuyệt đối:** Loại bỏ hoàn toàn nguy cơ tồn tại "backdoor" để in tiền giả.
+    \item **Tăng cường sự chấp nhận:** Các tổ chức tài chính, chính phủ và người dùng phổ thông sẽ dễ dàng chấp nhận và tin tưởng sử dụng hệ thống hơn khi biết rằng sự an toàn của nó dựa hoàn toàn vào toán học công khai, chứ không phải dựa vào niềm tin vào một nhóm người lạ mặt.
+\end{itemize}
 
 \vspace{0.5cm}
 
@@ -19,9 +71,34 @@ Giải thích vì sao việc loại bỏ ``trusted setup'' lại có ý nghĩa l
 
 Bạn đang thiết kế một ví đa chữ ký (multi-signature wallet), trong đó bất kỳ 2 trong 3 bên đều có thể ủy quyền giao dịch.
 
-\textbf{(a) Giải thích cách bạn có thể sử dụng chứng minh OR để tạo sơ đồ chữ ký ngưỡng (threshold signature).}
+\begin{center}
+    \textbf{Trả lời:}
+\end{center}
+
+\textbf{(a) Giải thích cách bạn có thể sử dụng chứng minh OR để tạo sơ đồ chữ ký ngưỡng (threshold signature)}
 
 Cụ thể, làm thế nào một tập con các bên ký có thể chứng minh họ cùng ký mà không tiết lộ bên nào thực sự đã ký?
+
+\textbf{Bài làm:}
+
+Để xây dựng chữ ký ngưỡng (Threshold Signature) bảo vệ quyền riêng tư cho cấu trúc truy cập "2 trong 3" (2-out-of-3), ta có thể sử dụng kỹ thuật **OR Composition của các mệnh đề AND**.
+
+Gọi $K_1, K_2, K_3$ lần lượt là các mệnh đề "Tôi biết khóa bí mật của người thứ 1, 2, 3".
+Cấu trúc "2 trong 3" có nghĩa là một trong các cặp sau đây đã ký: (1 và 2) HOẶC (1 và 3) HOẶC (2 và 3).
+
+Ta xây dựng mệnh đề tổng hợp:
+\[
+\text{Statement} = (K_1 \land K_2) \lor (K_1 \land K_3) \lor (K_2 \land K_3)
+\]
+
+**Cách thực hiện:**
+Người tạo chữ ký (ví dụ: nhóm gồm người 1 và người 3) sẽ:
+\begin{itemize}
+    \item Thực hiện **thật** (Real Proof) cho phần $(K_1 \land K_3)$ vì họ có cả hai khóa $a_1$ và $a_3$.
+    \item Thực hiện **mô phỏng** (Simulated Proof) cho hai phần còn lại: $(K_1 \land K_2)$ và $(K_2 \land K_3)$ (vì họ thiếu $a_2$).
+    \item Kết hợp lại bằng kỹ thuật OR (cộng các thách thức).
+\end{itemize}
+Kết quả là Verifier chỉ biết rằng "điều kiện 2-trong-3 đã được thỏa mãn", nhưng không thể biết chính xác cặp nào (1-2, 1-3 hay 2-3) đã thực hiện việc ký.
 
 \textbf{(b) Giả sử ba bên có khóa công khai}
 
@@ -29,6 +106,50 @@ $A_1 = g^{a_1}$,\quad $A_2 = g^{a_2}$,\quad $A_3 = g^{a_3}$
 
 Nếu bên 1 và 3 muốn cùng ký, hãy phác thảo giao thức Sigma mà họ sẽ sử dụng.
 
-\textbf{(c) Thảo luận sự khác biệt giữa cách tiếp cận Zero-Knowledge này và các sơ đồ multi-signature truyền thống.}
+\textbf{Bài làm:}
+
+Nếu bên 1 và 3 hợp tác để ký (họ biết $a_1, a_3$), giao thức sẽ diễn ra như sau:
+
+\begin{enumerate}
+    \item **Bước 1: Cam kết (Commitment)**
+    \begin{itemize}
+        \item Nhánh thật $(1,3)$: Chọn $y_1, y_3$ ngẫu nhiên. Tính $Y_{1,3} = (g^{y_1}, g^{y_3})$.
+        \item Nhánh giả $(1,2)$ và $(2,3)$: Chọn trước các thách thức giả $c_{1,2}, c_{2,3}$ và phản hồi giả. Tính ra các cam kết giả $Y_{1,2}$ và $Y_{2,3}$.
+    \end{itemize}
+    
+    \item **Bước 2: Thách thức (Challenge)**
+    Verifier gửi thách thức chủ $C$.
+    
+    \item **Bước 3: Phân phối thách thức \& Phản hồi**
+    \begin{itemize}
+        \item Nhóm ký tính thách thức thật cho nhánh $(1,3)$ là: $c_{1,3} = C - (c_{1,2} + c_{2,3}) \pmod{n}$.
+        \item Tính phản hồi thật cho nhánh $(1,3)$:
+        \[
+        r_1 = y_1 + c_{1,3} \cdot a_1, \quad r_3 = y_3 + c_{1,3} \cdot a_3
+        \]
+        (Lưu ý: Trong nhánh AND, cả hai thành viên 1 và 3 phải dùng chung thách thức con $c_{1,3}$).
+    \end{itemize}
+    
+    \item **Bước 4: Gửi bằng chứng**
+    Gửi tất cả các cam kết, thách thức con và phản hồi cho Verifier.
+\end{enumerate}
+
+\textbf{(c) Thảo luận sự khác biệt giữa cách tiếp cận Zero-Knowledge này và các sơ đồ multi-signature truyền thống}
 
 Ưu điểm về quyền riêng tư mà bản ZK cung cấp là gì, và chi phí tính toán tăng thêm ra sao?
+
+\textbf{Bài làm:}
+
+\begin{itemize}
+    \item **Multi-sig truyền thống (On-chain):** Ví dụ như trong Bitcoin (P2SH hoặc `OP\_CHECKMULTISIG`), danh sách các khóa công khai tham gia ký thường được tiết lộ rõ ràng. Ai nhìn vào blockchain cũng biết chính xác "Ví A và Ví B đã ký giao dịch này". Không có sự riêng tư về danh tính người ký.
+    
+    \item **ZK Multi-sig (Threshold ZK):**
+        \begin{itemize}
+            \item **Ưu điểm (Privacy):** Cung cấp tính ẩn danh tuyệt đối cho tập hợp người ký (Signer Anonymity). Người ngoài chỉ biết "nhóm này đã đạt đồng thuận", không biết ai cụ thể trong nhóm đã bỏ phiếu thuận. Điều này quan trọng cho các tổ chức cần bảo mật quy trình ra quyết định nội bộ.
+            \item **Chi phí (Cost):** Đánh đổi lại, chi phí tính toán và kích thước dữ liệu lớn hơn nhiều.
+            \begin{itemize}
+                \item **Tính toán:** Phải thực hiện nhiều phép tính mũ (cho cả nhánh thật và nhánh giả), phức tạp hơn nhiều so với việc chỉ ký ECDSA đơn thuần.
+                \item **Kích thước:** Bằng chứng ZK chứa nhiều giá trị $(Y, c, r)$ cho mọi tổ hợp, tốn dung lượng lưu trữ hơn.
+            \end{itemize}
+        \end{itemize}
+\end{itemize}

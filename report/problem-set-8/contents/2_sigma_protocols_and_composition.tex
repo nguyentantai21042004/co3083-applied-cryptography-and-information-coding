@@ -6,14 +6,72 @@
 
 Bạn đang xây dựng một hệ thống tố giác ẩn danh (anonymous whistleblower system), trong đó người dùng có thể chứng minh rằng họ hoặc là nhân viên hiện tại (có khóa công khai $A_1$) hoặc là cựu nhân viên hợp lệ (có khóa công khai $A_2$) — mà không tiết lộ họ thuộc trường hợp nào.
 
-\textbf{i. Thiết kế một chứng minh dạng OR cho kịch bản này.}
+\begin{center}
+    \textbf{Trả lời:}
+\end{center}
+
+\textbf{i. Thiết kế một chứng minh dạng OR cho kịch bản này}
 
 Giả sử người tố giác biết khóa riêng $a_1$ tương ứng với $A_1$.
 Hãy mô tả cách họ tạo ra bằng chứng khi bên xác minh đưa ra thách thức $C = 50$.
 
-\textbf{ii. Giải thích vì sao bên xác minh không thể biết liệu người chứng minh biết $a_1$ hay $a_2$.}
+\textbf{Bài làm:}
+
+Đây là bài toán chứng minh kiến thức về một trong hai bí mật (1-out-of-2 Proof). Vì người tố giác biết $a_1$ (nhân viên hiện tại) nhưng không biết $a_2$, họ sẽ thực hiện quy trình sau:
+\begin{enumerate}
+    \item \textbf{Bước 1: Mô phỏng (Simulate) cho nhánh không biết ($A_2$):}
+    Vì không biết $a_2$, người tố giác không thể thực hiện giao thức thật. Họ phải "gian lận" hợp lệ bằng cách chọn trước kết quả.
+    \begin{itemize}
+        \item Chọn ngẫu nhiên thách thức giả $c_2$ và phản hồi giả $r_2$.
+        \item Tính cam kết giả $Y_2$ sao cho khớp với phương trình xác minh:
+        \[
+        Y_2 = g^{r_2} \cdot A_2^{-c_2} \pmod{n}
+        \]
+    \end{itemize}
+    
+    \item \textbf{Bước 2: Thực hiện thật (Real Execution) cho nhánh biết ($A_1$):}
+    \begin{itemize}
+        \item Chọn một số ngẫu nhiên $y_1$ (bí mật tạm thời).
+        \item Tính cam kết thật: $Y_1 = g^{y_1} \pmod{n}$.
+    \end{itemize}
+    
+    \item \textbf{Bước 3: Tính thách thức cho nhánh thật:}
+    Tổng hai thách thức phải bằng thách thức chủ $C$ do Verifier gửi ($C=50$).
+    \begin{itemize}
+        \item Tính $c_1 = C - c_2 \pmod{n}$.
+        \item Vì $c_2$ đã chọn ngẫu nhiên ở Bước 1, nên $c_1$ cũng sẽ mang tính ngẫu nhiên, đảm bảo an toàn.
+    \end{itemize}
+    
+    \item \textbf{Bước 4: Tính phản hồi cho nhánh thật:}
+    Sử dụng khóa bí mật $a_1$ để tính phản hồi Schnorr chuẩn:
+    \begin{itemize}
+        \item $r_1 = y_1 + c_1 \cdot a_1 \pmod{n}$.
+    \end{itemize}
+    
+    \item \textbf{Bước 5: Gửi bằng chứng:}
+    Người tố giác gửi bộ bằng chứng gồm: $(Y_1, Y_2, c_1, c_2, r_1, r_2)$ cho Verifier.
+\end{enumerate}
+
+Verifier sẽ kiểm tra 3 điều kiện:
+1. $c_1 + c_2 = C \pmod{n}$
+2. $g^{r_1} \equiv Y_1 \cdot A_1^{c_1} \pmod{n}$
+3. $g^{r_2} \equiv Y_2 \cdot A_2^{c_2} \pmod{n}$
+
+\textbf{ii. Giải thích vì sao bên xác minh không thể biết liệu người chứng minh biết $a_1$ hay $a_2$}
 
 Sử dụng khái niệm về bản ghi mô phỏng (simulated transcripts) so với bản ghi thật (real transcripts).
+
+\textbf{Bài làm:}
+
+Bên xác minh (Verifier) hoàn toàn không thể phân biệt được đâu là nhánh "thật" và đâu là nhánh "mô phỏng" vì tính chất **Perfect Zero-Knowledge** của giao thức Schnorr.
+
+Cụ thể:
+\begin{itemize}
+    \item Một bản ghi Schnorr được tạo ra bởi người biết khóa (Real Transcript: $Y=g^y, c, r=y+ca$) có phân phối xác suất thống kê giống hệt với một bản ghi được tạo ra bởi bộ mô phỏng (Simulated Transcript: chọn $c, r$ trước, tính $Y=g^r A^{-c}$).
+    \item Trong chứng minh OR ở trên, ta có hai bộ $(Y_1, c_1, r_1)$ và $(Y_2, c_2, r_2)$. Một bộ là thật, một bộ là mô phỏng. Nhưng vì cả hai đều trông "ngẫu nhiên" và hợp lệ như nhau, Verifier không có manh mối nào để biết $a_1$ hay $a_2$ đã được sử dụng.
+    \item Điều này giống như việc nhìn vào hai bức ảnh chụp đích bắn cung: một bức là bắn thật trúng đích, một bức là vẽ bia quanh mũi tên. Nếu người vẽ bia vẽ khéo léo (đúng toán học), hai bức ảnh sẽ y hệt nhau.
+\end{itemize}
+Do đó, danh tính của người tố giác (là nhân viên hiện tại hay cựu nhân viên) được giữ bí mật hoàn toàn.
 
 \vspace{0.5cm}
 
@@ -23,8 +81,62 @@ Một sàn giao dịch tiền điện tử yêu cầu người dùng chứng min
 
 $A_1 = g_1^a$,\quad $A_2 = g_2^a$,\quad $A_3 = g_3^a$
 
-\textbf{i. Xây dựng một giao thức Sigma chứng minh rằng người dùng biết một $a$ sao cho cả ba log rời rạc đều bằng nhau.}
+\begin{center}
+    \textbf{Trả lời:}
+\end{center}
+
+\textbf{i. Xây dựng một giao thức Sigma chứng minh rằng người dùng biết một $a$ sao cho cả ba log rời rạc đều bằng nhau}
 
 Giải thích cách dùng chung một thách thức $C$ cho cả ba chứng minh giúp duy trì tính soundness.
 
-\textbf{ii. Giải thích vì sao việc chạy ba chứng minh Schnorr độc lập (với các thách thức riêng biệt) sẽ không đạt được cùng mục tiêu.}
+\textbf{Bài làm:}
+
+Để chứng minh rằng cùng một khóa bí mật $a$ được sử dụng cho cả ba tài khoản (Equality of Discrete Logarithms), ta sử dụng kỹ thuật **AND Composition** với một thách thức chung.
+
+**Giao thức:**
+\begin{enumerate}
+    \item \textbf{Commitment (Cam kết):}
+    Prover chọn \textit{một} số ngẫu nhiên $y$ duy nhất.
+    Tính ba cam kết tương ứng với ba phần tử sinh:
+    \[
+    Y_1 = g_1^y, \quad Y_2 = g_2^y, \quad Y_3 = g_3^y
+    \]
+    Gửi $(Y_1, Y_2, Y_3)$ cho Verifier.
+    
+    \item \textbf{Challenge (Thách thức):}
+    Verifier gửi một thách thức ngẫu nhiên $C$ duy nhất cho Prover.
+    
+    \item \textbf{Response (Phản hồi):}
+    Prover tính một phản hồi duy nhất:
+    \[
+    r = y + C \cdot a \pmod{n}
+    \]
+    Gửi $r$ cho Verifier.
+    
+    \item \textbf{Verification (Kiểm tra):}
+    Verifier kiểm tra đồng thời ba phương trình:
+    \[
+    g_1^r \stackrel{?}{=} Y_1 \cdot A_1^C, \quad g_2^r \stackrel{?}{=} Y_2 \cdot A_2^C, \quad g_3^r \stackrel{?}{=} Y_3 \cdot A_3^C
+    \]
+\end{enumerate}
+
+**Tại sao dùng chung $C$ lại quan trọng?**
+Việc bắt buộc Prover phải trả lời một thách thức $C$ giống nhau bằng một phản hồi $r$ giống nhau cho cả ba phương trình chính là "sợi dây" buộc chặt ba khóa lại với nhau.
+Nếu Prover gian lận dùng $a_1$ cho cái đầu, $a_2$ cho cái thứ hai ($a_1 \neq a_2$), thì hắn sẽ cần tính $r = y + C a_1$ để thỏa mãn cái 1 và $r = y + C a_2$ để thỏa mãn cái 2. Điều này là vô lý vì $r$ phải là duy nhất. Do đó, $a_1$ buộc phải bằng $a_2$ (và bằng $a_3$).
+
+\textbf{ii. Giải thích vì sao việc chạy ba chứng minh Schnorr độc lập (với các thách thức riêng biệt) sẽ không đạt được cùng mục tiêu}
+
+\textbf{Bài làm:}
+
+Nếu chạy 3 giao thức Schnorr độc lập, Verifier sẽ gửi 3 thách thức khác nhau $c_1, c_2, c_3$.
+Lúc này, Prover có thể gian lận dễ dàng:
+\begin{itemize}
+    \item Prover có thể biết $a_1$ là log của $A_1$, $a_2$ là log của $A_2$, và $a_3$ là log của $A_3$, nhưng $a_1, a_2, a_3$ là các số hoàn toàn khác nhau.
+    \item Prover thực hiện:
+        \begin{itemize}
+            \item Phiên 1: $r_1 = y_1 + c_1 a_1$ (thỏa mãn $A_1$)
+            \item Phiên 2: $r_2 = y_2 + c_2 a_2$ (thỏa mãn $A_2$)
+            \item Phiên 3: $r_3 = y_3 + c_3 a_3$ (thỏa mãn $A_3$)
+        \end{itemize}
+\end{itemize}
+Cả 3 phiên đều thành công, chứng minh Prover biết log của từng cái, NHƯNG không chứng minh được rằng $a_1 = a_2 = a_3$. Việc cho phép các thách thức (và phản hồi) riêng biệt đã cắt đứt mối liên kết ràng buộc giữa các bí mật. Chỉ có thách thức chung (Common Challenge) mới ép buộc được sự bằng nhau.
