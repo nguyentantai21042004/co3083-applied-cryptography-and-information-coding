@@ -7,7 +7,11 @@
 Bạn đang triển khai xác thực cho một ứng dụng nhắn tin an toàn sử dụng giao thức nhận dạng Schnorr.
 Alice có khóa công khai $A = g^a$, trong đó $a$ là khóa bí mật của cô.
 
-\textbf{i. Mô phỏng một lượt thực thi hoàn chỉnh của giao thức Schnorr.}
+\begin{center}
+    \textbf{Trả lời:}
+\end{center}
+
+\textbf{i. Mô phỏng một lượt thực thi hoàn chỉnh của giao thức Schnorr}
 
 Hiển thị toàn bộ các phép tính khi:
 \begin{itemize}
@@ -18,7 +22,7 @@ Hiển thị toàn bộ các phép tính khi:
 (sử dụng modulo 101 để đơn giản).
 Xác minh rằng giao thức được chấp nhận.
 
-\textbf{ii. Giao thức yêu cầu Alice chọn một giá trị ngẫu nhiên mới $y$ cho mỗi lần thực thi.}
+\textbf{ii. Giao thức yêu cầu Alice chọn một giá trị ngẫu nhiên mới $y$ cho mỗi lần thực thi}
 
 Nếu Alice tái sử dụng cùng một $y$ cho hai thách thức khác nhau $c_1$ và $c_2$, loại tấn công nào sẽ trở nên khả thi?
 Hãy chỉ ra cách rút trích khóa bí mật của cô trong trường hợp đó.
@@ -29,13 +33,17 @@ Hãy chỉ ra cách rút trích khóa bí mật của cô trong trường hợp 
 
 Bob tuyên bố rằng anh đã xác thực được Alice bằng giao thức Schnorr và đưa cho Charlie bản ghi (transcript) $(A, Y, c, r)$ làm bằng chứng.
 
-\textbf{i. Dựa vào phép so sánh ``Robin Hood và mũi tên'' trong slide bài giảng, hãy giải thích vì sao Charlie không nên tin điều đó.}
+\begin{center}
+    \textbf{Trả lời:}
+\end{center}
+
+\textbf{i. Dựa vào phép so sánh ``Robin Hood và mũi tên'' trong slide bài giảng, hãy giải thích vì sao Charlie không nên tin điều đó}
 
 Tại sao tình huống này giống với việc vẽ bia quanh mũi tên?
 
-\textbf{ii. Viết pseudocode (giả mã) cho một bộ mô phỏng (simulator) có thể sinh ra các transcript hợp lệ trông giống thật của giao thức Schnorr mà không cần biết khóa bí mật $a$.}
+\textbf{ii. Viết pseudocode (giả mã) cho một bộ mô phỏng (simulator) có thể sinh ra các transcript hợp lệ trông giống thật của giao thức Schnorr mà không cần biết khóa bí mật $a$}
 
-\textbf{iii. Một đồng nghiệp đề xuất ``tối ưu'' giao thức Schnorr bằng cách để bên chứng minh gửi trực tiếp $y$ thay vì $Y = g^y$.}
+\textbf{iii. Một đồng nghiệp đề xuất ``tối ưu'' giao thức Schnorr bằng cách để bên chứng minh gửi trực tiếp $y$ thay vì $Y = g^y$}
 
 Giải thích tại sao điều này phá vỡ thuộc tính zero-knowledge.
 
@@ -51,8 +59,12 @@ $(Y = g^{100},\, c' = 22,\, r' = 341)$
 
 Khóa công khai là $A = g^{17}$.
 
-\subsubsection{(a) [10 điểm] Trích xuất khóa bí mật $a$ từ hai transcript trên.}
+\begin{center}
+    \textbf{Trả lời:}
+\end{center}
+
+\textbf{(a) [10 điểm] Trích xuất khóa bí mật $a$ từ hai transcript trên}
 
 Trình bày rõ các bước tính toán.
 
-\subsubsection{(b) [5 điểm] Giải thích tại sao kỹ thuật trích xuất này cho thấy rằng bên chứng minh gian lận chỉ có xác suất tối đa $\frac{1}{n}$ để lừa được bên xác minh.}
+\textbf{(b) [5 điểm] Giải thích tại sao kỹ thuật trích xuất này cho thấy rằng bên chứng minh gian lận chỉ có xác suất tối đa $\frac{1}{n}$ để lừa được bên xác minh}
