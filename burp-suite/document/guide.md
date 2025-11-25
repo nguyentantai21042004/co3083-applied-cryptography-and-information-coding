@@ -35,12 +35,23 @@ Hướng dẫn này cung cấp hướng dẫn từng bước để hoàn thành 
    ```
 
 4. **Mã nguồn & APK Client SMC**
+
+   **Tùy chọn A: Sử dụng APK có sẵn (Khởi động Nhanh)**
+   - Bạn đã có file APK tại: `~/Workspaces/hcmut/co3083-applied-cryptography-and-information-coding/burp-suite/assigment.apk`
+   - Có thể cài đặt ngay lập tức để kiểm thử
+   - **Lưu ý:** APK đơn thuần KHÔNG ĐỦ để hoàn thành bài tập (thiếu source code để ánh xạ)
+
+   **Tùy chọn B: Clone Mã nguồn từ GitHub (Bắt buộc cho bài tập hoàn chỉnh)**
    - Repository: https://github.com/dangduongminhnhat/Client-Assignment-Advance-Cryptography-and-Coding-Theory
    - Clone vào workspace của bạn:
    ```bash
    cd ~/Workspaces/hcmut/co3083-applied-cryptography-and-information-coding
    git clone https://github.com/dangduongminhnhat/Client-Assignment-Advance-Cryptography-and-Coding-Theory.git smc-client
    ```
+
+   **Khuyến nghị:** Sử dụng CẢ HAI
+   - Dùng APK để kiểm thử nhanh ban đầu
+   - Dùng source code để phân tích và ánh xạ đến vị trí code (yêu cầu của bài tập)
 
 ### Công cụ Tùy chọn
 - **Docker Desktop cho Mac (Apple Silicon)** - cho các tình huống kiểm thử containerized
@@ -64,10 +75,97 @@ open -a "Burp Suite Community Edition"
 ```
 
 ### 1.2 Cấu hình Burp Ban đầu
+
+Khi khởi chạy Burp Suite lần đầu, bạn sẽ thấy màn hình chọn loại project:
+
+#### Lựa chọn Loại Project
+
+**Tùy chọn 1: Temporary Project (Dự án Tạm thời)** - Cho kiểm thử nhanh
+```
+✅ Ưu điểm:
+- Khởi động nhanh
+- Không cần chọn vị trí lưu file
+- Thích hợp cho kiểm thử đơn giản
+
+❌ Nhược điểm:
+- MẤT TẤT CẢ DỮ LIỆU khi thoát Burp Suite
+- HTTP history sẽ BỊ XÓA
+- Phải chặn bắt lại từ đầu mỗi lần
+- KHÔNG PHẢI LÀ LỰA CHỌN TỐT cho bài tập này!
+```
+
+**Tùy chọn 2: New Project on Disk (Dự án mới trên Đĩa)** - ⭐ KHUYẾN NGHỊ
+```
+✅ Ưu điểm:
+- LƯU TẤT CẢ dữ liệu vào file
+- Giữ lại HTTP history giữa các phiên
+- Có thể quay lại xem sau
+- An toàn cho bài tập dài hạn
+
+❌ Nhược điểm:
+- Cần chọn nơi lưu file
+- Chiếm dung lượng đĩa (~10-100 MB)
+```
+
+#### Hướng dẫn Thiết lập (KHUYẾN NGHỊ)
+
+**Cách 1: Tạo Project Mới để Lưu Dữ liệu (⭐ Recommended)**
+```bash
+# 1. Tạo thư mục cho Burp project
+mkdir -p ~/Desktop/burp-setup/projects
+
+# 2. Khởi chạy Burp Suite
+open -a "Burp Suite Community Edition"
+
+# 3. Trong màn hình khởi động:
+#    - Chọn "New project on disk"
+#    - Click "Select file"
+#    - Điều hướng đến: ~/Desktop/burp-setup/projects/
+#    - Đặt tên: "smc-task-3.1.burp"
+#    - Click "Next"
+
+# 4. Cấu hình:
+#    - Chọn "Use Burp defaults"
+#    - Click "Start Burp"
+```
+
+**Cách 2: Temporary Project (Chỉ cho Test Nhanh)**
+```
 1. Khởi chạy Burp Suite
-2. Chọn **Temporary project** (để bắt đầu nhanh)
-3. Sử dụng **Burp defaults** cho cấu hình
-4. Click **Start Burp**
+2. Chọn "Temporary project"
+3. Click "Next"
+4. Chọn "Use Burp defaults"
+5. Click "Start Burp"
+
+⚠️ CẢNH BÁO: Nhớ SAVE HTTP history trước khi thoát!
+   Proxy → HTTP history → Right-click → "Save items"
+```
+
+#### Làm thế nào để Mở Lại Project Đã Lưu?
+
+```bash
+# Lần sau khi mở Burp Suite:
+1. Khởi chạy Burp Suite
+2. Chọn "Open existing project"
+3. Duyệt đến: ~/Desktop/burp-setup/projects/smc-task-3.1.burp
+4. Click "Next"
+5. Click "Start Burp"
+
+# Tất cả HTTP history và cấu hình của bạn sẽ vẫn còn đó!
+```
+
+#### So Sánh Nhanh
+
+| Tính năng | Temporary Project | Project on Disk |
+|-----------|------------------|-----------------|
+| Khởi động | Rất nhanh | Hơi chậm |
+| Lưu dữ liệu | ❌ Không | ✅ Có |
+| HTTP History | ❌ Mất khi thoát | ✅ Giữ lại |
+| Screenshots | Phải lưu thủ công | Có thể lưu trong project |
+| Tiếp tục làm việc | ❌ Không thể | ✅ Có thể |
+| Cho bài tập này | ❌ Không tốt | ✅ Tốt nhất |
+
+**Khuyến nghị cuối cùng:** Sử dụng **"New project on disk"** và lưu tại `~/Desktop/burp-setup/projects/smc-task-3.1.burp` để tránh mất dữ liệu!
 
 ### 1.3 Cấu hình Burp Proxy cho localhost
 1. Đi đến **Proxy** → **Settings** → **Proxy Listeners**
@@ -208,42 +306,157 @@ adb shell ls -la /system/etc/security/cacerts/ | grep ${HASH}
 
 ---
 
-## Bước 3: Mở Dự án Client SMC trong Android Studio
+## Bước 3: Cài đặt SMC Client App
 
-### 3.1 Import Dự án
-1. Trong Android Studio, chọn **File** → **Open**
-2. Điều hướng đến repository đã clone:
+Bạn có **HAI TÙY CHỌN** để cài đặt app. Đọc cả hai và chọn phương pháp phù hợp:
+
+---
+
+### TÙY CHỌN A: Sử dụng APK Có Sẵn (Khởi động Nhanh) ⚡
+
+**Khi nào dùng:** Test nhanh, làm quen với app, kiểm thử ngay lập tức
+
+#### A.1 Cài đặt APK Có Sẵn
+
+```bash
+# Bạn đã có APK tại đây:
+# ~/Workspaces/hcmut/co3083-applied-cryptography-and-information-coding/burp-suite/assigment.apk
+
+# Cài đặt trực tiếp:
+adb install -r ~/Workspaces/hcmut/co3083-applied-cryptography-and-information-coding/burp-suite/assigment.apk
+
+# Xác minh cài đặt
+adb shell pm list packages | grep -i smc
+
+# Kiểm tra tên package (cần để khởi chạy app)
+adb shell pm list packages -f | grep -i smc
+```
+
+#### A.2 Khởi chạy App
+
+```bash
+# Tìm package name (sẽ giống như: com.example.smc hoặc tương tự)
+PACKAGE_NAME=$(adb shell pm list packages | grep -i smc | cut -d ':' -f2)
+
+# Khởi chạy app
+adb shell monkey -p $PACKAGE_NAME -c android.intent.category.LAUNCHER 1
+
+# Hoặc tìm và click vào app trong app drawer của emulator
+```
+
+**✅ Ưu điểm:**
+- Rất nhanh (< 1 phút)
+- Không cần build
+- Có thể bắt đầu kiểm thử ngay
+
+**❌ Nhược điểm:**
+- KHÔNG CÓ SOURCE CODE để ánh xạ
+- Không thể hoàn thành đầy đủ Task 3.1 (thiếu code mapping)
+- Khó debug nếu có vấn đề
+
+**⚠️ LƯU Ý QUAN TRỌNG:** APK này CHỈ PHÙ HỢP cho kiểm thử ban đầu. Để hoàn thành đầy đủ bài tập, bạn PHẢI dùng Tùy chọn B để có source code!
+
+---
+
+### TÙY CHỌN B: Clone và Build từ Source Code ⭐ BẮT BUỘC cho Bài tập Hoàn chỉnh
+
+**Khi nào dùng:** Làm bài tập đầy đủ, cần ánh xạ code, hiểu implementation
+
+#### B.1 Clone Repository (nếu chưa clone)
+
+```bash
+# Nếu chưa clone, chạy lệnh này:
+cd ~/Workspaces/hcmut/co3083-applied-cryptography-and-information-coding
+git clone https://github.com/dangduongminhnhat/Client-Assignment-Advance-Cryptography-and-Coding-Theory.git smc-client
+
+# Kiểm tra source code
+cd smc-client
+ls -la
+```
+
+#### B.2 Import Dự án vào Android Studio
+
+1. Mở Android Studio
+2. Chọn **File** → **Open**
+3. Điều hướng đến:
    ```
    ~/Workspaces/hcmut/co3083-applied-cryptography-and-information-coding/smc-client
    ```
-3. Click **Open**
-4. Đợi Gradle sync hoàn tất
+4. Click **Open**
+5. Đợi Gradle sync hoàn tất (có thể mất 5-10 phút lần đầu)
 
-### 3.2 Build Dự án
+#### B.3 Build Dự án
+
 ```bash
-# Qua Android Studio: Build → Make Project
+# Qua Android Studio: Build → Make Project (Cmd+F9)
+
 # Hoặc qua terminal:
 cd ~/Workspaces/hcmut/co3083-applied-cryptography-and-information-coding/smc-client
 ./gradlew assembleDebug
+
+# Đợi build hoàn tất...
 ```
 
-### 3.3 Cài đặt APK trên Emulator
+#### B.4 Cài đặt APK đã Build
 
-**Phương pháp 1: Cài đặt Trực tiếp từ Android Studio**
-1. Chọn emulator của bạn từ dropdown thiết bị
-2. Click nút **Run** (biểu tượng play màu xanh)
-3. App sẽ được build và cài đặt tự động
+**Phương pháp 1: Cài đặt Trực tiếp từ Android Studio (Dễ nhất)**
+```
+1. Đảm bảo emulator đang chạy
+2. Trong Android Studio, chọn emulator từ dropdown thiết bị (góc trên)
+3. Click nút "Run" (▶️ biểu tượng play màu xanh)
+4. App sẽ được build và cài đặt tự động
+```
 
 **Phương pháp 2: Cài đặt Thủ công qua ADB**
 ```bash
-# Tìm APK đã tạo
+# Tìm APK vừa build
+cd ~/Workspaces/hcmut/co3083-applied-cryptography-and-information-coding/smc-client
 find . -name "*.apk" -type f
 
-# Cài đặt trên emulator
+# Thường sẽ ở:
+# ./app/build/outputs/apk/debug/app-debug.apk
+
+# Cài đặt
 adb install -r app/build/outputs/apk/debug/app-debug.apk
 
-# Xác minh cài đặt
+# Xác minh
 adb shell pm list packages | grep smc
+```
+
+**✅ Ưu điểm:**
+- Có TOÀN BỘ SOURCE CODE
+- Có thể ánh xạ API calls đến code locations (YÊU CẦU!)
+- Hiểu được implementation
+- Có thể debug và modify
+- Hoàn thành đầy đủ Task 3.1, 3.2, 3.3
+
+**❌ Nhược điểm:**
+- Mất thời gian setup ban đầu
+- Cần download dependencies
+- Chiếm dung lượng (~500 MB)
+
+---
+
+### KHUYẾN NGHỊ: Sử dụng CẢ HAI Theo Thứ Tự
+
+```
+Ngày 1 (Làm quen - 1-2 giờ):
+├── Cài đặt APK có sẵn (Tùy chọn A)
+├── Test app để hiểu flow
+├── Thử chặn bắt một vài API calls
+└── Làm quen với Burp Suite
+
+Ngày 2 (Setup đầy đủ - 2-3 giờ):
+├── Clone source code (Tùy chọn B)
+├── Build trong Android Studio
+├── Cài đặt phiên bản từ source
+└── Xác minh hoạt động giống APK
+
+Ngày 3-4 (Làm bài tập - 4-6 giờ):
+├── Chặn bắt TẤT CẢ API calls
+├── Lấy screenshots từ Burp
+├── Ánh xạ đến source code (YÊU CẦU SOURCE!)
+└── Viết documentation hoàn chỉnh
 ```
 
 ### 3.4 Vô hiệu hóa Certificate Pinning (nếu cần)
