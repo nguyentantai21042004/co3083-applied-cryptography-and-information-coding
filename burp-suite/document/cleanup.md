@@ -1,9 +1,11 @@
 # Complete Cleanup Guide - After Assignment Completion
 
 ## Overview
+
 This guide helps you completely remove all tools, files, and configurations installed for Task 3.1, leaving only Java (as requested).
 
 **What Will Be Removed:**
+
 - Android Studio and all Android SDKs
 - Android Emulators (AVDs)
 - Burp Suite
@@ -13,6 +15,7 @@ This guide helps you completely remove all tools, files, and configurations inst
 - Cache and temporary files
 
 **What Will Be Kept:**
+
 - Java JDK 17 (as requested)
 - Your assignment documentation and reports
 - Screenshots and deliverables
@@ -20,6 +23,7 @@ This guide helps you completely remove all tools, files, and configurations inst
 ---
 
 ## Table of Contents
+
 1. [Quick Cleanup (Recommended)](#quick-cleanup-recommended)
 2. [Detailed Step-by-Step Cleanup](#detailed-step-by-step-cleanup)
 3. [Verify Cleanup](#verify-cleanup)
@@ -31,6 +35,7 @@ This guide helps you completely remove all tools, files, and configurations inst
 ## Backup Important Files First
 
 ### Before You Start Cleaning
+
 **IMPORTANT:** Save your work before deleting anything!
 
 ```bash
@@ -197,6 +202,7 @@ ls /Applications/ | grep -i android
 ```
 
 **What This Removes:**
+
 - Android Studio IDE (~1 GB)
 - Built-in SDK manager
 - IDE plugins and settings
@@ -220,6 +226,7 @@ rm -rf ~/Library/Android
 ```
 
 **What This Removes:**
+
 - All Android SDK platforms (~5-15 GB)
 - Build tools
 - Platform tools (adb, fastboot)
@@ -244,6 +251,7 @@ rm -rf ~/.android
 ```
 
 **What This Removes:**
+
 - All created AVDs (SMC_Test_Device, etc.)
 - Emulator snapshots
 - Virtual SD card images
@@ -270,6 +278,7 @@ rm -rf ~/Documents/Burp* 2>/dev/null
 ```
 
 **What This Removes:**
+
 - Burp Suite application (~200 MB)
 - Saved projects and configurations
 - Proxy history
@@ -293,6 +302,7 @@ rm -rf ~/Desktop/burp-setup
 ```
 
 **What This Removes:**
+
 - Exported Burp CA certificates
 - Certificate conversion files
 - Any setup scripts you created
@@ -312,6 +322,7 @@ find ~/Downloads -name "*.apk" -type f -delete
 ```
 
 **What This Removes:**
+
 - SMC client source code
 - Built APKs
 - Gradle build cache
@@ -334,6 +345,7 @@ rm -rf ~/.gradle
 ```
 
 **What This Removes:**
+
 - Gradle build cache
 - Downloaded Android libraries
 - Gradle wrapper files
@@ -360,6 +372,7 @@ npm uninstall -g appium 2>/dev/null || true
 ```
 
 **What This Removes:**
+
 - APK analysis tools
 - SSL pinning bypass tools
 - Mobile automation tools
@@ -398,6 +411,7 @@ source ~/.zshrc
 ```
 
 **What This Removes:**
+
 - ANDROID_HOME variable
 - Android SDK paths from PATH
 - Emulator paths
@@ -419,6 +433,7 @@ find ~/Downloads -name "*burp*" -type f -delete
 ```
 
 **What This Removes:**
+
 - Screenshots taken during testing
 - Temporary working directories
 - Downloaded APK files
@@ -583,6 +598,7 @@ echo $JAVA_HOME
 ### Keep Java Configuration
 
 Your `~/.zshrc` should still have (if needed):
+
 ```bash
 export JAVA_HOME=$(/usr/libexec/java_home -v 17)
 ```
@@ -596,6 +612,7 @@ Keep this line if you use Java for other projects.
 ### After Cleanup, You Should Have:
 
 **Removed:**
+
 - [x] Android Studio
 - [x] Android SDK (~10-20 GB)
 - [x] Android Emulators (~5-10 GB)
@@ -607,12 +624,14 @@ Keep this line if you use Java for other projects.
 - [x] Additional tools (apktool, frida, etc.)
 
 **Kept:**
+
 - [x] Java JDK 17
 - [x] Your assignment documentation (in backup)
 - [x] Screenshots and deliverables (in backup)
 - [x] Your final report
 
 **Backup Location:**
+
 - [x] `~/Desktop/smc-assignment-backup/`
 
 ---
@@ -622,6 +641,7 @@ Keep this line if you use Java for other projects.
 ### If You Need to Redo the Assignment
 
 All your important files are backed up at:
+
 ```
 ~/Desktop/smc-assignment-backup/
 ├── task-3.1-guide.md
@@ -635,6 +655,7 @@ All your important files are backed up at:
 ```
 
 To reinstall:
+
 1. Follow the original setup guide
 2. Reference your screenshots and notes
 3. Java is already installed
@@ -644,6 +665,7 @@ To reinstall:
 ## Troubleshooting Cleanup
 
 ### Issue 1: "Permission denied" when deleting
+
 ```bash
 # Use sudo for system files
 sudo rm -rf /path/to/file
@@ -654,12 +676,14 @@ rm -rf /path/to/file
 ```
 
 ### Issue 2: "Directory not found"
+
 ```bash
 # Already deleted - this is fine
 # The cleanup script handles this with `|| true`
 ```
 
 ### Issue 3: Java was accidentally deleted
+
 ```bash
 # Reinstall Java
 brew install openjdk@17
@@ -673,6 +697,7 @@ java -version
 ```
 
 ### Issue 4: Still seeing Android files
+
 ```bash
 # Find remaining Android files
 find ~ -name "*android*" -type d 2>/dev/null
@@ -737,16 +762,16 @@ brew install openjdk@17
 
 ### Expected Results
 
-| Item | Before | After | Space Freed |
-|------|--------|-------|-------------|
-| Android Studio | 1 GB | 0 | 1 GB |
-| Android SDK | 10-20 GB | 0 | 10-20 GB |
-| AVDs | 5-10 GB | 0 | 5-10 GB |
-| Gradle Cache | 1-5 GB | 0 | 1-5 GB |
-| Burp Suite | 500 MB | 0 | 500 MB |
-| SMC Client | 200 MB | 0 | 200 MB |
-| **Total** | **~20-40 GB** | **0** | **~20-40 GB** |
-| Java | 300 MB | **300 MB** | **Kept** |
+| Item           | Before        | After      | Space Freed   |
+| -------------- | ------------- | ---------- | ------------- |
+| Android Studio | 1 GB          | 0          | 1 GB          |
+| Android SDK    | 10-20 GB      | 0          | 10-20 GB      |
+| AVDs           | 5-10 GB       | 0          | 5-10 GB       |
+| Gradle Cache   | 1-5 GB        | 0          | 1-5 GB        |
+| Burp Suite     | 500 MB        | 0          | 500 MB        |
+| SMC Client     | 200 MB        | 0          | 200 MB        |
+| **Total**      | **~20-40 GB** | **0**      | **~20-40 GB** |
+| Java           | 300 MB        | **300 MB** | **Kept**      |
 
 ---
 
@@ -755,6 +780,7 @@ brew install openjdk@17
 ### After Running Cleanup
 
 1. **Restart Terminal**
+
    ```bash
    # Open new terminal window
    # Or reload config
@@ -762,23 +788,27 @@ brew install openjdk@17
    ```
 
 2. **Verify Java Still Works**
+
    ```bash
    java -version
    javac -version
    ```
 
 3. **Check Backup**
+
    ```bash
    ls ~/Desktop/smc-assignment-backup/
    ```
 
 4. **Remove Cleanup Scripts (Optional)**
+
    ```bash
    rm ~/Desktop/cleanup-smc-assignment.sh
    rm ~/Desktop/verify-cleanup.sh
    ```
 
 5. **Submit Assignment**
+
    - Upload your final report
    - Submit screenshots
    - Keep backup until grades are posted

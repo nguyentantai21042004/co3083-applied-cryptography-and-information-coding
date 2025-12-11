@@ -3,9 +3,11 @@
 ## What is `assignment.apk`?
 
 ### Quick Answer
+
 `assignment.apk` (note the typo: "assigment") is the **pre-built Android application package** for the SMC (Secure Messaging Component) client that you need to test for Task 3.1.
 
 ### Location
+
 ```
 /Users/tantai/Workspaces/hcmut/co3083-applied-cryptography-and-information-coding/burp-suite/assigment.apk
 ```
@@ -17,15 +19,19 @@ File size: ~7.3 MB
 ## What is an APK File?
 
 ### Definition
+
 **APK** stands for **Android Package Kit** - it's the file format used to distribute and install applications on Android devices.
 
 Think of it like:
+
 - `.dmg` or `.app` on Mac
 - `.exe` on Windows
 - `.deb` on Linux
 
 ### What's Inside an APK?
+
 An APK contains:
+
 ```
 assignment.apk
 ├── AndroidManifest.xml     # App configuration and permissions
@@ -51,21 +57,25 @@ assignment.apk
 You have **two options** to get the SMC application:
 
 ### Option 1: Use the Pre-built APK (Faster) ⭐ Recommended for Quick Start
+
 **File:** `assignment.apk` (the file you have)
 
 **Pros:**
+
 - ✅ Ready to use immediately
 - ✅ No build process needed
 - ✅ No Gradle/Android Studio setup required initially
 - ✅ Quick testing
 
 **Cons:**
+
 - ❌ Can't see source code directly
 - ❌ Harder to map API calls to code locations
 - ❌ Can't modify the app easily
 - ❌ Need to decompile to understand implementation
 
 **Use Case:**
+
 - Quick initial testing
 - Just want to intercept traffic
 - Time-constrained
@@ -73,9 +83,11 @@ You have **two options** to get the SMC application:
 ---
 
 ### Option 2: Clone and Build from Source (Better for Assignment) ⭐ Recommended for Complete Task
+
 **Source:** GitHub repository
 
 **Pros:**
+
 - ✅ Full access to source code
 - ✅ Can map API calls to exact code locations (required for Task 3.1)
 - ✅ Understand crypto implementation (needed for Tasks 3.2 & 3.3)
@@ -83,11 +95,13 @@ You have **two options** to get the SMC application:
 - ✅ Learn how the app works
 
 **Cons:**
+
 - ❌ Requires Android Studio setup
 - ❌ Build time (~5-10 minutes first time)
 - ❌ Larger download (~500 MB with dependencies)
 
 **Use Case:**
+
 - Complete assignment properly
 - Need to document code locations
 - Want to understand the implementation
@@ -152,6 +166,7 @@ Phase 2: Deep Analysis with Source Code (Day 2-3)
 ```
 
 **Why this approach?**
+
 1. APK lets you start testing immediately
 2. Source code gives you the details needed for documentation
 3. You need both to complete Task 3.1 properly
@@ -161,16 +176,20 @@ Phase 2: Deep Analysis with Source Code (Day 2-3)
 ## The Problem: APK Alone is Not Enough for Task 3.1
 
 ### What Task 3.1 Requires:
+
 From the assignment document:
+
 > **Deliverables:** Documentation containing: Burp screenshots, a table listing each API endpoint, request/response fields, and **mapping to code locations**.
 
 ### What You Can Do with APK Only:
+
 - ✅ Intercept API calls
 - ✅ Take Burp screenshots
 - ✅ Document request/response fields
 - ❌ **Can't easily map to code locations** (major requirement!)
 
 ### What You Can Do with Source Code:
+
 - ✅ Everything above, plus:
 - ✅ Find exact Java/Kotlin files
 - ✅ Identify methods that make API calls
@@ -179,6 +198,7 @@ From the assignment document:
 - ✅ Map to line numbers
 
 **Example of Required Mapping:**
+
 ```
 API: POST /api/keyexchange/init
 
@@ -270,17 +290,17 @@ open smc-java
 
 ## Quick Comparison
 
-| Aspect | Pre-built APK | Source Code from GitHub |
-|--------|---------------|------------------------|
-| **Installation Time** | Immediate | 10-15 minutes |
-| **Size** | 7.3 MB | ~500 MB (with deps) |
-| **Can Run App?** | ✅ Yes | ✅ Yes (after build) |
-| **Can Intercept Traffic?** | ✅ Yes | ✅ Yes |
-| **Can Map to Code?** | ❌ Hard | ✅ Easy |
-| **Can Modify App?** | ❌ No | ✅ Yes |
-| **Sufficient for Task 3.1?** | ❌ **No** | ✅ **Yes** |
-| **Sufficient for Task 3.2?** | ❌ **No** | ✅ **Yes** |
-| **Sufficient for Task 3.3?** | ❌ **No** | ✅ **Yes** |
+| Aspect                       | Pre-built APK | Source Code from GitHub |
+| ---------------------------- | ------------- | ----------------------- |
+| **Installation Time**        | Immediate     | 10-15 minutes           |
+| **Size**                     | 7.3 MB        | ~500 MB (with deps)     |
+| **Can Run App?**             | ✅ Yes        | ✅ Yes (after build)    |
+| **Can Intercept Traffic?**   | ✅ Yes        | ✅ Yes                  |
+| **Can Map to Code?**         | ❌ Hard       | ✅ Easy                 |
+| **Can Modify App?**          | ❌ No         | ✅ Yes                  |
+| **Sufficient for Task 3.1?** | ❌ **No**     | ✅ **Yes**              |
+| **Sufficient for Task 3.2?** | ❌ **No**     | ✅ **Yes**              |
+| **Sufficient for Task 3.3?** | ❌ **No**     | ✅ **Yes**              |
 
 ---
 
@@ -289,6 +309,7 @@ open smc-java
 ### Step-by-Step Plan
 
 **Day 1 - Quick Start (2-3 hours)**
+
 ```bash
 # Use the APK for initial exploration
 1. Install assignment.apk on emulator
@@ -300,6 +321,7 @@ open smc-java
 ```
 
 **Day 2 - Setup Source Code (2-3 hours)**
+
 ```bash
 # Get the proper source code
 1. Clone GitHub repository
@@ -310,6 +332,7 @@ open smc-java
 ```
 
 **Day 3-4 - Complete Analysis (4-6 hours)**
+
 ```bash
 # Do the actual assignment
 1. Intercept all API calls (use either APK or built app)
@@ -324,24 +347,31 @@ open smc-java
 ## Common Questions
 
 ### Q1: Can I complete the assignment with just the APK?
+
 **A:** No. You need source code to map API calls to code locations, which is a required deliverable.
 
 ### Q2: Do I need to build from source if I have the APK?
+
 **A:** Yes, for a complete assignment. You need source code access for documentation.
 
 ### Q3: Is the APK the same as building from source?
+
 **A:** It should be functionally identical, but you won't have access to:
+
 - Original source code
 - Comments in code
 - Clear file/method names
 - Easy code navigation
 
 ### Q4: Can I use the APK for testing and source for analysis?
+
 **A:** Yes! This is actually a good approach:
+
 - Install APK quickly → Test and intercept
 - Use source code → Analyze and map to code locations
 
 ### Q5: Which should I use first?
+
 **A:** Start with APK for quick testing, then set up source code for proper analysis.
 
 ---
@@ -371,18 +401,21 @@ Note: `aapt` comes with Android SDK
 ## Summary
 
 ### What `assignment.apk` Is:
+
 - ✅ The pre-built SMC client application
 - ✅ Ready to install and test immediately
 - ✅ Useful for quick exploration
 - ✅ Good for initial traffic interception
 
 ### What `assignment.apk` Is NOT:
+
 - ❌ A replacement for source code
 - ❌ Sufficient alone for completing the assignment
 - ❌ Easy to analyze without decompiling
 - ❌ Modifiable without advanced tools
 
 ### What You Should Do:
+
 1. ✅ Use `assignment.apk` for **quick initial testing**
 2. ✅ Clone source code from GitHub for **proper analysis**
 3. ✅ Use both together for **efficient workflow**
@@ -403,6 +436,7 @@ cd smc-client
 ```
 
 Then follow the guide at:
+
 - Technical guide: `assignment/task-3.1-guide.md`
 - Conceptual guide: `assignment/task-3.1-concepts.md`
 

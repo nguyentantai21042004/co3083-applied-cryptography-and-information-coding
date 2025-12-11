@@ -1,6 +1,7 @@
 # Task 3.1: Hiểu biết Khái niệm - Bức tranh Tổng thể
 
 ## Mục lục
+
 1. [Chúng ta đang thực sự làm gì?](#chúng-ta-đang-thực-sự-làm-gì)
 2. [Kiến trúc: Mọi thứ Kết hợp với nhau như thế nào](#kiến-trúc-mọi-thứ-kết-hợp-với-nhau-như-thế-nào)
 3. [Phân tích Sâu về Các Thành phần](#phân-tích-sâu-về-các-thành-phần)
@@ -14,13 +15,16 @@
 ## Chúng ta đang thực sự làm gì?
 
 ### Mục tiêu Cốt lõi
+
 Bạn đang trở thành một **chuyên gia phân tích bảo mật** điều tra cách thức hoạt động của một hệ thống nhắn tin an toàn bằng cách:
+
 1. **Quan sát** giao tiếp giữa client và server
 2. **Ghi chép** dữ liệu được trao đổi
 3. **Hiểu** cách các cơ chế bảo mật hoạt động
 4. **Chuẩn bị** để tìm lỗ hổng (Task 3.2 và 3.3)
 
 ### Ví dụ Thực tế
+
 Hãy nghĩ về nó như sau:
 
 **Tình huống:** Bạn là một thanh tra bưu điện điều tra cách thức hoạt động của hệ thống thư tín an toàn.
@@ -33,6 +37,7 @@ Hãy nghĩ về nó như sau:
 - **Mã hóa** = Phong bì và niêm phong bảo vệ nội dung
 
 Bạn đang chặn bắt và đọc những lá thư này (có sự cho phép!) để hiểu:
+
 - Thông tin nào đang được trao đổi?
 - Các niêm phong (mã hóa) được áp dụng như thế nào?
 - Đâu có thể có điểm yếu?
@@ -81,13 +86,13 @@ Bạn đang chặn bắt và đọc những lá thư này (có sự cho phép!) 
 
 ### Vai trò của Các Thành phần
 
-| Thành phần | Vai trò | Tại sao Nó Tồn tại |
-|-----------|------|---------------|
-| **Ứng dụng SMC Android** | Client đang được kiểm thử | Đây là những gì bạn đang phân tích - "đối tượng" |
-| **Android Emulator** | Thiết bị Android ảo | Chạy ứng dụng trong môi trường được kiểm soát mà bạn có thể thao tác |
-| **Burp Suite** | Proxy Man-in-the-Middle | Chặn bắt và ghi log tất cả lưu lượng giữa app và server |
-| **SMC Server** | Ứng dụng backend | Xử lý xác thực, trao đổi khóa, nhắn tin |
-| **Mac M4 của bạn** | Máy chủ | Chạy tất cả các thành phần local |
+| Thành phần               | Vai trò                   | Tại sao Nó Tồn tại                                                   |
+| ------------------------ | ------------------------- | -------------------------------------------------------------------- |
+| **Ứng dụng SMC Android** | Client đang được kiểm thử | Đây là những gì bạn đang phân tích - "đối tượng"                     |
+| **Android Emulator**     | Thiết bị Android ảo       | Chạy ứng dụng trong môi trường được kiểm soát mà bạn có thể thao tác |
+| **Burp Suite**           | Proxy Man-in-the-Middle   | Chặn bắt và ghi log tất cả lưu lượng giữa app và server              |
+| **SMC Server**           | Ứng dụng backend          | Xử lý xác thực, trao đổi khóa, nhắn tin                              |
+| **Mac M4 của bạn**       | Máy chủ                   | Chạy tất cả các thành phần local                                     |
 
 ---
 
@@ -96,9 +101,11 @@ Bạn đang chặn bắt và đọc những lá thư này (có sự cho phép!) 
 ### 1. Android Emulator - Môi trường Được Kiểm soát
 
 #### Nó là gì
+
 Một điện thoại Android ảo chạy trên Mac của bạn, sử dụng kiến trúc ARM64 (native cho chip M4).
 
 #### Tại sao Chúng ta Sử dụng Nó (Thay vì Điện thoại Thật)
+
 - **Kiểm soát Hoàn toàn:** Có thể sửa đổi file hệ thống (cài đặt chứng chỉ như system certs)
 - **Quyền Root:** Có thể sử dụng `adb root` để có quyền superuser
 - **Hệ thống Có thể Ghi:** Có thể sửa đổi phân vùng `/system` mà trên thiết bị thật là read-only
@@ -106,18 +113,22 @@ Một điện thoại Android ảo chạy trên Mac của bạn, sử dụng ki�
 - **Thân thiện với Nhà phát triển:** Dễ tích hợp với Android Studio, công cụ debug
 
 #### Nó Làm gì trong Thiết lập của Chúng ta
+
 1. Chạy ứng dụng SMC
 2. Định tuyến tất cả lưu lượng mạng qua Burp proxy (10.0.2.2:8080)
 3. Tin tưởng chứng chỉ của Burp (sau khi chúng ta cài đặt nó như system cert)
 4. Hoạt động như thể nó là một điện thoại Android thật từ góc nhìn của ứng dụng
 
 #### Địa chỉ Đặc biệt: 10.0.2.2
+
 Đây là một địa chỉ đặc biệt trong Android emulator:
+
 - `10.0.2.2` = Máy chủ của bạn (Mac M4)
 - `127.0.0.1` bên trong emulator = Chính emulator đó
 - Vì vậy khi app kết nối đến `10.0.2.2:8080`, nó đến Burp trên Mac của bạn
 
 **Tại sao không sử dụng IP thật của Mac?**
+
 - Không cần cấu hình mạng
 - Hoạt động offline
 - Nhất quán qua các môi trường mạng khác nhau
@@ -128,6 +139,7 @@ Một điện thoại Android ảo chạy trên Mac của bạn, sử dụng ki�
 ### 2. Burp Suite - Proxy Chặn bắt
 
 #### Nó là gì
+
 Một công cụ kiểm thử bảo mật ngồi giữa client và server, hoạt động như một "man-in-the-middle."
 
 #### Khái niệm: Man-in-the-Middle (MITM)
@@ -151,17 +163,20 @@ Những gì Burp thấy:
 #### Tại sao Điều này Hoạt động (Mẹo Chứng chỉ)
 
 **Vấn đề:**
+
 - Ứng dụng sử dụng HTTPS (giao tiếp được mã hóa)
 - HTTPS ngăn chặn các cuộc tấn công man-in-the-middle bằng chứng chỉ
 - Server có chứng chỉ hợp pháp được ký bởi Certificate Authority (CA) đáng tin cậy
 
 **Giải pháp:**
+
 - Cài đặt chứng chỉ của Burp trên Android như một CA "đáng tin cậy"
 - Bây giờ Android tin tưởng chứng chỉ của Burp
 - Burp tạo chứng chỉ giả cho mỗi kết nối
 - Android nghĩ Burp là server thật
 
 **Quy trình:**
+
 ```
 1. App muốn nói chuyện với server.example.com
 2. App kết nối đến Burp (nghĩ đó là server)
@@ -177,16 +192,19 @@ Những gì Burp thấy:
 #### Tại sao Cài đặt như System Certificate?
 
 **Bảo mật Android 7.0+:**
+
 - Chứng chỉ do người dùng cài đặt: Chỉ được tin tưởng bởi trình duyệt, không phải apps
 - System certificates: Được tin tưởng bởi tất cả apps
 
 **Nhu cầu của Chúng ta:**
+
 - Ứng dụng SMC cần tin tưởng chứng chỉ của Burp
 - Phải cài đặt trong `/system/etc/security/cacerts/`
 - Yêu cầu quyền root và phân vùng hệ thống có thể ghi
 - Đó là lý do chúng ta sử dụng cờ `-writable-system`
 
 #### Những gì Burp Chặn bắt
+
 - **HTTP History:** Mọi request và response
 - **Headers:** Siêu dữ liệu về request (loại nội dung, auth tokens, v.v.)
 - **Body:** Dữ liệu thực tế được gửi (JSON, XML, v.v.)
@@ -198,7 +216,9 @@ Những gì Burp thấy:
 ### 3. Ứng dụng SMC - Đối tượng
 
 #### Nó là gì
+
 Một ứng dụng Android triển khai Thành phần Nhắn tin An toàn (Secure Messaging Component - SMC) với:
+
 - Xác thực người dùng
 - Trao đổi khóa mật mã
 - Nhắn tin được mã hóa
@@ -229,7 +249,9 @@ Mục đích: Trao đổi tin nhắn được mã hóa
 ```
 
 #### Tại sao Chúng ta Nghiên cứu Mã nguồn
+
 Ứng dụng là mã nguồn mở, vì vậy chúng ta có thể:
+
 1. **Ánh xạ network calls đến code:** "API call này đến từ dòng 45 trong KeyExchange.java"
 2. **Hiểu các thao tác crypto:** Xem cách khóa được tạo, cách mã hóa hoạt động
 3. **Tìm lỗ hổng triển khai:** Tìm kiếm các lỗi trong code
@@ -240,20 +262,26 @@ Mục đích: Trao đổi tin nhắn được mã hóa
 ### 4. SMC Server - Mục tiêu
 
 #### Nó là gì
+
 Một server từ xa (được cung cấp bởi giảng viên của bạn) mà:
+
 - Xác thực người dùng
 - Thực hiện trao đổi khóa
 - Lưu trữ và chuyển tiếp tin nhắn được mã hóa
 
 #### Tại sao Chúng ta Không Kiểm soát Nó
+
 Điều này mô phỏng một tình huống thực tế:
+
 - Bạn đang kiểm thử một client chống lại một server sản xuất
 - Bạn có thể quan sát, nhưng không thể sửa đổi hành vi server
 - Buộc bạn hiểu giao thức từ góc nhìn của client
 - Làm cho việc khai thác thực tế hơn (cho Task 3.3)
 
 #### Những gì Nó Tiết lộ
+
 RESTful API endpoints như:
+
 - `POST /api/auth/login`
 - `POST /api/keyexchange/init`
 - `POST /api/message/send`
@@ -268,6 +296,7 @@ RESTful API endpoints như:
 Hãy theo dõi một tin nhắn "Hello" qua toàn bộ hệ thống:
 
 #### Bước 1: App Tạo Request
+
 ```java
 // Trong ứng dụng Android (dòng 67 của MessageService.java)
 POST /api/message/send
@@ -283,6 +312,7 @@ Body:
 ```
 
 #### Bước 2: Emulator Định tuyến đến Burp
+
 ```
 App nghĩ nó đang gửi đến: https://smc-server.com/api/message/send
 Thực tế gửi đến: 10.0.2.2:8080 (Burp trên Mac của bạn)
@@ -290,6 +320,7 @@ Cấu hình proxy của emulator chuyển hướng tất cả lưu lượng qua 
 ```
 
 #### Bước 3: Burp Chặn bắt
+
 ```
 Burp nhận kết nối HTTPS được mã hóa
 Burp giải mã bằng chứng chỉ của nó (mà Android tin tưởng)
@@ -301,6 +332,7 @@ Burp hiển thị cho bạn plaintext:
 ```
 
 #### Bước 4: Bạn Ghi chép Nó
+
 ```
 Đã chụp màn hình
 Các trường đã được ghi chép:
@@ -310,6 +342,7 @@ Các trường đã được ghi chép:
 ```
 
 #### Bước 5: Burp Chuyển tiếp đến Server Thật
+
 ```
 Burp tạo kết nối HTTPS mới đến server thật
 Gửi request giống hệt (mã hóa lại với cert của server)
@@ -317,6 +350,7 @@ Server không biết Burp đang ở giữa
 ```
 
 #### Bước 6: Server Phản hồi
+
 ```
 Server xử lý request:
   - Xác thực chữ ký
@@ -332,6 +366,7 @@ Response:
 ```
 
 #### Bước 7: Burp Chặn bắt Response
+
 ```
 Burp nhận response được mã hóa từ server
 Burp giải mã nó
@@ -340,6 +375,7 @@ Bạn ghi chép nó
 ```
 
 #### Bước 8: Burp Trả về App
+
 ```
 Burp mã hóa lại response (với chứng chỉ của nó)
 Gửi đến emulator
@@ -348,6 +384,7 @@ App nghĩ nó đã nói chuyện trực tiếp với server
 ```
 
 #### Bước 9: Bạn Ánh xạ đến Code
+
 ```
 Tìm kiếm codebase cho "/api/message/send"
 Tìm MessageService.java:67
@@ -361,15 +398,18 @@ Xem cách response được xử lý
 ## Tại sao Mỗi Bước lại Quan trọng
 
 ### Tại sao Cài đặt Android Studio?
+
 **Câu trả lời Ngắn gọn:** Để build, chạy và phân tích ứng dụng SMC.
 
 **Lý do Sâu:**
+
 - Bạn cần **mã nguồn** để hiểu triển khai
 - Bạn cần **build APK** từ mã nguồn (để đảm bảo đó là phiên bản đúng)
 - Bạn cần **công cụ IDE** để tìm kiếm code, debug, hiểu cấu trúc
 - Bạn cần **công cụ Android SDK** (adb, emulator) đi kèm
 
 **Không có Nó:**
+
 - Bạn có thể tải APK đã build sẵn, nhưng không thể phân tích mã nguồn
 - Bạn không thể sửa đổi ứng dụng nếu cần
 - Bạn sẽ bỏ lỡ hiểu biết về cách crypto được triển khai
@@ -377,15 +417,18 @@ Xem cách response được xử lý
 ---
 
 ### Tại sao Tạo ARM64 Emulator?
+
 **Câu trả lời Ngắn gọn:** Để chạy ứng dụng trong môi trường được kiểm soát.
 
 **Lý do Sâu:**
+
 - **Kiến trúc ARM64** khớp với chip M4 = hiệu suất tốt hơn (không có x86 translation)
 - **Emulator** cung cấp quyền root = có thể cài đặt system certificates
 - **Hệ thống có thể ghi** = có thể sửa đổi các phân vùng read-only
 - **Không có thiết bị vật lý** = thuận tiện hơn, có thể lặp lại, có thể reset
 
 **Không có Nó:**
+
 - Thiết bị vật lý: khó root hơn, không thể dễ dàng reset, rủi ro brick
 - x86 emulator: chậm hơn trên M4, overhead translation
 - Không có emulator: không thể dễ dàng chặn bắt lưu lượng, kiểm soát hạn chế
@@ -393,10 +436,12 @@ Xem cách response được xử lý
 ---
 
 ### Tại sao Cấu hình Proxy Settings?
+
 **Câu trả lời Ngắn gọn:** Để định tuyến tất cả lưu lượng app qua Burp.
 
 **Lý do Sâu:**
 Định tuyến lưu lượng mạng:
+
 ```
 Mặc định:
 App → Android OS → Network Interface → Internet → Server
@@ -408,6 +453,7 @@ App → Android OS → Proxy Config → Burp (10.0.2.2:8080) → Server
 **Hai Phương pháp:**
 
 1. **Emulator Launch Flag** (`-http-proxy 127.0.0.1:8080`)
+
    - Đặt proxy toàn cục cho toàn bộ emulator
    - Hoạt động cho tất cả apps
    - Áp dụng ở cấp độ emulator
@@ -418,6 +464,7 @@ App → Android OS → Proxy Config → Burp (10.0.2.2:8080) → Server
    - Giống như những gì bạn sẽ làm trên điện thoại thật
 
 **Không có Nó:**
+
 - Lưu lượng đi trực tiếp đến server
 - Burp không thấy gì
 - Không thể chặn bắt hoặc phân tích
@@ -425,11 +472,13 @@ App → Android OS → Proxy Config → Burp (10.0.2.2:8080) → Server
 ---
 
 ### Tại sao Cài đặt Burp Certificate như System Certificate?
+
 **Câu trả lời Ngắn gọn:** Để app tin tưởng chứng chỉ giả của Burp.
 
 **Lý do Sâu:**
 
 **Chuỗi Tin cậy:**
+
 ```
 1. App muốn kết nối HTTPS
 2. Burp trình bày chứng chỉ cho server
@@ -441,6 +490,7 @@ App → Android OS → Proxy Config → Burp (10.0.2.2:8080) → Server
 ```
 
 **Chứng chỉ Người dùng vs Hệ thống:**
+
 ```
 Chứng chỉ Người dùng (/data/misc/user/0/cacerts-added/)
   - Được cài đặt bởi người dùng
@@ -454,6 +504,7 @@ System Certificates (/system/etc/security/cacerts/)
 ```
 
 **Tại sao Tên File Hash?**
+
 ```bash
 # Chứng chỉ: 9a5ba575.0
 # 9a5ba575 = hash của certificate subject
@@ -464,6 +515,7 @@ System Certificates (/system/etc/security/cacerts/)
 ```
 
 **Không có Nó:**
+
 - App từ chối chứng chỉ của Burp
 - Lỗi SSL/TLS: "Untrusted certificate"
 - Không có lưu lượng được chặn bắt (kết nối thất bại)
@@ -471,11 +523,13 @@ System Certificates (/system/etc/security/cacerts/)
 ---
 
 ### Tại sao Sử dụng Cờ `-writable-system`?
+
 **Câu trả lời Ngắn gọn:** Để sửa đổi phân vùng hệ thống read-only.
 
 **Lý do Sâu:**
 
 **Bố cục Phân vùng Android:**
+
 ```
 /data      - Đọc/Ghi - Dữ liệu người dùng, dữ liệu app
 /sdcard    - Đọc/Ghi - File người dùng
@@ -483,11 +537,13 @@ System Certificates (/system/etc/security/cacerts/)
 ```
 
 **Vấn đề:**
+
 - Cần cài đặt chứng chỉ trong `/system/etc/security/cacerts/`
 - `/system` được mount read-only để bảo mật
 - Không thể ghi vào nó bình thường
 
 **Giải pháp:**
+
 ```bash
 # Phương pháp 1: Cờ Writable System
 emulator -avd SMC_Test_Device -writable-system
@@ -500,6 +556,7 @@ adb remount
 ```
 
 **Không có Nó:**
+
 ```bash
 adb push cert.pem /system/etc/security/cacerts/
 # Lỗi: Read-only file system
@@ -508,20 +565,24 @@ adb push cert.pem /system/etc/security/cacerts/
 ---
 
 ### Tại sao Quyền Root (`adb root`)?
+
 **Câu trả lời Ngắn gọn:** Để có quyền superuser để sửa đổi file hệ thống.
 
 **Lý do Sâu:**
 
 **Quyền Linux:**
+
 ```
 $ ls -la /system/etc/security/cacerts/
 drwxr-xr-x root root   - cacerts
 -rw-r--r-- root root 1234 12345678.0
 ```
+
 - Chủ sở hữu: root
 - Chỉ root mới có thể ghi vào thư mục này
 
 **Những gì `adb root` Làm:**
+
 ```
 ADB Bình thường:
 $ adb shell
@@ -540,6 +601,7 @@ root@android:/ # ls /system/etc/security/cacerts/
 ```
 
 **Không có Nó:**
+
 - Không thể ghi vào `/system`
 - Không thể `chmod` file hệ thống
 - Không thể cài đặt chứng chỉ
@@ -547,11 +609,13 @@ root@android:/ # ls /system/etc/security/cacerts/
 ---
 
 ### Tại sao Chuyển đổi Định dạng Chứng chỉ (DER sang PEM)?
+
 **Câu trả lời Ngắn gọn:** Chứng chỉ hệ thống Android phải ở định dạng PEM với tên cụ thể.
 
 **Lý do Sâu:**
 
 **Định dạng Chứng chỉ:**
+
 ```
 DER (Distinguished Encoding Rules)
 - Định dạng nhị phân
@@ -567,6 +631,7 @@ PEM (Privacy Enhanced Mail)
 ```
 
 **Chuyển đổi:**
+
 ```bash
 # Burp cung cấp cho bạn: burp-cert.der
 openssl x509 -inform DER -in burp-cert.der -out burp-cert.pem
@@ -577,11 +642,13 @@ cp burp-cert.pem ${HASH}.0
 ```
 
 **Tại sao Hash?**
+
 - Android tra cứu certs theo subject hash để hiệu quả
 - Định dạng phải là: `[8-char-hex-hash].0`
 - Ví dụ: `9a5ba575.0`
 
 **Không có Nó:**
+
 - Định dạng sai: Android không thể đọc chứng chỉ
 - Tên sai: Android không thể tìm thấy chứng chỉ
 - App sẽ không tin tưởng Burp
@@ -589,12 +656,15 @@ cp burp-cert.pem ${HASH}.0
 ---
 
 ### Tại sao Build từ Mã nguồn (Không chỉ Tải APK)?
+
 **Câu trả lời Ngắn gọn:** Để phân tích code và hiểu triển khai.
 
 **Lý do Sâu:**
 
 **Những gì Bạn Nhận được từ Mã nguồn:**
+
 1. **Hiểu Code:**
+
    ```java
    // Bạn có thể thấy chính xác cách mã hóa hoạt động
    SecretKey key = generateKey();
@@ -604,6 +674,7 @@ cp burp-cert.pem ${HASH}.0
    ```
 
 2. **Ánh xạ API:**
+
    ```java
    // Dòng 45 trong KeyExchangeService.java
    @POST("/api/keyexchange/init")
@@ -611,9 +682,11 @@ cp burp-cert.pem ${HASH}.0
        @Body KeyExchangeRequest request
    );
    ```
+
    Bây giờ bạn biết request Burp này đến từ dòng 45!
 
 3. **Khám phá Lỗ hổng:**
+
    ```java
    // Ồ, khóa được hardcode!
    private static final String SECRET_KEY = "hardcoded_secret_123";
@@ -629,6 +702,7 @@ cp burp-cert.pem ${HASH}.0
    ```
 
 **Chỉ APK Đã Build Sẵn:**
+
 - Bạn thấy lưu lượng mạng trong Burp
 - Nhưng không biết nó đến từ đâu trong code
 - Không thể hiểu triển khai crypto
@@ -709,6 +783,7 @@ Lớp Vật lý:     [Network Interface]
 ```
 
 Bạn đang làm việc ở Lớp Proxy:
+
 - Trên: Logic ứng dụng (nghiên cứu code)
 - Tại: Network requests (chặn bắt với Burp)
 - Dưới: Không quan tâm (được xử lý bởi OS)
@@ -718,6 +793,7 @@ Bạn đang làm việc ở Lớp Proxy:
 ## Những Hiểu lầm Thường gặp
 
 ### Hiểu lầm 1: "Burp hack mã hóa"
+
 **Thực tế:** Burp không phá vỡ mã hóa. Nó lừa app tin tưởng nó.
 
 ```
@@ -730,7 +806,9 @@ App mã hóa → Burp phá vỡ mã hóa → Server
 ---
 
 ### Hiểu lầm 2: "Chúng ta cần điện thoại Android vật lý"
+
 **Thực tế:** Emulator tốt hơn cho kiểm thử bảo mật vì:
+
 - Kiểm soát hoàn toàn (quyền root)
 - Hệ thống có thể ghi
 - Dễ reset
@@ -740,7 +818,9 @@ App mã hóa → Burp phá vỡ mã hóa → Server
 ---
 
 ### Hiểu lầm 3: "Proxy làm chậm app"
+
 **Thực tế:** Tác động tối thiểu vì:
+
 - Burp chạy local (không có độ trễ mạng)
 - Burp nhanh
 - Độ trễ chính là từ việc ghi chép (bạn click qua)
@@ -748,7 +828,9 @@ App mã hóa → Burp phá vỡ mã hóa → Server
 ---
 
 ### Hiểu lầm 4: "System certificate = kém an toàn hơn"
+
 **Thực tế:** Đó là môi trường kiểm thử được kiểm soát:
+
 - Chỉ emulator của bạn bị ảnh hưởng
 - Chỉ cert của Burp được tin tưởng
 - Cô lập khỏi thiết bị Android thật
@@ -759,7 +841,9 @@ Không bao giờ làm điều này trên điện thoại hàng ngày của bạn
 ---
 
 ### Hiểu lầm 5: "Tôi có thể bỏ qua mã nguồn"
+
 **Thực tế:** Mã nguồn là cần thiết vì:
+
 - Task 3.1 yêu cầu ánh xạ APIs đến vị trí code
 - Task 3.2 yêu cầu hiểu triển khai giao thức
 - Task 3.3 yêu cầu tìm lỗ hổng trong code
@@ -772,21 +856,25 @@ Không bao giờ làm điều này trên điện thoại hàng ngày của bạn
 ### Những gì Bạn đang Hướng tới
 
 **Task 3.1 (Hiện tại):**
+
 - **Kỹ năng:** Quan sát và ghi chép
 - **Đầu ra:** Bản đồ tất cả giao tiếp API
 - **Nền tảng cho:** Hiểu giao thức
 
 **Task 3.2 (Tiếp theo):**
+
 - **Kỹ năng:** Tái cấu trúc giao thức
 - **Đầu ra:** Tái triển khai client
 - **Nền tảng cho:** Tìm lỗ hổng
 
 **Task 3.3 (Cuối cùng):**
+
 - **Kỹ năng:** Khai thác
 - **Đầu ra:** Proof-of-concept exploit hoạt động
 - **Nền tảng cho:** Kiểm thử bảo mật thực tế
 
 **Sự Tiến triển:**
+
 ```
 Task 3.1: Điều gì đang xảy ra?
     ↓
@@ -799,19 +887,19 @@ Task 3.3: Nó bị hỏng ở đâu?
 
 ## Tham khảo Nhanh: Tại sao Mỗi Thành phần
 
-| Thành phần | Mục đích | Nó Làm gì | Tại sao Nó Cần thiết |
-|-----------|---------|--------------|-------------------|
-| **Mac M4** | Môi trường chủ | Chạy mọi thứ | Không gian làm việc của bạn |
-| **Android Studio** | IDE phát triển | Build app, quản lý emulator | Phân tích mã nguồn |
-| **ARM64 Emulator** | Môi trường kiểm thử | Chạy ứng dụng Android | Kiểm thử được kiểm soát |
-| **Burp Suite** | MITM Proxy | Chặn bắt lưu lượng | Xem tất cả giao tiếp |
-| **Burp Certificate** | Cơ chế tin cậy | Cho phép chặn bắt HTTPS | Giải mã lưu lượng |
-| **System Cert Install** | Tin cậy cấp app | Làm app tin tưởng Burp | Yêu cầu cho Android 7+ |
-| **Writable System** | Sửa đổi file | Cài đặt system cert | Sửa đổi phân vùng read-only |
-| **Root Access** | Quyền | Ghi file hệ thống | Cần quyền admin |
-| **Proxy Config** | Định tuyến lưu lượng | Định tuyến qua Burp | Hướng lưu lượng đến proxy |
-| **Mã nguồn** | Hiểu biết | Xem triển khai | Ánh xạ lưu lượng đến code |
-| **10.0.2.2** | Mạng | Emulator→Mac | Địa chỉ emulator đặc biệt |
+| Thành phần              | Mục đích             | Nó Làm gì                   | Tại sao Nó Cần thiết        |
+| ----------------------- | -------------------- | --------------------------- | --------------------------- |
+| **Mac M4**              | Môi trường chủ       | Chạy mọi thứ                | Không gian làm việc của bạn |
+| **Android Studio**      | IDE phát triển       | Build app, quản lý emulator | Phân tích mã nguồn          |
+| **ARM64 Emulator**      | Môi trường kiểm thử  | Chạy ứng dụng Android       | Kiểm thử được kiểm soát     |
+| **Burp Suite**          | MITM Proxy           | Chặn bắt lưu lượng          | Xem tất cả giao tiếp        |
+| **Burp Certificate**    | Cơ chế tin cậy       | Cho phép chặn bắt HTTPS     | Giải mã lưu lượng           |
+| **System Cert Install** | Tin cậy cấp app      | Làm app tin tưởng Burp      | Yêu cầu cho Android 7+      |
+| **Writable System**     | Sửa đổi file         | Cài đặt system cert         | Sửa đổi phân vùng read-only |
+| **Root Access**         | Quyền                | Ghi file hệ thống           | Cần quyền admin             |
+| **Proxy Config**        | Định tuyến lưu lượng | Định tuyến qua Burp         | Hướng lưu lượng đến proxy   |
+| **Mã nguồn**            | Hiểu biết            | Xem triển khai              | Ánh xạ lưu lượng đến code   |
+| **10.0.2.2**            | Mạng                 | Emulator→Mac                | Địa chỉ emulator đặc biệt   |
 
 ---
 
@@ -830,4 +918,3 @@ Mọi công cụ, mọi bước, mọi cấu hình đều phục vụ mục tiê
 Khi bạn hiểu "tại sao," "như thế nào" trở nên rõ ràng hơn nhiều.
 
 Chúc may mắn với cuộc điều tra của bạn!
-

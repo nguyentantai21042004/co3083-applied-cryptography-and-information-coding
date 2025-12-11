@@ -1,7 +1,9 @@
 # Task: Hướng dẫn Từ đầu đến cuối - Chặn bắt & Phân tích API sử dụng Burp Suite
+
 ## Phiên bản Mac M4 với Môi trường Android Containerized
 
 ## Tổng quan
+
 Hướng dẫn này cung cấp hướng dẫn từng bước để hoàn thành Task 3.1 của bài tập SMC Exploitation trên Mac M4. Bạn sẽ thiết lập Burp Suite như một proxy man-in-the-middle để chặn bắt và ghi chép tất cả các cuộc gọi API giữa client Android và server sử dụng emulator của Android Studio.
 
 **Điểm:** 0.5
@@ -13,6 +15,7 @@ Hướng dẫn này cung cấp hướng dẫn từng bước để hoàn thành 
 ## Điều kiện Tiên quyết
 
 ### Yêu cầu Hệ thống
+
 - **Mac M4** (Apple Silicon)
 - **macOS Sonoma** hoặc mới hơn
 - **Homebrew** đã cài đặt
@@ -21,15 +24,18 @@ Hướng dẫn này cung cấp hướng dẫn từng bước để hoàn thành 
 ### Phần mềm Cần thiết
 
 1. **Burp Suite Community Edition cho macOS (ARM64)**
+
    - Tải xuống: https://portswigger.net/burp/releases/professional-community-2025-8-7?requestededition=community&requestedplatform=
    - Chọn: Phiên bản **macOS (ARM64)** cho chip M4
 
 2. **Android Studio (Apple Silicon)**
+
    - Tải xuống: https://developer.android.com/studio
    - Chọn: Phiên bản **Mac (ARM64)**
    - Bao gồm Android SDK và emulator ARM64 được tối ưu cho M4
 
 3. **Java Development Kit (JDK)**
+
    ```bash
    brew install openjdk@17
    ```
@@ -37,23 +43,28 @@ Hướng dẫn này cung cấp hướng dẫn từng bước để hoàn thành 
 4. **Mã nguồn & APK Client SMC**
 
    **Tùy chọn A: Sử dụng APK có sẵn (Khởi động Nhanh)**
+
    - Bạn đã có file APK tại: `~/Workspaces/hcmut/co3083-applied-cryptography-and-information-coding/burp-suite/assigment.apk`
    - Có thể cài đặt ngay lập tức để kiểm thử
    - **Lưu ý:** APK đơn thuần KHÔNG ĐỦ để hoàn thành bài tập (thiếu source code để ánh xạ)
 
    **Tùy chọn B: Clone Mã nguồn từ GitHub (Bắt buộc cho bài tập hoàn chỉnh)**
+
    - Repository: https://github.com/dangduongminhnhat/Client-Assignment-Advance-Cryptography-and-Coding-Theory
    - Clone vào workspace của bạn:
+
    ```bash
    cd ~/Workspaces/hcmut/co3083-applied-cryptography-and-information-coding
    git clone https://github.com/dangduongminhnhat/Client-Assignment-Advance-Cryptography-and-Coding-Theory.git smc-client
    ```
 
    **Khuyến nghị:** Sử dụng CẢ HAI
+
    - Dùng APK để kiểm thử nhanh ban đầu
    - Dùng source code để phân tích và ánh xạ đến vị trí code (yêu cầu của bài tập)
 
 ### Công cụ Tùy chọn
+
 - **Docker Desktop cho Mac (Apple Silicon)** - cho các tình huống kiểm thử containerized
 - **Visual Studio Code** - để phân tích code
 - **apktool** - để phân tích và sửa đổi APK
@@ -66,6 +77,7 @@ Hướng dẫn này cung cấp hướng dẫn từng bước để hoàn thành 
 ## Bước 1: Cài đặt và Cấu hình Burp Suite trên Mac M4
 
 ### 1.1 Cài đặt Burp Suite
+
 ```bash
 # Tải xuống file DMG macOS ARM64
 # Mở DMG đã tải xuống và kéo Burp Suite vào Applications
@@ -81,6 +93,7 @@ Khi khởi chạy Burp Suite lần đầu, bạn sẽ thấy màn hình chọn l
 #### Lựa chọn Loại Project
 
 **Tùy chọn 1: Temporary Project (Dự án Tạm thời)** - Cho kiểm thử nhanh
+
 ```
 ✅ Ưu điểm:
 - Khởi động nhanh
@@ -95,6 +108,7 @@ Khi khởi chạy Burp Suite lần đầu, bạn sẽ thấy màn hình chọn l
 ```
 
 **Tùy chọn 2: New Project on Disk (Dự án mới trên Đĩa)** - ⭐ KHUYẾN NGHỊ
+
 ```
 ✅ Ưu điểm:
 - LƯU TẤT CẢ dữ liệu vào file
@@ -110,6 +124,7 @@ Khi khởi chạy Burp Suite lần đầu, bạn sẽ thấy màn hình chọn l
 #### Hướng dẫn Thiết lập (KHUYẾN NGHỊ)
 
 **Cách 1: Tạo Project Mới để Lưu Dữ liệu (⭐ Recommended)**
+
 ```bash
 # 1. Tạo thư mục cho Burp project
 mkdir -p ~/Desktop/burp-setup/projects
@@ -130,6 +145,7 @@ open -a "Burp Suite Community Edition"
 ```
 
 **Cách 2: Temporary Project (Chỉ cho Test Nhanh)**
+
 ```
 1. Khởi chạy Burp Suite
 2. Chọn "Temporary project"
@@ -156,18 +172,19 @@ open -a "Burp Suite Community Edition"
 
 #### So Sánh Nhanh
 
-| Tính năng | Temporary Project | Project on Disk |
-|-----------|------------------|-----------------|
-| Khởi động | Rất nhanh | Hơi chậm |
-| Lưu dữ liệu | ❌ Không | ✅ Có |
-| HTTP History | ❌ Mất khi thoát | ✅ Giữ lại |
-| Screenshots | Phải lưu thủ công | Có thể lưu trong project |
-| Tiếp tục làm việc | ❌ Không thể | ✅ Có thể |
-| Cho bài tập này | ❌ Không tốt | ✅ Tốt nhất |
+| Tính năng         | Temporary Project | Project on Disk          |
+| ----------------- | ----------------- | ------------------------ |
+| Khởi động         | Rất nhanh         | Hơi chậm                 |
+| Lưu dữ liệu       | ❌ Không          | ✅ Có                    |
+| HTTP History      | ❌ Mất khi thoát  | ✅ Giữ lại               |
+| Screenshots       | Phải lưu thủ công | Có thể lưu trong project |
+| Tiếp tục làm việc | ❌ Không thể      | ✅ Có thể                |
+| Cho bài tập này   | ❌ Không tốt      | ✅ Tốt nhất              |
 
 **Khuyến nghị cuối cùng:** Sử dụng **"New project on disk"** và lưu tại `~/Desktop/burp-setup/projects/smc-task-3.1.burp` để tránh mất dữ liệu!
 
 ### 1.3 Cấu hình Burp Proxy cho localhost
+
 1. Đi đến **Proxy** → **Settings** → **Proxy Listeners**
 2. Bạn sẽ thấy một listener trên `127.0.0.1:8080`
 3. Vì Android Emulator chạy trên cùng máy, chúng ta sẽ sử dụng địa chỉ đặc biệt:
@@ -175,6 +192,7 @@ open -a "Burp Suite Community Edition"
    - Giữ listener mặc định `127.0.0.1:8080`
 
 ### 1.4 Xuất Chứng chỉ CA của Burp
+
 ```bash
 # Tạo thư mục cho chứng chỉ
 mkdir -p ~/Desktop/burp-setup
@@ -203,6 +221,7 @@ cp ~/Desktop/burp-setup/burp-cert.pem ~/Desktop/burp-setup/${HASH}.0
 ## Bước 2: Thiết lập Android Studio và Emulator
 
 ### 2.1 Cài đặt Android Studio
+
 ```bash
 # Tải xuống từ https://developer.android.com/studio
 # Cài đặt Android Studio (phiên bản ARM64 cho M4)
@@ -212,8 +231,10 @@ brew install --cask android-studio
 ```
 
 ### 2.2 Cấu hình Android Studio
+
 1. Khởi chạy Android Studio
 2. Hoàn thành setup wizard:
+
    - Cài đặt Android SDK
    - Cài đặt Android SDK Platform
    - Cài đặt Android Virtual Device (AVD)
@@ -244,6 +265,7 @@ brew install --cask android-studio
 ### 2.4 Cấu hình Cài đặt Mạng Emulator
 
 **Phương pháp 1: Khởi chạy với Proxy (Khuyến nghị)**
+
 ```bash
 # Thiết lập biến môi trường
 export ANDROID_HOME=~/Library/Android/sdk
@@ -256,6 +278,7 @@ emulator -avd SMC_Test_Device \
 ```
 
 **Phương pháp 2: Đặt Proxy qua Cài đặt Android**
+
 1. Khởi chạy emulator bình thường từ Android Studio
 2. Trong emulator, đi đến **Settings** → **Network & Internet** → **Internet**
 3. Nhấn giữ **AndroidWifi**
@@ -296,6 +319,7 @@ adb shell ls -la /system/etc/security/cacerts/ | grep ${HASH}
 ```
 
 ### 2.6 Xác minh Kết nối Proxy
+
 ```bash
 # Trong emulator, mở trình duyệt Chrome
 # Điều hướng đến: http://burp
@@ -345,11 +369,13 @@ adb shell monkey -p $PACKAGE_NAME -c android.intent.category.LAUNCHER 1
 ```
 
 **✅ Ưu điểm:**
+
 - Rất nhanh (< 1 phút)
 - Không cần build
 - Có thể bắt đầu kiểm thử ngay
 
 **❌ Nhược điểm:**
+
 - KHÔNG CÓ SOURCE CODE để ánh xạ
 - Không thể hoàn thành đầy đủ Task 3.1 (thiếu code mapping)
 - Khó debug nếu có vấn đề
@@ -400,6 +426,7 @@ cd ~/Workspaces/hcmut/co3083-applied-cryptography-and-information-coding/smc-cli
 #### B.4 Cài đặt APK đã Build
 
 **Phương pháp 1: Cài đặt Trực tiếp từ Android Studio (Dễ nhất)**
+
 ```
 1. Đảm bảo emulator đang chạy
 2. Trong Android Studio, chọn emulator từ dropdown thiết bị (góc trên)
@@ -408,6 +435,7 @@ cd ~/Workspaces/hcmut/co3083-applied-cryptography-and-information-coding/smc-cli
 ```
 
 **Phương pháp 2: Cài đặt Thủ công qua ADB**
+
 ```bash
 # Tìm APK vừa build
 cd ~/Workspaces/hcmut/co3083-applied-cryptography-and-information-coding/smc-client
@@ -424,6 +452,7 @@ adb shell pm list packages | grep smc
 ```
 
 **✅ Ưu điểm:**
+
 - Có TOÀN BỘ SOURCE CODE
 - Có thể ánh xạ API calls đến code locations (YÊU CẦU!)
 - Hiểu được implementation
@@ -431,6 +460,7 @@ adb shell pm list packages | grep smc
 - Hoàn thành đầy đủ Task 3.1, 3.2, 3.3
 
 **❌ Nhược điểm:**
+
 - Mất thời gian setup ban đầu
 - Cần download dependencies
 - Chiếm dung lượng (~500 MB)
@@ -464,9 +494,11 @@ Ngày 3-4 (Làm bài tập - 4-6 giờ):
 Nếu app sử dụng certificate pinning, bạn sẽ cần bypass nó:
 
 **Tùy chọn 1: Sửa đổi network_security_config.xml**
+
 1. Mở dự án trong Android Studio
 2. Điều hướng đến `app/src/main/res/xml/network_security_config.xml`
 3. Sửa đổi để tin tưởng chứng chỉ người dùng:
+
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
@@ -478,9 +510,11 @@ Nếu app sử dụng certificate pinning, bạn sẽ cần bypass nó:
     </base-config>
 </network-security-config>
 ```
+
 4. Rebuild và cài đặt lại
 
 **Tùy chọn 2: Sử dụng Frida để Bypass Runtime**
+
 ```bash
 # Cài đặt Frida tools
 pip3 install frida-tools
@@ -498,6 +532,7 @@ frida -U -f com.example.smc -l ssl-pinning-bypass.js
 ```
 
 ### 3.5 Chuẩn bị cho Kiểm thử
+
 1. Ghi chú User ID được phân bổ của bạn từ Google Sheet
 2. Cấu hình server endpoint trong cài đặt app
 3. Chuẩn bị công cụ phân tích của bạn (text editor, công cụ chụp màn hình)
@@ -507,15 +542,18 @@ frida -U -f com.example.smc -l ssl-pinning-bypass.js
 ## Bước 4: Chặn bắt Lưu lượng API
 
 ### 4.1 Bắt đầu Chặn bắt Burp
+
 1. Trong Burp Suite, đi đến **Proxy** → **Intercept**
 2. Đảm bảo **Intercept is on** (nút sẽ hiển thị điều này)
 3. Xóa lịch sử trước đó: **Proxy** → **HTTP history** → Right-click → **Clear history**
 
 ### 4.2 Khởi chạy Client SMC
+
 1. Mở app SMC trên Android
 2. Bắt đầu với quá trình setup/login ban đầu
 
 ### 4.3 Chặn bắt Giai đoạn 1: Trao đổi/Bắt tay Khóa Ban đầu
+
 1. Bắt đầu quá trình trao đổi khóa trong app
 2. Đối với mỗi request xuất hiện trong Burp:
    - **Chụp màn hình** hiển thị:
@@ -533,16 +571,19 @@ frida -U -f com.example.smc -l ssl-pinning-bypass.js
 3. Lưu mỗi request/response đã chặn bắt vào lịch sử Burp
 
 ### 4.4 Chặn bắt Giai đoạn 2: Thiết lập Phiên
+
 1. Tiếp tục qua giai đoạn thiết lập phiên
 2. Lặp lại quá trình ghi chép cho mỗi cuộc gọi API
 3. Chụp màn hình và ghi chú
 
 ### 4.5 Chặn bắt Giai đoạn 3: Nhắn tin Được mã hóa
+
 1. Gửi ít nhất 2-3 tin nhắn kiểm thử qua app
 2. Chặn bắt và ghi chép mỗi trao đổi tin nhắn
 3. Ghi chú bất kỳ khác biệt nào trong các mẫu được mã hóa vs. plaintext
 
 ### 4.6 Lưu Phiên Burp
+
 1. **Proxy** → **HTTP history**
 2. Chọn tất cả requests liên quan
 3. Right-click → **Save items**
@@ -555,19 +596,21 @@ frida -U -f com.example.smc -l ssl-pinning-bypass.js
 Đối với mỗi cuộc gọi API đã chặn bắt, tạo một mục chi tiết với:
 
 ### 5.1 Thông tin Cuộc gọi API
+
 Tạo bảng với các cột sau:
 
-| # | Endpoint | Method | Phase | Purpose |
-|---|----------|--------|-------|---------|
-| 1 | /api/auth/login | POST | Authentication | User login |
-| 2 | /api/keyexchange/init | POST | Key Exchange | Initialize key exchange |
-| ... | ... | ... | ... | ... |
+| #   | Endpoint              | Method | Phase          | Purpose                 |
+| --- | --------------------- | ------ | -------------- | ----------------------- |
+| 1   | /api/auth/login       | POST   | Authentication | User login              |
+| 2   | /api/keyexchange/init | POST   | Key Exchange   | Initialize key exchange |
+| ... | ...                   | ...    | ...            | ...                     |
 
 ### 5.2 Ghi chép Trường Request/Response
 
 Đối với mỗi cuộc gọi API, ghi chép:
 
 **Trường Request:**
+
 ```
 Endpoint: /api/keyexchange/init
 Method: POST
@@ -583,6 +626,7 @@ Body Parameters:
 ```
 
 **Trường Response:**
+
 ```
 Status: 200 OK
 Headers:
@@ -600,6 +644,7 @@ Body:
 Đối với mỗi cuộc gọi API, tìm code tương ứng:
 
 **Ví dụ:**
+
 ```
 API: POST /api/keyexchange/init
 
@@ -619,7 +664,9 @@ Server Code (nếu có sẵn):
 ## Bước 6: Tạo Sản phẩm
 
 ### 6.1 Tổ chức Screenshot
+
 Tổ chức screenshots theo giai đoạn:
+
 ```
 screenshots/
   ├── 01-authentication/
@@ -642,6 +689,7 @@ Tạo một tài liệu với cấu trúc sau:
 # Task 3.1: Báo cáo Chặn bắt & Phân tích API
 
 ## 1. Tóm tắt Thiết lập
+
 - Phiên bản Burp Suite: ...
 - Thiết bị/emulator Android: ...
 - Ngày kiểm thử: ...
@@ -650,7 +698,9 @@ Tạo một tài liệu với cấu trúc sau:
 ## 2. Tóm tắt Cuộc gọi API đã Chặn bắt
 
 ### 2.1 Giai đoạn Xác thực
+
 #### API 1: Đăng nhập Người dùng
+
 - **Screenshot:** [screenshots/01-authentication/01-login-request.png]
 - **Endpoint:** POST /api/auth/login
 - **Trường Request:**
@@ -666,32 +716,39 @@ Tạo một tài liệu với cấu trúc sau:
   - Server: auth.controller.js:67-89
 
 ### 2.2 Giai đoạn Trao đổi Khóa
+
 #### API 2: Khởi tạo Trao đổi Khóa
+
 [Ghi chép chi tiết tương tự]
 
 ### 2.3 Giai đoạn Nhắn tin
+
 #### API 3: Gửi Tin nhắn Được mã hóa
+
 [Ghi chép chi tiết tương tự]
 
 ## 3. Bảng Ánh xạ Cuộc gọi API
 
-| # | Endpoint | Method | Request Fields | Response Fields | Code Location |
-|---|----------|--------|----------------|-----------------|---------------|
-| 1 | /api/auth/login | POST | username, password | token, userId | AuthService.java:23 |
-| 2 | /api/keyexchange/init | POST | userId, publicKey | serverPublicKey, sessionId | KeyExchangeService.java:45 |
-| ... | ... | ... | ... | ... | ... |
+| #   | Endpoint              | Method | Request Fields     | Response Fields            | Code Location              |
+| --- | --------------------- | ------ | ------------------ | -------------------------- | -------------------------- |
+| 1   | /api/auth/login       | POST   | username, password | token, userId              | AuthService.java:23        |
+| 2   | /api/keyexchange/init | POST   | userId, publicKey  | serverPublicKey, sessionId | KeyExchangeService.java:45 |
+| ... | ...                   | ...    | ...                | ...                        | ...                        |
 
 ## 4. Giải thích Trường
 
 ### 4.1 Trường Xác thực
+
 - **username:** ...
 - **token:** ...
 
 ### 4.2 Trường Trao đổi Khóa
+
 - **publicKey:** ...
 - **serverPublicKey:** ...
 
 ### 4.3 Trường Nhắn tin
+
 - **encryptedMessage:** ...
 - **signature:** ...
 
@@ -722,7 +779,9 @@ Trước khi nộp, xác minh bạn có:
 ## Vấn đề Thường gặp và Giải pháp (Dành riêng cho Mac M4)
 
 ### Vấn đề 1: Emulator không khởi động hoặc crash
+
 **Giải pháp:**
+
 ```bash
 # Kiểm tra nếu virtualization được bật
 sysctl kern.hv_support
@@ -738,7 +797,9 @@ emulator -avd SMC_Test_Device -verbose -show-kernel
 ```
 
 ### Vấn đề 2: ADB không nhận diện emulator
+
 **Giải pháp:**
+
 ```bash
 # Kill và khởi động lại ADB server
 adb kill-server
@@ -757,7 +818,9 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 ```
 
 ### Vấn đề 3: Cài đặt chứng chỉ thất bại trên emulator
+
 **Giải pháp:**
+
 ```bash
 # Đảm bảo emulator được khởi chạy với -writable-system
 emulator -list-avds
@@ -776,7 +839,9 @@ adb reboot
 ```
 
 ### Vấn đề 4: Burp không chặn bắt lưu lượng
+
 **Giải pháp:**
+
 ```bash
 # Kiểm tra cài đặt proxy trong emulator
 adb shell settings get global http_proxy
@@ -795,7 +860,9 @@ adb shell curl -x 10.0.2.2:8080 http://example.com
 ```
 
 ### Vấn đề 5: Build Gradle thất bại trong Android Studio
+
 **Giải pháp:**
+
 ```bash
 # Clean và rebuild
 ./gradlew clean
@@ -813,7 +880,9 @@ rm -rf ~/.gradle/caches/
 ```
 
 ### Vấn đề 6: SSL pinning vẫn chặn lưu lượng
+
 **Giải pháp:**
+
 ```bash
 # Sử dụng objection để bypass tự động
 pip3 install objection
@@ -829,7 +898,9 @@ frida -U -f com.example.smc --no-pause -l universal-ssl-pinning-bypass.js
 ```
 
 ### Vấn đề 7: Không tìm thấy vị trí code
+
 **Giải pháp:**
+
 ```bash
 # Sử dụng ripgrep để tìm kiếm nhanh
 brew install ripgrep
@@ -852,6 +923,7 @@ rg "publicKey|serverPublicKey" --type java
 ## Mẹo Dành riêng cho Mac M4
 
 ### Tối ưu Hiệu suất
+
 ```bash
 # Cấp nhiều tài nguyên hơn cho emulator
 emulator -avd SMC_Test_Device \
@@ -863,6 +935,7 @@ emulator -avd SMC_Test_Device \
 ```
 
 ### Công cụ Screenshot cho Mac
+
 ```bash
 # Screenshot tích hợp
 # Cmd+Shift+4 để chọn vùng
@@ -873,6 +946,7 @@ screencapture -i ~/Desktop/burp-screenshots/screenshot-$(date +%Y%m%d-%H%M%S).pn
 ```
 
 ### Script Tự động hóa Quy trình
+
 ```bash
 # Tạo script khởi động: ~/Desktop/burp-setup/start-testing.sh
 #!/bin/bash
@@ -902,6 +976,7 @@ echo "Setup complete. Ready for testing."
 ```
 
 Làm cho nó có thể thực thi:
+
 ```bash
 chmod +x ~/Desktop/burp-setup/start-testing.sh
 ```
@@ -944,6 +1019,7 @@ adb connect localhost:5555
 Nộp một tài liệu chứa:
 
 1. **Trang Bìa:**
+
    - Tên task: Task 3.1 - Chặn bắt & Phân tích API
    - Tên/nhóm của bạn
    - Ngày
@@ -952,20 +1028,24 @@ Nộp một tài liệu chứa:
 2. **Mục lục**
 
 3. **Giới thiệu:**
+
    - Môi trường kiểm thử: Mac M4, emulator ARM64
    - Công cụ đã sử dụng: Phiên bản Burp Suite, phiên bản Android Studio
    - Tóm tắt thiết lập: cấu hình emulator, thiết lập proxy
 
 4. **Ghi chép API:**
+
    - Đối với mỗi cuộc gọi API (được tổ chức theo giai đoạn):
      - Screenshots (Burp request + response)
      - Giải thích từng trường
      - Ánh xạ vị trí code
 
 5. **Bảng Tóm tắt:**
+
    - Danh sách hoàn chỉnh tất cả APIs đã chặn bắt
 
 6. **Phân tích Mã nguồn:**
+
    - Cách requests được xây dựng trong code
    - Cách responses được xử lý
    - Trao đổi khóa và các thao tác crypto
@@ -996,6 +1076,7 @@ Nộp một tài liệu chứa:
 ## Tham khảo Lệnh Hữu ích
 
 ### Lệnh ADB
+
 ```bash
 # Liệt kê thiết bị
 adb devices
@@ -1023,6 +1104,7 @@ adb shell pm list packages | grep smc
 ```
 
 ### Lệnh Emulator
+
 ```bash
 # Liệt kê AVDs
 emulator -list-avds
@@ -1038,6 +1120,7 @@ adb emu kill
 ```
 
 ### Lệnh Gradle
+
 ```bash
 # Clean build
 ./gradlew clean
@@ -1057,11 +1140,13 @@ adb emu kill
 ## Tài nguyên
 
 ### Dành riêng cho Mac M4
+
 - Android Studio cho Mac ARM64: https://developer.android.com/studio
 - Burp Suite cho Mac ARM64: https://portswigger.net/burp/releases
 - Homebrew: https://brew.sh
 
 ### Tài nguyên Chung
+
 - Tài liệu Burp Suite: https://portswigger.net/burp/documentation
 - Android SSL Pinning Bypass: https://github.com/ac-pm/Inspeckage
 - Frida SSL Pinning Bypass: https://codeshare.frida.re/@pcipolloni/universal-android-ssl-pinning-bypass-with-frida/
@@ -1069,6 +1154,7 @@ adb emu kill
 - Tham khảo ADB: https://developer.android.com/tools/adb
 
 ### Công cụ
+
 - Objection: https://github.com/sensepost/objection
 - Frida: https://frida.re
 - APKTool: https://ibotpeaches.github.io/Apktool/
@@ -1097,4 +1183,3 @@ adb emu kill
 ---
 
 Chúc may mắn với Task 3.1 trên Mac M4 của bạn!
-
