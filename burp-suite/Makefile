@@ -35,6 +35,11 @@ help:
 	@echo "  make cert-check     - Check Burp certificate"
 	@echo "  make devices        - List connected devices"
 	@echo ""
+	@echo "$(YELLOW)Report Generation:$(NC)"
+	@echo "  make build-report   - Build LaTeX report to PDF"
+	@echo "  make clean-report   - Clean LaTeX temporary files"
+	@echo "  make view-report    - Open PDF report"
+	@echo ""
 	@echo "$(YELLOW)Cleanup:$(NC)"
 	@echo "  make clean          - Kill all emulator processes"
 
@@ -141,3 +146,19 @@ dev: start install-app launch-app
 	@echo "$(YELLOW)Emulator: Running with proxy$(NC)"
 	@echo "$(YELLOW)App: Installed and launched$(NC)"
 	@echo "$(YELLOW)Ready for Burp Suite interception!$(NC)"
+
+# Report Generation
+build-report:
+	@echo "$(GREEN)Building LaTeX report...$(NC)"
+	@cd report && pdflatex main.tex
+	@cd report && pdflatex main.tex  # Run twice for references
+	@echo "$(GREEN)Report built: report/main.pdf$(NC)"
+
+clean-report:
+	@echo "$(YELLOW)Cleaning LaTeX temporary files...$(NC)"
+	@cd report && rm -f *.aux *.log *.out *.toc *.fdb_latexmk *.fls *.synctex.gz
+	@echo "$(GREEN)LaTeX clean complete$(NC)"
+
+view-report: build-report
+	@echo "$(GREEN)Opening PDF report...$(NC)"
+	@open report/main.pdf || echo "$(RED)Please install a PDF viewer$(NC)"
