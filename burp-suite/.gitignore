@@ -3,3 +3,5 @@ CMC_Test.burp
 
 burp-setup/*
 03-decompiled/secure-app-decompiled/*
+*.burp
+*.burp.backup
